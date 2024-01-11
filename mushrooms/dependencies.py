@@ -1,8 +1,8 @@
+from auth.managers import UserManager
+from auth.models import User
 from database import AsyncSession, async_session
 from fastapi import Depends
 from fastapi_users_db_sqlalchemy import SQLAlchemyUserDatabase
-from managers import UserManager
-from models import User
 
 
 async def get_db_session() -> AsyncSession:
