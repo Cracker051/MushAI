@@ -8,5 +8,5 @@ CREATE TABLE auth_user (
     is_staff BOOLEAN NOT NULL DEFAULT FALSE,
     is_superuser BOOLEAN NOT NULL DEFAULT FALSE,
     is_verified BOOLEAN NOT NULL DEFAULT FALSE,
-    avatar TEXT
-)
+    avatar TEXT DEFAULT NULL
+);

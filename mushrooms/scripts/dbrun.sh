@@ -1,1 +1,0 @@
-docker run --name my-pg-db -e POSTGRES_PASSWORD=GooglePass -p 6432:5432 -d postgres:16

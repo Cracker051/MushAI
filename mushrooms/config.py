@@ -1,16 +1,22 @@
 from dotenv import load_dotenv
-from pydantic_settings import BaseSettings, SettingsConfigDict
+from typing import Optional
+from pydantic_settings import BaseSettings
 
 load_dotenv(override=True)
 
 
 class Settings(BaseSettings):
-    PG_USER: str
-    PG_PASSWORD: str
-    PG_HOST: str
-    PG_PORT: int
-    PG_DATABASE: str
     APP_SECRET: str
+
+    POSTGRES_USER: str
+    POSTGRES_PASSWORD: str
+    POSTGRES_HOST: str
+    POSTGRES_PORT: int
+    POSTGRES_DB: str
+
+    SMTP_HOST: str
+    SMTP_EMAIL: str
+    SMTP_TOKEN: str
 
 
 settings = Settings()
