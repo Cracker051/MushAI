@@ -16,4 +16,4 @@ class User(SQLAlchemyBaseUserTable[int], SQLModel, table=True):
     is_staff: Optional[bool] = Field(default=False)
     is_superuser: bool = Field(default=False)
     is_verified: bool = Field(default=False)
-    avatar: Optional[str]
+    avatar: Optional[str] = Field(default=None)

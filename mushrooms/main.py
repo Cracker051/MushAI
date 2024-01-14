@@ -1,24 +1,36 @@
+from email.mime.text import MIMEText
+import smtplib
 import auth.models as auth_models
 import auth.schemas as auth_schemas
 import dependencies as depend
 from auth.auth import auth_backend
-from config import settings
 from database import AsyncSession
 from fastapi import Depends, FastAPI
 from fastapi_users import FastAPIUsers
 from sqlmodel import select
 
+from config import settings
+
 app = FastAPI()
 
-print(settings)
+
+# TODO: Delete in prod
 @app.get("/")
-async def test(session: AsyncSession = Depends(depend.get_db_session)):
-    statement = select(auth_models.User)
-    print(statement)
-    result = await session.exec(statement)
-    for _ in result.all():
-        print(_.name)
-    return result.all()
+async def test(
+    session: AsyncSession = Depends(depend.get_db_session),
+    smtp_host=settings.SMTP_HOST,
+    smtp_email=settings.SMTP_EMAIL,
+    smtp_token=settings.SMTP_TOKEN,
+):
+    # breakpoint()
+    smtp = smtplib.SMTP_SSL(host=smtp_host, port=465)
+    print(1)
+    smtp.login(user=smtp_email, password=smtp_token)
+    msg = MIMEText("test")
+    msg["from"] = smtp_email
+    msg["to"] = "doctorwalter1@gmail.com"
+    smtp.send_message(msg=msg)
+    smtp.quit()
 
 
 fastapi_users = FastAPIUsers[auth_models.User, int](
@@ -33,9 +45,14 @@ app.include_router(
     tags=["auth"],
 )
 
-
 app.include_router(
     fastapi_users.get_register_router(auth_schemas.UserRead, auth_schemas.UserCreate),
+    prefix="/auth",
+    tags=["auth"],
+)
+
+app.include_router(
+    fastapi_users.get_verify_router(auth_schemas.UserRead),
     prefix="/auth",
     tags=["auth"],
 )

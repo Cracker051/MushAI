@@ -9,7 +9,7 @@ class UserCreate(schemas.CreateUpdateDictModel, SQLModel, table=False):
     surname: str
     email: str
     password: str
-    avatar: Optional[str]
+    avatar: Optional[str] = None
 
 
 class UserRead(SQLModel, table=False):

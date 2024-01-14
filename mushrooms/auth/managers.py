@@ -11,6 +11,7 @@ class UserManager(IntegerIDMixin, BaseUserManager[User, int]):
     verification_token_secret = settings.APP_SECRET
 
     async def on_after_register(self, user: User, request: Optional[Request] = None):
+        breakpoint()
         print(f"User {user.id} has registered.")
 
     async def on_after_forgot_password(
