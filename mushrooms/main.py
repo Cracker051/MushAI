@@ -2,7 +2,7 @@ from email.mime.text import MIMEText
 import smtplib
 import auth.models as auth_models
 import auth.schemas as auth_schemas
-import dependencies as depend
+from dependencies import get_db_session, get_user_manager
 from auth.auth import auth_backend
 from database import AsyncSession
 from fastapi import Depends, FastAPI
@@ -17,7 +17,7 @@ app = FastAPI()
 # TODO: Delete in prod
 @app.get("/")
 async def test(
-    session: AsyncSession = Depends(depend.get_db_session),
+    session: AsyncSession = Depends(get_db_session),
     smtp_host=settings.SMTP_HOST,
     smtp_email=settings.SMTP_EMAIL,
     smtp_token=settings.SMTP_TOKEN,
@@ -34,7 +34,7 @@ async def test(
 
 
 fastapi_users = FastAPIUsers[auth_models.User, int](
-    depend.get_user_manager,
+    get_user_manager,
     [auth_backend],
 )
 
@@ -51,6 +51,7 @@ app.include_router(
     tags=["auth"],
 )
 
+# TODO: request-verify-token - if token isnt expired, then what?
 app.include_router(
     fastapi_users.get_verify_router(auth_schemas.UserRead),
     prefix="/auth",
