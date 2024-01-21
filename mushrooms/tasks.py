@@ -6,20 +6,21 @@ from typing import Sequence
 
 
 # TODO: Fix code smell (Try not to use workaround to avoid circular dependencies)
-class Test:
+# DEBUG: Divide dependencies to main dependecies and shared dependencies?
+class SMTPServer:
     def __call__(self):
         from dependencies import get_smtp_server
 
         return get_smtp_server
 
 
-test = Test()
+smtp = SMTPServer()
 
 
 def send_email(
     to_email: EmailStr | Sequence[EmailStr],
     message: str | MIMEText,
-    smtp: smtplib.SMTP = Depends(test),
+    smtp: smtplib.SMTP = Depends(smtp),
 ):
     if not message:
         raise ValueError("Message cannot be empty!")

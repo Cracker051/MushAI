@@ -2,10 +2,10 @@ from typing import Optional
 
 from auth.models import User
 from config import settings
-from fastapi import Request
-from starlette.background import BackgroundTask
+from fastapi import Request, BackgroundTasks, Depends
 from fastapi_users import BaseUserManager, IntegerIDMixin
 from tasks import send_email
+from functools import cache
 
 
 class UserManager(IntegerIDMixin, BaseUserManager[User, int]):
@@ -14,7 +14,6 @@ class UserManager(IntegerIDMixin, BaseUserManager[User, int]):
 
     # TODO: Write logger
     async def on_after_register(self, user: User, request: Optional[Request] = None):
-        breakpoint()
         await self.request_verify(user, request)
         print(f"User {user.id} has registered.")
 
@@ -24,19 +23,17 @@ class UserManager(IntegerIDMixin, BaseUserManager[User, int]):
         print(f"User {user.id} has forgot their password. Reset token: {token}")
 
     # TODO: Can I switch it to FastAPI Background Tasks?
+    # I must send message with frontend verification link, for example <a>
     async def on_after_request_verify(
         self,
         user: User,
         token: str,
         request: Optional[Request] = None,
+        background_task: Optional[BackgroundTasks] = BackgroundTasks,
     ):
-        BackgroundTask(
+        background_task.add_task(
             send_email,
             email=user.email,
             message="test",
         )
         print(f"Verification requested for user {user.id}. Verification token: {token}")
-
-    @property
-    def verifying_text(self):
-        return """test {name}"""
