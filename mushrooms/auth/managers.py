@@ -1,11 +1,11 @@
+from functools import cache
 from typing import Optional
 
 from auth.models import User
 from config import settings
-from fastapi import Request, BackgroundTasks, Depends
+from fastapi import BackgroundTasks, Depends, Request
 from fastapi_users import BaseUserManager, IntegerIDMixin
 from tasks import send_email
-from functools import cache
 
 
 class UserManager(IntegerIDMixin, BaseUserManager[User, int]):

@@ -1,4 +1,5 @@
 from fastapi_users import schemas
+from typing import Optional
 from sqlmodel import SQLModel
 
 
@@ -7,7 +8,7 @@ class UserCreate(schemas.CreateUpdateDictModel, SQLModel, table=False):
     surname: str
     email: str
     password: str
-    avatar: str | None = None
+    avatar: Optional[str] = None
 
 
 class UserRead(SQLModel, table=False):
@@ -19,4 +20,4 @@ class UserRead(SQLModel, table=False):
     is_staff: bool
     is_superuser: bool
     is_verified: bool
-    avatar: str | None
+    avatar: Optional[str]

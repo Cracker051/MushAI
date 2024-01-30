@@ -1,16 +1,16 @@
-from email.mime.text import MIMEText
 import smtplib
+from email.mime.text import MIMEText
+
 import auth.models as auth_models
 import auth.schemas as auth_schemas
-from dependencies import get_db_session, get_user_manager
 from auth.auth import auth_backend
 from blog.models import Blog, Comment
+from blog.schemas import Comment as CommentSchema
 from database import AsyncSession, engine
+from dependencies import get_db_session, get_user_manager
 from fastapi import Depends, FastAPI
 from fastapi_users import FastAPIUsers
 from sqlmodel import select
-
-from config import settings
 
 app = FastAPI()
 
@@ -21,7 +21,17 @@ async def test(session: AsyncSession = Depends(get_db_session)):
     statement = select(Comment)
     res = await session.exec(statement)
     breakpoint()
-    return res
+    return res.all()
+
+
+@app.post("/comment/", response_model=CommentSchema)
+async def comment_create(
+    comment: Comment, session: AsyncSession = Depends(get_db_session)
+):
+    session.add(comment)
+    await session.commit()
+    await session.refresh(comment)
+    return comment
 
 
 fastapi_users = FastAPIUsers[auth_models.User, int](

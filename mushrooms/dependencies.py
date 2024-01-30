@@ -1,10 +1,11 @@
+import smtplib
+
 from auth.managers import UserManager
 from auth.models import User
+from config import settings
 from database import AsyncSession, async_session
 from fastapi import Depends
 from fastapi_users_db_sqlalchemy import SQLAlchemyUserDatabase
-from config import settings
-import smtplib
 
 
 async def get_db_session() -> AsyncSession:

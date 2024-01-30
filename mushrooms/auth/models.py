@@ -1,11 +1,13 @@
+from typing import List, Optional
+
 from fastapi_users_db_sqlalchemy import SQLAlchemyBaseUserTable
-from sqlmodel import Field, SQLModel, Relationship
+from sqlmodel import Field, Relationship, SQLModel
 
 
 class User(SQLAlchemyBaseUserTable[int], SQLModel, table=True):
     __tablename__ = "auth_user"
 
-    id: int | None = Field(default=None, primary_key=True)
+    id: Optional[int] = Field(default=None, primary_key=True)
     name: str
     surname: str
     email: str
@@ -14,7 +16,7 @@ class User(SQLAlchemyBaseUserTable[int], SQLModel, table=True):
     is_staff: bool = Field(default=False)
     is_superuser: bool = Field(default=False)
     is_verified: bool = Field(default=False)
-    avatar: str | None = Field(default=None)
+    avatar: Optional[str] = Field(default=None)
 
-    blogs: list["Blog"] = Relationship(back_populates="user")
-    comments: list["Comment"] = Relationship(back_populates="user")
+    blogs: List["Blog"] = Relationship(back_populates="user")
+    comments: List["Comment"] = Relationship(back_populates="user")

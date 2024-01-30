@@ -1,8 +1,9 @@
-from email.mime.text import MIMEText
 import smtplib
+from email.mime.text import MIMEText
+from typing import Sequence
+
 from fastapi import Depends
 from pydantic import EmailStr
-from typing import Sequence
 
 
 # TODO: Fix code smell (Try not to use workaround to avoid circular dependencies)
