@@ -2,7 +2,6 @@ import datetime
 from typing import List, Optional
 
 from auth.models import User
-from pydantic import model_validator
 from sqlmodel import Field, Relationship, SQLModel
 
 
@@ -33,14 +32,5 @@ class Comment(SQLModel, table=True):
     comments: List["Comment"] = Relationship(back_populates="parent_comment")
     parent_comment: Optional["Comment"] = Relationship(
         back_populates="comments",
-        sa_relationship_kwargs={"remote_side": "Comment.id"},
+        sa_relationship_kwargs={"remote_side": "Comment.id", "lazy": "select"},
     )
-
-    @model_validator(mode="after")
-    def prevent_deep_comments(self) -> "Comment":
-        breakpoint()
-        # if not self.parent_id:
-        #     return self
-        # breakpoint()
-        # self.parent_id = self.parent_comment.parent_id
-        return self
