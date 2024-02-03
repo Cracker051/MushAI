@@ -30,9 +30,9 @@ class UserManager(IntegerIDMixin, BaseUserManager[User, int]):
         request: Optional[Request] = None,
         background_task: Optional[BackgroundTasks] = BackgroundTasks,
     ):
-        background_task.add_task(
-            send_email,
-            email=user.email,
-            message="test",
-        )
+        # background_task.add_task(
+        #     send_email,
+        #     email=user.email,
+        #     message="test",
+        # )
         print(f"Verification requested for user {user.id}. Verification token: {token}")

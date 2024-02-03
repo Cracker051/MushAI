@@ -9,3 +9,7 @@ register_router = fastapi_users.get_register_router(
 )
 
 verify_router = fastapi_users.get_verify_router(schemas.UserRead)
+
+users_router = fastapi_users.get_users_router(schemas.UserRead, schemas.UserUpdate)
+
+reset_password_router = fastapi_users.get_reset_password_router()

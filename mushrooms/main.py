@@ -1,5 +1,5 @@
 from auth import routers as auth_routers
-from blog.routers import router as blog_router
+from blog import routers as blog_routers
 from fastapi import FastAPI
 
 app = FastAPI()
@@ -24,7 +24,25 @@ app.include_router(
 )
 
 app.include_router(
-    blog_router,
+    auth_routers.users_router,
+    prefix="/users",
+    tags=["users"],
+)
+
+app.include_router(
+    auth_routers.reset_password_router,
+    prefix="/auth/password",
+    tags=["auth"],
+)
+
+app.include_router(
+    blog_routers.blog_router,
     prefix="/blog",
+    tags=["blog"],
+)
+
+app.include_router(
+    blog_routers.comment_router,
+    prefix="/blog/comment",
     tags=["blog"],
 )

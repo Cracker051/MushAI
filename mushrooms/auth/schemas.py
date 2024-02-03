@@ -1,5 +1,6 @@
-from fastapi_users import schemas
 from typing import Optional
+
+from fastapi_users import schemas
 from sqlmodel import SQLModel
 
 
@@ -20,4 +21,10 @@ class UserRead(SQLModel, table=False):
     is_staff: bool
     is_superuser: bool
     is_verified: bool
+    avatar: Optional[str]
+
+
+class UserUpdate(SQLModel, table=False):
+    name: str
+    surname: str
     avatar: Optional[str]
