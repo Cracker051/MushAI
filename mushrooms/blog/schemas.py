@@ -4,12 +4,23 @@ from typing import Optional
 from sqlmodel import SQLModel
 
 
-class Blog(SQLModel, table=False):
-    id: int
+class BlogRead(SQLModel, table=False):
+    id: Optional[int] = None
     title: str
     user_id: int
     created_at: datetime.datetime
     content: str
+
+
+class BlogCreate(SQLModel, table=False):
+    title: str
+    user_id: int
+    content: str
+
+
+class BlogUpdate(SQLModel, table=False):
+    title: Optional[str] = None
+    content: Optional[str] = None
 
 
 class CommentRead(SQLModel, table=False):

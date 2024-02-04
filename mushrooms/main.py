@@ -1,8 +1,14 @@
 from auth import routers as auth_routers
 from blog import routers as blog_routers
-from fastapi import FastAPI
+from fastapi import BackgroundTasks, FastAPI, Request
+from fastapi.responses import RedirectResponse
 
 app = FastAPI()
+
+
+@app.get("/", include_in_schema=False)
+async def swagger_redirect(request: Request):
+    return RedirectResponse("/docs/")
 
 
 app.include_router(
@@ -43,6 +49,6 @@ app.include_router(
 
 app.include_router(
     blog_routers.comment_router,
-    prefix="/blog/comment",
-    tags=["blog"],
+    prefix="/comment",
+    tags=["comment"],
 )

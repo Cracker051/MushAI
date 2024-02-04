@@ -2,14 +2,19 @@ from typing import Optional
 
 from auth.models import User
 from config import settings
-from fastapi import BackgroundTasks, Request
+from fastapi import Depends, Request
 from fastapi_users import BaseUserManager, IntegerIDMixin
+from fastapi_users.exceptions import InvalidPasswordException
 from tasks import send_email
 
 
 class UserManager(IntegerIDMixin, BaseUserManager[User, int]):
     reset_password_token_secret = settings.APP_SECRET
     verification_token_secret = settings.APP_SECRET
+
+    async def validate_password(self, password: str, user: User) -> None:
+        if len(password) < 8:
+            raise InvalidPasswordException("Password must have at least 8 characters")
 
     # TODO: Write logger
     async def on_after_register(self, user: User, request: Optional[Request] = None):
@@ -28,11 +33,6 @@ class UserManager(IntegerIDMixin, BaseUserManager[User, int]):
         user: User,
         token: str,
         request: Optional[Request] = None,
-        background_task: Optional[BackgroundTasks] = BackgroundTasks,
     ):
-        # background_task.add_task(
-        #     send_email,
-        #     email=user.email,
-        #     message="test",
-        # )
+        send_email(to_email=user.email, message="test")
         print(f"Verification requested for user {user.id}. Verification token: {token}")
