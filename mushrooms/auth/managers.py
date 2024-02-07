@@ -2,7 +2,7 @@ from typing import Optional
 
 from auth.models import User
 from config import settings
-from fastapi import Depends, Request
+from fastapi import Request
 from fastapi_users import BaseUserManager, IntegerIDMixin
 from fastapi_users.exceptions import InvalidPasswordException
 from tasks import send_email
