@@ -1,41 +1,53 @@
-import auth.models as auth_models
-import auth.schemas as auth_schemas
-import dependencies as depend
-from auth.auth import auth_backend
-from config import settings
-from database import AsyncSession
-from fastapi import Depends, FastAPI
-from fastapi_users import FastAPIUsers
-from sqlmodel import select
+from auth import routers as auth_routers
+from blog import routers as blog_routers
+from fastapi import FastAPI
+from fastapi.responses import RedirectResponse
 
-app = FastAPI()
+if __name__ == "main":
+    app = FastAPI()
 
-print(settings)
-@app.get("/")
-async def test(session: AsyncSession = Depends(depend.get_db_session)):
-    statement = select(auth_models.User)
-    print(statement)
-    result = await session.exec(statement)
-    for _ in result.all():
-        print(_.name)
-    return result.all()
+    @app.get("/", include_in_schema=False)
+    async def swagger_redirect():
+        return RedirectResponse("/docs/")
 
+    app.include_router(
+        auth_routers.auth_router,
+        prefix="/auth/jwt",
+        tags=["auth"],
+    )
 
-fastapi_users = FastAPIUsers[auth_models.User, int](
-    depend.get_user_manager,
-    [auth_backend],
-)
+    app.include_router(
+        auth_routers.register_router,
+        prefix="/auth",
+        tags=["auth"],
+    )
 
+    app.include_router(
+        auth_routers.verify_router,
+        prefix="/auth",
+        tags=["auth"],
+    )
 
-app.include_router(
-    fastapi_users.get_auth_router(auth_backend),
-    prefix="/auth/jwt",
-    tags=["auth"],
-)
+    app.include_router(
+        auth_routers.users_router,
+        prefix="/users",
+        tags=["users"],
+    )
 
+    app.include_router(
+        auth_routers.reset_password_router,
+        prefix="/auth/password",
+        tags=["auth"],
+    )
 
-app.include_router(
-    fastapi_users.get_register_router(auth_schemas.UserRead, auth_schemas.UserCreate),
-    prefix="/auth",
-    tags=["auth"],
-)
+    app.include_router(
+        blog_routers.blog_router,
+        prefix="/blog",
+        tags=["blog"],
+    )
+
+    app.include_router(
+        blog_routers.comment_router,
+        prefix="/comment",
+        tags=["comment"],
+    )

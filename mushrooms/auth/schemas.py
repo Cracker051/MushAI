@@ -9,7 +9,7 @@ class UserCreate(schemas.CreateUpdateDictModel, SQLModel, table=False):
     surname: str
     email: str
     password: str
-    avatar: Optional[str]
+    avatar: Optional[str] = None
 
 
 class UserRead(SQLModel, table=False):
@@ -21,4 +21,10 @@ class UserRead(SQLModel, table=False):
     is_staff: bool
     is_superuser: bool
     is_verified: bool
+    avatar: Optional[str]
+
+
+class UserUpdate(SQLModel, table=False):
+    name: str
+    surname: str
     avatar: Optional[str]
