@@ -1,5 +1,7 @@
 import MainHeader from '../../components/MainHeader';
 import AuthSubmitButton from '../../components/AuthSubmitButton';
+import RequestSubscription from '../../components/RequestSubscription';
+import MainFooter from '../../components/MainFooter';
 
 const RecoverPassword = () => {
 	return (
@@ -20,6 +22,8 @@ const RecoverPassword = () => {
 					</form>
 				</main>
 			</div>
+			<RequestSubscription />
+			<MainFooter dark />
 		</>
 	);
 };

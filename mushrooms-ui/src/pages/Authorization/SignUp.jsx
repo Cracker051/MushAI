@@ -1,5 +1,7 @@
 import MainHeader from '../../components/MainHeader';
 import AuthSubmitButton from '../../components/AuthSubmitButton';
+import RequestSubscription from '../../components/RequestSubscription';
+import MainFooter from '../../components/MainFooter';
 
 const SignUp = () => {
 	return (
@@ -36,6 +38,8 @@ const SignUp = () => {
 					</form>
 				</main>
 			</div>
+			<RequestSubscription />
+			<MainFooter dark />
 		</>
 	);
 };
