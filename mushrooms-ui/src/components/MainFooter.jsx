@@ -7,12 +7,12 @@ const HoverLink = (props) => {
 
 const MainFooter = ({ dark }) => {
 	return (
-		<div
+		<footer
 			className={join(
-				'p-4 pt-20 text-4xl font-semibold',
+				'p-4 pt-10 sm:pt-20 text-3xl sm:text-4xl font-semibold',
 				dark ? 'bg-stone-900 text-stone-100' : 'bg-stone-100 text-stone-900',
 			)}>
-			<div className="flex flex-wrap gap-6 mx-auto justify-evenly max-w-screen-2xl">
+			<div className="flex flex-wrap gap-6 mx-auto justify-evenly max-sm:text-center max-w-screen-2xl">
 				<div>
 					<HoverLink to={'/'}>Search AI</HoverLink>
 				</div>
@@ -30,7 +30,7 @@ const MainFooter = ({ dark }) => {
 				</div>
 			</div>
 			<div className="mt-8 text-sm font-semibold text-right text-stone-400">©2024 MushAI</div>
-		</div>
+		</footer>
 	);
 };
 
