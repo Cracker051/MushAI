@@ -2,8 +2,9 @@ import smtplib
 from contextlib import contextmanager
 from typing import ContextManager
 
-from config import settings
-from database import AsyncSession, async_session
+from common.config import settings
+from common.database import async_session
+from sqlmodel.ext.asyncio.session import AsyncSession
 
 
 async def get_db_session() -> AsyncSession:

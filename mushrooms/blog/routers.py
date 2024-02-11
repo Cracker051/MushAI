@@ -2,36 +2,14 @@ from typing import Dict, List
 
 from blog import models as blog_models
 from blog import schemas as blog_schemas
-from database import AsyncSession
-from dependencies import get_db_session
+from common.database import AsyncSession
+from common.dependencies import get_db_session
+from common.utils import check_foreign_keys, process_sa_exception
 from fastapi import APIRouter, Depends, HTTPException, status
 from sqlalchemy import exc as sa_exc
-from sqlmodel import column, literal, select, table
-from utils import process_sa_exception
+from sqlmodel import select
 
 blog_router = APIRouter()
-
-
-async def check_foreign_keys(
-    model: blog_models.ExtendedSQLModel, session: AsyncSession
-):
-    for table_column, foreign_table_column in model.get_foreign_keys().items():
-        f_table, f_column = foreign_table_column.split(".")
-        if (value := getattr(model, table_column)) is None:
-            continue
-        is_exists = (
-            await session.exec(
-                select(literal(1))
-                .select_from(table(f_table))
-                .where(column(f_column) == value)
-                .limit(1)
-            )
-        ).first()
-        if not is_exists:
-            raise HTTPException(
-                status_code=status.HTTP_404_NOT_FOUND,
-                detail=f"{f_table} with {f_column}={value} not found!",
-            )
 
 
 @blog_router.get("/", response_model=List[blog_schemas.BlogRead])
@@ -172,11 +150,10 @@ async def comment_create(
     return comment
 
 
-@comment_router.get(
-    "/get_by_blog/{blog_id}", response_model=List[blog_schemas.CommentRead]
-)
+@comment_router.get("/blog/{blog_id}", response_model=List[blog_schemas.CommentRead])
 async def get_comments_by_blog(
-    blog_id: int, session: AsyncSession = Depends(get_db_session)
+    blog_id: int,
+    session: AsyncSession = Depends(get_db_session),
 ):
     comments = await session.exec(
         select(blog_models.Comment).where(blog_models.Comment.blog_id == blog_id)
