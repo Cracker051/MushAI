@@ -12,23 +12,27 @@ const Home = () => {
 		<>
 			<MainHeader />
 			<section className="bg-stone-900 text-stone-100">
-				<div className="container p-6 mx-auto">
-					<div className="flex gap-6 max-md:flex-wrap">
+				<div className="container p-6 py-2 mx-auto">
+					<div className="flex gap-10 max-md:flex-wrap">
 						<div className="relative w-full">
 							<div className="rounded-xl w-full h-full absolute shadow-[inset_0_0_30px_rgba(28,25,23,0.7)] top-0 bottom-0"></div>
 							<img src={PicSection1} alt="" className="w-full rounded-xl" />
 						</div>
 						<div className="flex flex-col gap-4 xl:gap-8">
 							<div className="flex gap-6 max-sm:flex-wrap text-stone-900">
-								<div className="flex flex-col justify-center w-full h-40 gap-4 p-2 md:w-48 xl:gap-8 xl:h-72 xl:w-80 bg-stone-100 rounded-xl">
-									<p className="text-2xl xl:text-4xl">&quot;Mushrooms in medicine&quot;</p>
-									<button className="self-end p-2 text-2xl rounded-lg bg-stone-900 text-stone-200">
+								<div className="flex flex-col justify-center w-full h-40 gap-4 p-2 md:w-48 xl:gap-8 xl:h-72 xl:w-[23rem] bg-stone-100 rounded-xl">
+									<p className="drop-shadow-[0_4px_4px_rgba(0,0,0,0.5)] text-2xl font-medium xl:text-4xl">
+										&quot;Mushrooms in medicine&quot;
+									</p>
+									<button className="hover:bg-opacity-80 shadow-[0_4px_4px_rgba(0,0,0,0.5)] self-end p-1 lg:p-2 text-2xl rounded-lg bg-stone-900 text-stone-200">
 										Read
 									</button>
 								</div>
-								<div className="flex flex-col justify-center w-full h-40 gap-4 p-2 md:w-48 xl:gap-8 xl:h-72 xl:w-80 bg-stone-100 rounded-xl">
-									<p className="text-2xl xl:text-4xl">&quot;How to pick mushrooms&quot;</p>
-									<button className="self-end p-2 text-2xl rounded-lg bg-stone-900 text-stone-200">
+								<div className="flex flex-col justify-center w-full h-40 gap-4 p-2 md:w-48 xl:gap-8 xl:h-72 xl:w-[23rem] bg-stone-100 rounded-xl">
+									<p className="drop-shadow-[0_4px_4px_rgba(0,0,0,0.5)] text-2xl font-medium xl:text-4xl">
+										&quot;How to pick mushrooms&quot;
+									</p>
+									<button className="hover:bg-opacity-80 shadow-[0_4px_4px_rgba(0,0,0,0.5)] self-end p-1 lg:p-2 text-2xl rounded-lg bg-stone-900 text-stone-200">
 										Read
 									</button>
 								</div>

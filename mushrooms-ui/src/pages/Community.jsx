@@ -32,7 +32,7 @@ const mushs = [
 	},
 	{
 		element: (
-			<div className="flex flex-col items-center justify-center h-full gap-1 max-lg:py-20">
+			<div className="flex flex-col items-center justify-center h-full gap-1 text-center max-sm:16 max-lg:py-20">
 				<p className="text-3xl font-bold">POST YOUR MUSH</p>
 				<Link
 					to={'/'}
@@ -61,10 +61,12 @@ const Community = () => {
 		<>
 			<MainHeader />
 			<div className="bg-cover text-4xl bg-opacity-80 bg-center bg-[url('/community_bg.png')] lg:bg-[url('/community_bg_2x.png')] text-center text-stone-100">
-				<div className="py-72">
-					<h1 className="font-black drop-shadow-[0_0_10px_rgba(0,0,0,0.5)]">DISCOVER THE MAGIC</h1>
+				<div className="px-2 py-40 sm:py-72">
+					<h1 className="font-black lg:text-5xl drop-shadow-[0_0_10px_rgba(0,0,0,0.5)]">
+						DISCOVER THE MAGIC
+					</h1>
 				</div>
-				<h3 className="py-6 text-center">
+				<h3 className="py-6 text-center max-sm:text-3xl">
 					Mush
 					<span className="px-1 mx-1 leading-none rounded-md text-stone-900 bg-stone-100">AI</span>
 				</h3>
@@ -104,7 +106,7 @@ const Community = () => {
 									<img
 										src={'/mushs/' + mush.imageSrc}
 										alt=""
-										className="object-cover w-full h-80"
+										className="object-cover w-full h-52 sm:h-80"
 									/>
 								) : (
 									mush.element
