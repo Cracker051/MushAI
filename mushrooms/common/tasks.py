@@ -1,7 +1,7 @@
 from email.mime.text import MIMEText
 from typing import Sequence
 
-from dependencies import get_smtp_server
+from common.dependencies import get_smtp_server
 from pydantic import EmailStr
 
 

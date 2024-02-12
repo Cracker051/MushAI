@@ -1,11 +1,11 @@
 from typing import Optional
 
 from auth.models import User
-from config import settings
+from common.config import settings
+from common.tasks import send_email
 from fastapi import Request
 from fastapi_users import BaseUserManager, IntegerIDMixin
 from fastapi_users.exceptions import InvalidPasswordException
-from tasks import send_email
 
 
 class UserManager(IntegerIDMixin, BaseUserManager[User, int]):

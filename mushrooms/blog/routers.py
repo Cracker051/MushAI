@@ -2,12 +2,12 @@ from typing import Dict, List
 
 from blog import models as blog_models
 from blog import schemas as blog_schemas
-from database import AsyncSession
-from dependencies import get_db_session
+from common.database import AsyncSession
+from common.dependencies import get_db_session
+from common.utils import check_foreign_keys, process_sa_exception
 from fastapi import APIRouter, Depends, HTTPException, status
 from sqlalchemy import exc as sa_exc
-from sqlmodel import literal, select
-from utils import process_sa_exception
+from sqlmodel import select
 
 blog_router = APIRouter()
 
@@ -126,27 +126,18 @@ async def comment_create(
     session: AsyncSession = Depends(get_db_session),
 ):
     comment = blog_models.Comment.model_validate(comment)
-
-    if not (
-        await session.exec(
-            select(literal(1)).select_from(blog_models.User).filter(blog_models.User.id == comment.user_id).limit(1)
-        )
-    ).first():
-        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail=f"User with id {comment.user_id} not found!")
-
-    if not (
-        await session.exec(
-            select(literal(1)).select_from(blog_models.Blog).filter(blog_models.Blog.id == comment.blog_id).limit(1)
-        )
-    ).first():
-        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail=f"Blog with id {comment.blog_id} not found!")
+    await check_foreign_keys(comment, session)
 
     if comment.parent_id is not None:
         upper_parent_id = await session.exec(
-            select(blog_models.Comment.parent_id).where(blog_models.Comment.id == comment.parent_id)
+            select(blog_models.Comment.parent_id).where(
+                blog_models.Comment.id == comment.parent_id
+            )
         )
         try:
-            comment.parent_id = upper_parent_id.one() or comment.parent_id  # Because parent_id can be null (None)
+            comment.parent_id = (
+                upper_parent_id.one() or comment.parent_id
+            )  # Because parent_id can be null (None)
         except sa_exc.NoResultFound as e:
             raise HTTPException(
                 status_code=status.HTTP_404_NOT_FOUND,
@@ -159,7 +150,12 @@ async def comment_create(
     return comment
 
 
-@comment_router.get("/get_by_blog/{blog_id}", response_model=List[blog_schemas.CommentRead])
-async def get_comments_by_blog(blog_id: int, session: AsyncSession = Depends(get_db_session)):
-    comments = await session.exec(select(blog_models.Comment).where(blog_models.Comment.blog_id == blog_id))
+@comment_router.get("/blog/{blog_id}", response_model=List[blog_schemas.CommentRead])
+async def get_comments_by_blog(
+    blog_id: int,
+    session: AsyncSession = Depends(get_db_session),
+):
+    comments = await session.exec(
+        select(blog_models.Comment).where(blog_models.Comment.blog_id == blog_id)
+    )
     return comments.all()
