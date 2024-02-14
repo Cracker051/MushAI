@@ -53,6 +53,8 @@ async def create_blog(
     session: AsyncSession = Depends(get_db_session),
 ):
     blog = blog_models.Blog.model_validate(blog)
+    await check_foreign_keys(blog, session)
+
     session.add(blog)
     try:
         await session.commit()

@@ -2,7 +2,7 @@ import datetime
 from typing import Optional
 
 from auth.schemas import UserRead
-from sqlmodel import SQLModel
+from common.models import SQLModel
 
 
 class BlogRead(SQLModel, table=False):

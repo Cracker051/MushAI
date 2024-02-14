@@ -1,7 +1,8 @@
 from typing import List, Optional
 
+from common.models import SQLModel
 from fastapi_users_db_sqlalchemy import SQLAlchemyBaseUserTable
-from sqlmodel import Field, Relationship, SQLModel
+from sqlmodel import Field, Relationship
 
 
 class User(SQLAlchemyBaseUserTable[int], SQLModel, table=True):
