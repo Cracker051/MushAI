@@ -2,7 +2,8 @@ import datetime
 from typing import List, Optional
 
 from auth.models import User
-from sqlmodel import Field, Relationship, SQLModel
+from common.models import SQLModel
+from sqlmodel import Field, Relationship
 
 
 class Blog(SQLModel, table=True):
@@ -14,7 +15,9 @@ class Blog(SQLModel, table=True):
     created_at: datetime.datetime = Field(default=datetime.datetime.now())
     content: str
 
-    user: User = Relationship(back_populates="blogs")
+    user: User = Relationship(
+        back_populates="blogs", sa_relationship_kwargs={"lazy": "joined"}
+    )
     comments: List["Comment"] = Relationship(back_populates="blog")
 
 
@@ -27,7 +30,9 @@ class Comment(SQLModel, table=True):
     created_at: datetime.datetime = Field(default=datetime.datetime.now())
     body: str
 
-    user: User = Relationship(back_populates="comments")
+    user: User = Relationship(
+        back_populates="comments", sa_relationship_kwargs={"lazy": "joined"}
+    )
     blog: Blog = Relationship(back_populates="comments")
     comments: List["Comment"] = Relationship(back_populates="parent_comment")
     parent_comment: Optional["Comment"] = Relationship(

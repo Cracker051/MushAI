@@ -1,13 +1,14 @@
 import datetime
 from typing import Optional
 
-from sqlmodel import SQLModel
+from auth.schemas import UserRead
+from common.models import SQLModel
 
 
 class BlogRead(SQLModel, table=False):
     id: Optional[int] = None
     title: str
-    user_id: int
+    user: UserRead
     created_at: datetime.datetime
     content: str
 
@@ -26,7 +27,7 @@ class BlogUpdate(SQLModel, table=False):
 class CommentRead(SQLModel, table=False):
     id: Optional[int] = None
     parent_id: Optional[int]
-    user_id: int
+    user: UserRead
     blog_id: int
     created_at: datetime.datetime
     body: str

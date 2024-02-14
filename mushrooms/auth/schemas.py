@@ -1,7 +1,7 @@
 from typing import Optional
 
+from common.models import SQLModel
 from fastapi_users import schemas
-from sqlmodel import SQLModel
 
 
 class UserCreate(schemas.CreateUpdateDictModel, SQLModel, table=False):
