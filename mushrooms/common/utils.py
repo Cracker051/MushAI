@@ -1,3 +1,5 @@
+from typing import Type
+
 from common.models import SQLModel
 from fastapi import status
 from fastapi.exceptions import HTTPException
@@ -13,7 +15,7 @@ def process_sa_exception(exc: SQLAlchemyError) -> str:
     return exception_msg
 
 
-async def check_foreign_keys(model: SQLModel, session: AsyncSession):
+async def check_foreign_keys(model: Type[SQLModel], session: AsyncSession):
     for table_column, foreign_table_column in model.foreign_keys.items():
         f_table, f_column = foreign_table_column.split(".")
         if (value := getattr(model, table_column)) is None:
@@ -31,3 +33,12 @@ async def check_foreign_keys(model: SQLModel, session: AsyncSession):
                 status_code=status.HTTP_404_NOT_FOUND,
                 detail=f"Row of table `{f_table}` with `{f_column}` = {value} not found!",
             )
+
+
+def generate_readonly_kwargs(columns: list) -> dict:
+    access_dict = {"disabled": True}
+    return {column: access_dict for column in columns}
+
+
+def model_relationships_columns(model: SQLModel) -> list:
+    return model.__mapper__.relationships.keys()
