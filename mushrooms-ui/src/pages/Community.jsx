@@ -2,27 +2,32 @@ import MainHeader from '../components/MainHeader';
 import RequestSubscription from '../components/RequestSubscription';
 import MainFooter from '../components/MainFooter';
 import { Link } from 'react-router-dom';
+import BlogPost from '../components/BlogPost';
 
 const newPosts = [
 	{
 		imageSrc: '/78d1be486c3ba173e56c58e881523446.png',
 		title: 'HONEY FUNGI.WHEN TO LOOK FOR?',
 		author: 'Sam Derek',
+		new: true,
 	},
 	{
 		imageSrc: '/50c16806fe66b70ae70d023721ee8663.png',
 		title: 'MUSHROOMS IN MEDICINE',
 		author: 'Ben Grigory',
+		new: true,
 	},
 	{
 		imageSrc: '/88b86b40aaaa67af60b3ddd61d873685.png',
 		title: 'MUSHROOMS IN WORLD OF ANIMALS',
 		author: 'Lobby Pits',
+		new: true,
 	},
 	{
 		imageSrc: '/5efec57967e3f6680c05ea2825cb821a.png',
 		title: 'FAIRY MUSHROOMS',
 		author: 'Steve Lecklers',
+		new: true,
 	},
 ];
 
@@ -75,19 +80,8 @@ const Community = () => {
 				<div className="container px-10 py-6 mx-auto">
 					<h3 className="text-2xl font-extrabold">NEW POSTS</h3>
 					<div className="grid grid-cols-1 gap-5 py-6 lg:grid-cols-4">
-						{newPosts?.map((post, id) => (
-							<Link key={id} className="transition-opacity hover:opacity-60">
-								<div className="relative select-none">
-									<div className="absolute px-1 font-medium text-black rounded-md top-5 left-5 bg-amber-400">
-										New
-									</div>
-									<img src={post.imageSrc} alt="" className="object-cover w-full h-80" />
-								</div>
-								<div className="py-3 text-center uppercase">
-									<p className="text-lg font-black">{post.title}</p>
-									<p className="text-lg font-semibold">{post.author}</p>
-								</div>
-							</Link>
+						{newPosts?.map((post, index) => (
+							<BlogPost post={post} key={index} />
 						))}
 					</div>
 					<div className="text-right">
