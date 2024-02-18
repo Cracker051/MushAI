@@ -5,6 +5,7 @@ import SignUp from './pages/Authorization/SignUp';
 import RecoverPassword from './pages/Authorization/RecoverPassword';
 import Home from './pages/Home';
 import Community from './pages/Community';
+import Search from './pages/Search';
 
 function App() {
 	return (
@@ -15,6 +16,7 @@ function App() {
 				<Route path="/sign-up" element={<SignUp />} />
 				<Route path="/recover-password" element={<RecoverPassword />} />
 				<Route path="/community" element={<Community />} />
+				<Route path="/search" element={<Search />} />
 				<Route path="*" element={<></>} />
 			</Routes>
 		</>
