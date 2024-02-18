@@ -14,11 +14,11 @@ const MainFooter = ({ dark }) => {
 			)}>
 			<div className="flex flex-wrap gap-6 mx-auto justify-evenly max-sm:text-center max-w-screen-2xl">
 				<div>
-					<HoverLink to={'/'}>Search AI</HoverLink>
+					<HoverLink to={'/search'}>Search AI</HoverLink>
 				</div>
 				<div className="flex flex-col">
-					<HoverLink to={'/'}>Community</HoverLink>
-					<HoverLink to={'/'}>Blog</HoverLink>
+					<HoverLink to={'/community'}>Community</HoverLink>
+					<HoverLink to={'/blog/?tab=all'}>Blog</HoverLink>
 				</div>
 				<div className="flex flex-col gap-2">
 					<HoverLink to={'/'}>About us</HoverLink>

@@ -40,7 +40,7 @@ const mushs = [
 			<div className="flex flex-col items-center justify-center h-full gap-1 text-center max-sm:16 max-lg:py-20">
 				<p className="text-3xl font-bold">POST YOUR MUSH</p>
 				<Link
-					to={'/'}
+					to={'/sign-up'}
 					className="px-4 py-2 text-3xl font-extrabold leading-none text-black transition-colors rounded-2xl bg-stone-100 hover:bg-stone-300/80">
 					JOIN
 				</Link>
@@ -85,7 +85,9 @@ const Community = () => {
 						))}
 					</div>
 					<div className="text-right">
-						<Link to={''} className="font-semibold transition-opacity hover:opacity-60">
+						<Link
+							to={'/blog/?tab=all'}
+							className="font-semibold transition-opacity hover:opacity-60">
 							WATCH ALL
 						</Link>
 					</div>

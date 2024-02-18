@@ -28,12 +28,12 @@ const Login = () => {
 						<AuthSubmitButton type="submit">AUTHORIZE</AuthSubmitButton>
 						<div className="flex flex-col items-start gap-2 select-none ">
 							<Link
-								to={'/'}
+								to={'/recover-password'}
 								className="font-extrabold underline transition-opacity hover:opacity-60">
 								FORGOT YOUR PASSWORD?
 							</Link>
 							<Link
-								to={'/'}
+								to={'/sign-up'}
 								className="font-extrabold underline transition-opacity hover:opacity-60">
 								CREATE ACCOUNT
 							</Link>

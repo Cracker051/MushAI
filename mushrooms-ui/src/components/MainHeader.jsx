@@ -13,10 +13,12 @@ const MainHeader = () => {
 					</span>
 				</Link>
 				<div className="flex flex-grow gap-4 text-lg max-sm:hidden lg:text-2xl lg:gap-12 text-stone-300">
-					<Link to={'/'} className="p-1 transition-colors rounded-md hover:bg-stone-400/50">
+					<Link to={'/search'} className="p-1 transition-colors rounded-md hover:bg-stone-400/50">
 						Search AI
 					</Link>
-					<Link to={'/'} className="p-1 transition-colors rounded-md hover:bg-stone-400/50">
+					<Link
+						to={'/community'}
+						className="p-1 transition-colors rounded-md hover:bg-stone-400/50">
 						Community
 					</Link>
 					<Link to={'/'} className="p-1 transition-colors rounded-md hover:bg-stone-400/50">
@@ -24,12 +26,16 @@ const MainHeader = () => {
 					</Link>
 				</div>
 				<div className="flex gap-4">
-					<button className="w-8 h-8 p-1 transition-colors rounded-md lg:h-10 lg:w-10 hover:bg-stone-400/50">
+					<Link
+						to={'/search'}
+						className="w-8 h-8 p-1 transition-colors rounded-md lg:h-10 lg:w-10 hover:bg-stone-400/50">
 						<img src={SearchIcon} alt="Search" />
-					</button>
-					<button className="w-8 h-8 p-1 transition-colors rounded-md lg:h-10 lg:w-10 hover:bg-stone-400/50">
+					</Link>
+					<Link
+						to={'/sign-in'}
+						className="w-8 h-8 p-1 transition-colors rounded-md lg:h-10 lg:w-10 hover:bg-stone-400/50">
 						<img src={UserIcon} alt="Account" />
-					</button>
+					</Link>
 				</div>
 			</div>
 		</header>
