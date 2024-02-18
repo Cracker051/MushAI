@@ -21,3 +21,6 @@ class User(SQLAlchemyBaseUserTable[int], SQLModel, table=True):
 
     blogs: List["Blog"] = Relationship(back_populates="user")
     comments: List["Comment"] = Relationship(back_populates="user")
+
+    def __str__(self) -> str:
+        return f"({self.id}) {self.email}: {self.name} {self.surname}"

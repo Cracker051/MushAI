@@ -60,3 +60,5 @@ app.include_router(
 admin.add_view(auth_admin.UserAdmin)
 
 admin.add_view(blog_admin.BlogAdmin)
+
+admin.add_view(blog_admin.CommentAdmin)

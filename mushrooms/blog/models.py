@@ -20,6 +20,9 @@ class Blog(SQLModel, table=True):
     )
     comments: List["Comment"] = Relationship(back_populates="blog")
 
+    def __str__(self) -> str:
+        return f"({self.id}) {self.user.email}: {self.title}"
+
 
 class Comment(SQLModel, table=True):
     __tablename__ = "mushroom_comment"
@@ -39,3 +42,7 @@ class Comment(SQLModel, table=True):
         back_populates="comments",
         sa_relationship_kwargs={"remote_side": "Comment.id"},
     )
+
+    def __str__(self) -> str:
+        breakpoint()
+        return f"({self.id}) {self.blog_id} - {self.user.email}: {self.body[:20]}"

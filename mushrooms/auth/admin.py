@@ -11,3 +11,4 @@ class UserAdmin(ModelView, model=User):
     ]
     form_excluded_columns = column_details_exclude_list
     form_widget_args = generate_readonly_kwargs(["email", "is_superuser"])
+    can_create = False
