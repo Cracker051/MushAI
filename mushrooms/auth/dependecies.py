@@ -1,11 +1,11 @@
 from auth.managers import UserManager
 from auth.models import User
-from config import settings
-from database import AsyncSession
-from dependencies import get_db_session
+from common.config import settings
+from common.dependencies import get_db_session
 from fastapi import Depends
 from fastapi_users.authentication import JWTStrategy
 from fastapi_users_db_sqlalchemy import SQLAlchemyUserDatabase
+from sqlmodel.ext.asyncio.session import AsyncSession
 
 
 async def get_user_db(
