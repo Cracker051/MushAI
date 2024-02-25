@@ -19,3 +19,7 @@ class Settings(BaseSettings):
 
 
 settings = Settings()
+
+STATIC_DIR = "static"
+
+AVATAR_DIR = STATIC_DIR + "/avatar"

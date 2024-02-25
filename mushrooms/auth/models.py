@@ -1,6 +1,8 @@
 from typing import List, Optional
 
-from common.models import SQLModel
+from common.config import AVATAR_DIR
+from common.models import AvatarImageType, SQLModel
+from fastapi_storages import FileSystemStorage
 from fastapi_users_db_sqlalchemy import SQLAlchemyBaseUserTable
 from sqlmodel import Field, Relationship
 
@@ -17,10 +19,20 @@ class User(SQLAlchemyBaseUserTable[int], SQLModel, table=True):
     is_staff: bool = Field(default=False)
     is_superuser: bool = Field(default=False)
     is_verified: bool = Field(default=False)
-    avatar: Optional[str] = Field(default=None)
+    avatar: Optional[str] = Field(
+        default="default.webp",
+        nullable=False,
+        sa_type=AvatarImageType(
+            storage=FileSystemStorage(AVATAR_DIR),
+        ),
+    )
 
     blogs: List["Blog"] = Relationship(back_populates="user")
     comments: List["Comment"] = Relationship(back_populates="user")
 
     def __str__(self) -> str:
         return f"({self.id}) {self.email}: {self.name} {self.surname}"
+
+    def __repr__(self) -> str:
+        username = self.email.split("@")[0]
+        return f"{self.id}_{username}"

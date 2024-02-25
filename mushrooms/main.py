@@ -5,10 +5,12 @@ from fastapi import FastAPI
 from fastapi.responses import RedirectResponse
 from sqladmin import Admin
 
-from auth import admin as auth_admin # noqa
-from blog import admin as blog_admin # noqa
+from auth import admin as auth_admin  # noqa
+from blog import admin as blog_admin  # noqa
+
 
 app = FastAPI()
+
 admin = Admin(app, engine)
 
 @app.get("/", include_in_schema=False)
@@ -43,6 +45,12 @@ app.include_router(
     auth_routers.reset_password_router,
     prefix="/auth/password",
     tags=["auth"],
+)
+
+app.include_router(
+    auth_routers.avatar_router,
+    prefix="/users",
+    tags=["users"],
 )
 
 app.include_router(
