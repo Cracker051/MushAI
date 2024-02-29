@@ -1,13 +1,14 @@
 from typing import List, Optional
 
-from common.config import AVATAR_DIR
-from common.models import AvatarImageType, SQLModel
 from fastapi_storages import FileSystemStorage
 from fastapi_users_db_sqlalchemy import SQLAlchemyBaseUserTable
+from generic.config import AVATAR_DIR
+from generic.sqlmodel.models import BaseSQLModel
+from generic.storage.models import AvatarImageType
 from sqlmodel import Field, Relationship
 
 
-class User(SQLAlchemyBaseUserTable[int], SQLModel, table=True):
+class User(SQLAlchemyBaseUserTable[int], BaseSQLModel, table=True):
     __tablename__ = "auth_user"
 
     id: Optional[int] = Field(default=None, primary_key=True)

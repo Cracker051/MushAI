@@ -2,11 +2,10 @@ from auth import schemas
 from auth.auth import auth_backend, fastapi_users
 from auth.dependecies import get_avatar_limitation
 from auth.models import User
-from common.database import AsyncSession
-from common.dependencies import get_db_session
-from common.utils import rename_uploadfile
 from fastapi import APIRouter, Depends, HTTPException, UploadFile, status
-from sqlalchemy import update
+from generic.database import AsyncSession
+from generic.dependencies import get_db_session
+from generic.storage.utils import rename_uploadfile
 
 auth_router = fastapi_users.get_auth_router(auth_backend)
 

@@ -1,13 +1,12 @@
 from auth import routers as auth_routers
 from blog import routers as blog_routers
-from common.database import engine
 from fastapi import FastAPI
 from fastapi.responses import RedirectResponse
+from generic.database import engine
 from sqladmin import Admin
 
-from auth import admin as auth_admin  # noqa
-from blog import admin as blog_admin  # noqa
-
+from auth import admin as auth_admin  # isort: skip
+from blog import admin as blog_admin  # isort: skip
 
 app = FastAPI()
 

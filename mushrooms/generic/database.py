@@ -1,4 +1,4 @@
-from common.config import settings
+from generic.config import settings
 from sqlalchemy.ext.asyncio import create_async_engine
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import sessionmaker
@@ -13,7 +13,6 @@ CONNECTION_URL = """postgresql+asyncpg://{db_user}:{db_password}@{db_host}:{db_p
 )
 
 engine = create_async_engine(url=CONNECTION_URL, echo=True)
-print("connected to database!")
 Base = declarative_base()
 async_session = sessionmaker(
     engine,

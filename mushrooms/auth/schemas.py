@@ -1,17 +1,17 @@
 from typing import Optional
 
-from common.models import SQLModel
 from fastapi_users import schemas
+from generic.sqlmodel.models import BaseSQLModel
 
 
-class UserCreate(schemas.CreateUpdateDictModel, SQLModel, table=False):
+class UserCreate(schemas.CreateUpdateDictModel, BaseSQLModel, table=False):
     name: str
     surname: str
     email: str
     password: str
 
 
-class UserRead(SQLModel, table=False):
+class UserRead(BaseSQLModel, table=False):
     id: int
     name: str
     surname: str
@@ -23,6 +23,6 @@ class UserRead(SQLModel, table=False):
     avatar: Optional[str]
 
 
-class UserUpdate(SQLModel, table=False):
+class UserUpdate(BaseSQLModel, table=False):
     name: str
     surname: str

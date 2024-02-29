@@ -1,8 +1,8 @@
-import os
 from typing import Type
 
-from fastapi import UploadFile, status
+from fastapi import status
 from fastapi.exceptions import HTTPException
+from generic.sqlmodel.models import BaseSQLModel
 from sqlalchemy.exc import SQLAlchemyError
 from sqlmodel import column, literal, select, table
 from sqlmodel.ext.asyncio.session import AsyncSession
@@ -15,7 +15,7 @@ def process_sa_exception(exc: SQLAlchemyError) -> str:
     return exception_msg
 
 
-async def check_foreign_keys(model: Type["SQLModel"], session: AsyncSession):
+async def check_foreign_keys(model: Type[BaseSQLModel], session: AsyncSession):
     for table_column, foreign_table_column in model.foreign_keys.items():
         f_table, f_column = foreign_table_column.split(".")
         if (value := getattr(model, table_column)) is None:
@@ -40,15 +40,5 @@ def generate_readonly_kwargs(columns: list) -> dict:
     return {column: access_dict for column in columns}
 
 
-def model_relationships_columns(model: "SQLModel") -> list:
+def model_relationships_columns(model: BaseSQLModel) -> list:
     return model.__mapper__.relationships.keys()
-
-
-def rename_uploadfile(
-    file: UploadFile,
-    new_name: str | None = None,
-    new_extension: str | None = None,
-):
-    name, extension = os.path.splitext(file.filename)
-    final_name = (new_name or name) + (new_extension or "." + extension)
-    file.filename = final_name

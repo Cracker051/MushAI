@@ -1,5 +1,5 @@
 from auth.models import User
-from common.utils import generate_readonly_kwargs, model_relationships_columns
+from generic.sqlmodel.utils import generate_readonly_kwargs, model_relationships_columns
 from sqladmin import ModelView
 
 
