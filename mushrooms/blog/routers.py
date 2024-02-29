@@ -2,10 +2,10 @@ from typing import Dict, List
 
 from blog import models as blog_models
 from blog import schemas as blog_schemas
-from common.database import AsyncSession
-from common.dependencies import get_db_session
-from common.utils import check_foreign_keys, process_sa_exception
 from fastapi import APIRouter, Depends, HTTPException, status
+from generic.database import AsyncSession
+from generic.dependencies import get_db_session
+from generic.sqlmodel.utils import check_foreign_keys, process_sa_exception
 from sqlalchemy import exc as sa_exc
 from sqlmodel import select
 

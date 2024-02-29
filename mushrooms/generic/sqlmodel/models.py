@@ -1,9 +1,9 @@
 from copy import deepcopy
+from typing import Any
 
 from sqlmodel.main import SQLModel, SQLModelMetaclass
 
 
-# TODO: Find alternatives to deepcopy
 class ExtendedSQLModelMetaclass(SQLModelMetaclass):
     def __init__(cls, *args, **kwargs):
         super().__init__(*args, **kwargs)
@@ -16,5 +16,5 @@ class ExtendedSQLModelMetaclass(SQLModelMetaclass):
 
 
 # Only override metaclass, nothing else
-class SQLModel(SQLModel, metaclass=ExtendedSQLModelMetaclass):
+class BaseSQLModel(SQLModel, metaclass=ExtendedSQLModelMetaclass):
     pass
