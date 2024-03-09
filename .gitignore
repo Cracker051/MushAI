@@ -164,4 +164,5 @@ static/avatar/*
 !static/avatar/default.webp
 
 # Computer vision files
-mushrooms/prediction/notebooks/files/*
+mushrooms/prediction/notebooks/*
+!mushrooms/prediction/notebooks/*.ipynb
