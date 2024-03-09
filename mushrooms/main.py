@@ -3,6 +3,7 @@ from blog import routers as blog_routers
 from fastapi import FastAPI
 from fastapi.responses import RedirectResponse
 from generic.database import engine
+from prediction.routers import prediction_router
 from sqladmin import Admin
 
 from auth import admin as auth_admin  # isort: skip
@@ -62,6 +63,12 @@ app.include_router(
     blog_routers.comment_router,
     prefix="/comment",
     tags=["comment"],
+)
+
+app.include_router(
+    prediction_router,
+    prefix="/prediction",
+    tags=["prediction"],
 )
 
 admin.add_view(auth_admin.UserAdmin)

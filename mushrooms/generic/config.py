@@ -1,3 +1,5 @@
+import os
+
 from dotenv import load_dotenv
 from pydantic_settings import BaseSettings
 
@@ -21,5 +23,6 @@ class Settings(BaseSettings):
 settings = Settings()
 
 STATIC_DIR = "static"
+AVATAR_DIR = os.path.join(STATIC_DIR, "avatar")
 
-AVATAR_DIR = STATIC_DIR + "/avatar"
+MODELS_DIR = "mushrooms/prediction/models/"
