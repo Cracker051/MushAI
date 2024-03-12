@@ -162,3 +162,11 @@ cython_debug/
 # User avatars
 static/avatar/*
 !static/avatar/default.webp
+
+# Computer vision files
+mushrooms/prediction/notebooks/*
+!mushrooms/prediction/notebooks/*.ipynb
+
+# Big files
+*.h5
+*.keras

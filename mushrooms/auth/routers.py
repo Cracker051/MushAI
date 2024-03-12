@@ -1,3 +1,5 @@
+from typing import Dict
+
 from auth import schemas
 from auth.auth import auth_backend, fastapi_users
 from auth.dependecies import get_avatar_limitation
@@ -23,7 +25,20 @@ reset_password_router = fastapi_users.get_reset_password_router()
 avatar_router = APIRouter()
 
 
-@avatar_router.put("/{id}/avatar/", response_model=schemas.UserRead)
+@avatar_router.put(
+    "/{id}/avatar/",
+    responses={
+        status.HTTP_400_BAD_REQUEST: {
+            "description": "Bad File Error",
+            "model": Dict[str, str],
+        },
+        status.HTTP_404_NOT_FOUND: {
+            "description": "Not Found Error",
+            "model": Dict[str, str],
+        },
+    },
+    response_model=schemas.UserRead,
+)
 async def update_avatar(
     id: int,
     avatar: UploadFile = None,
@@ -45,7 +60,7 @@ async def update_avatar(
         if avatar.size > avatar_limitation:
             raise HTTPException(
                 status_code=status.HTTP_400_BAD_REQUEST,
-                detail="The max size of image is 2 MB!",
+                detail=f"The max size of image is {round(avatar_limitation/1000000, 2)} MB!",
             )
         rename_uploadfile(avatar, new_name=f"avatar_{user.id}")
 
