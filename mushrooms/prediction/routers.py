@@ -43,10 +43,6 @@ async def model_unload():
             "description": "Bad File Error",
             "model": Dict[str, str],
         },
-        status.HTTP_404_NOT_FOUND: {
-            "description": "Not Found Error",
-            "model": Dict[str, str],
-        },
     },
 )
 async def recognize_mushroom(
