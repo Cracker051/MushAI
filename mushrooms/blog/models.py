@@ -2,11 +2,11 @@ import datetime
 from typing import List, Optional
 
 from auth.models import User
-from common.models import SQLModel
+from generic.sqlmodel.models import BaseSQLModel
 from sqlmodel import Field, Relationship
 
 
-class Blog(SQLModel, table=True):
+class Blog(BaseSQLModel, table=True):
     __tablename__ = "mushroom_blog"
 
     id: Optional[int] = Field(default=None, primary_key=True)
@@ -20,8 +20,11 @@ class Blog(SQLModel, table=True):
     )
     comments: List["Comment"] = Relationship(back_populates="blog")
 
+    def __str__(self) -> str:
+        return f"({self.id}) {self.user.email}: {self.title}"
 
-class Comment(SQLModel, table=True):
+
+class Comment(BaseSQLModel, table=True):
     __tablename__ = "mushroom_comment"
     id: Optional[int] = Field(default=None, primary_key=True)
     parent_id: Optional[int] = Field(foreign_key="mushroom_comment.id")
@@ -39,3 +42,6 @@ class Comment(SQLModel, table=True):
         back_populates="comments",
         sa_relationship_kwargs={"remote_side": "Comment.id"},
     )
+
+    def __str__(self) -> str:
+        return f"({self.id}) {self.blog_id} - {self.user.email}: {self.body[:20]}"

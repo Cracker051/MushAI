@@ -15,7 +15,7 @@ CREATE TABLE mushroom_blog (
     id SERIAL PRIMARY KEY,
     title VARCHAR(50) NOT NULL,
     created_at TIMESTAMP NOT NULL DEFAULT NOW(),
-    user_id INTEGER REFERENCES auth_user(id),
+    user_id INTEGER NOT NULL REFERENCES auth_user(id),
     content TEXT NOT NULL
 );
 

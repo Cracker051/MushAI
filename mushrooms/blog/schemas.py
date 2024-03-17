@@ -2,10 +2,12 @@ import datetime
 from typing import Optional
 
 from auth.schemas import UserRead
-from common.models import SQLModel
+from bs4 import BeautifulSoup
+from generic.sqlmodel.models import BaseSQLModel
+from pydantic import field_validator
 
 
-class BlogRead(SQLModel, table=False):
+class BlogRead(BaseSQLModel, table=False):
     id: Optional[int] = None
     title: str
     user: UserRead
@@ -13,18 +15,28 @@ class BlogRead(SQLModel, table=False):
     content: str
 
 
-class BlogCreate(SQLModel, table=False):
+class BlogAction(BaseSQLModel, table=False):
     title: str
-    user_id: int
     content: str
 
+    @field_validator("content")
+    @staticmethod
+    def validate_content(value):
+        if BeautifulSoup(value, "html.parser").find() is not None:
+            raise ValueError("HTML is not allowed in content. Use BBCode instead.")
+        return value
 
-class BlogUpdate(SQLModel, table=False):
+
+class BlogCreate(BlogAction):
+    user_id: int
+
+
+class BlogUpdate(BlogAction):
     title: Optional[str] = None
     content: Optional[str] = None
 
 
-class CommentRead(SQLModel, table=False):
+class CommentRead(BaseSQLModel, table=False):
     id: Optional[int] = None
     parent_id: Optional[int]
     user: UserRead
@@ -33,7 +45,7 @@ class CommentRead(SQLModel, table=False):
     body: str
 
 
-class CommentCreate(SQLModel, table=False):
+class CommentCreate(BaseSQLModel, table=False):
     parent_id: Optional[int]
     user_id: int
     blog_id: int
