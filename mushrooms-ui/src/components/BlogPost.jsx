@@ -2,7 +2,7 @@ import { Link } from 'react-router-dom';
 
 const BlogPost = ({ post }) => {
 	return (
-		<Link className="transition-opacity hover:opacity-60">
+		<Link to={`/blog/${post.id}`} className="transition-opacity hover:opacity-60">
 			<div className="relative select-none">
 				{post.new && (
 					<div className="absolute px-1 font-medium text-black rounded-md top-5 left-5 bg-amber-400">

@@ -7,6 +7,7 @@ import Home from './pages/Home';
 import Community from './pages/Community';
 import Search from './pages/Search';
 import Blog from './pages/Blog';
+import FullPost from './pages/FullPost';
 
 function App() {
 	return (
@@ -18,6 +19,7 @@ function App() {
 				<Route path="/recover-password" element={<RecoverPassword />} />
 				<Route path="/community" element={<Community />} />
 				<Route path="/blog" element={<Blog />} />
+				<Route path="/blog/:blogId" element={<FullPost />} />
 				<Route path="/search" element={<Search />} />
 				<Route path="*" element={<></>} />
 			</Routes>

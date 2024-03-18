@@ -100,7 +100,7 @@ const Blog = () => {
 					</div>
 					<div className="grid grid-cols-1 gap-5 py-6 sm:grid-cols-2 lg:grid-cols-4">
 						{posts?.map((post, index) => (
-							<BlogPost post={post} key={index} />
+							<BlogPost post={{ ...post, id: index }} key={index} />
 						))}
 					</div>
 				</div>
