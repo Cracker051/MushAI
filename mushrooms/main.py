@@ -1,7 +1,9 @@
 from auth import routers as auth_routers
 from blog import routers as blog_routers
 from fastapi import FastAPI
+from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import RedirectResponse
+from generic.config import ALLOWED_ORIGINS
 from generic.database import engine
 from prediction.routers import prediction_router
 from sqladmin import Admin
@@ -10,12 +12,21 @@ from auth import admin as auth_admin  # isort: skip
 from blog import admin as blog_admin  # isort: skip
 
 app = FastAPI()
-
 admin = Admin(app, engine)
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=ALLOWED_ORIGINS,
+    allow_credentials=True,
+    allow_methods=["GET", "POST", "PATCH", "PUT", "DELETE"],
+    allow_headers=["*"],
+)
+
 
 @app.get("/", include_in_schema=False)
 async def swagger_redirect():
     return RedirectResponse("/docs/")
+
 
 app.include_router(
     auth_routers.auth_router,
