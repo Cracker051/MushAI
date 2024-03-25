@@ -16,7 +16,8 @@ CREATE TABLE mushroom_blog (
     title VARCHAR(50) NOT NULL,
     created_at TIMESTAMP NOT NULL DEFAULT NOW(),
     user_id INTEGER NOT NULL REFERENCES auth_user(id),
-    content TEXT NOT NULL
+    content TEXT NOT NULL,
+    icon TEXT NOT NULL,
 );
 
 CREATE TABLE mushroom_comment (

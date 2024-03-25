@@ -1,11 +1,13 @@
 from typing import Dict, List
 
+from auth import models as auth_models
 from blog import models as blog_models
 from blog import schemas as blog_schemas
-from fastapi import APIRouter, Depends, HTTPException, status
+from fastapi import APIRouter, Depends, HTTPException, Request, UploadFile, status
 from generic.database import AsyncSession
 from generic.dependencies import get_db_session
 from generic.sqlmodel.utils import check_foreign_keys, process_sa_exception
+from generic.storage.utils import rename_uploadfile, validate_image
 from sqlalchemy import exc as sa_exc
 from sqlmodel import select
 
@@ -38,6 +40,30 @@ async def get_blog_by_id(id: int, session: AsyncSession = Depends(get_db_session
     return blog
 
 
+# TODO: Fix
+@blog_router.get(
+    "/user/{user_id}/",
+    response_model=List[blog_schemas.BlogRead],
+    responses={
+        status.HTTP_404_NOT_FOUND: {
+            "description": "Not Found Error",
+            "model": Dict[str, str],
+        }
+    },
+)
+async def get_blogs_by_user_id(
+    user_id: int, request: Request, session: AsyncSession = Depends(get_db_session)
+):
+    user = await session.get(auth_models.User, user_id)
+    if not user:
+        raise HTTPException(
+            status_code=status.HTTP_404_NOT_FOUND,
+            detail=f"User with id {user_id} not found!",
+        )
+    blogs = user.blogs
+    return blogs
+
+
 @blog_router.post(
     "/",
     response_model=blog_schemas.BlogRead,
@@ -49,12 +75,16 @@ async def get_blog_by_id(id: int, session: AsyncSession = Depends(get_db_session
     },
 )
 async def create_blog(
+    icon: UploadFile,
     blog: blog_schemas.BlogCreate,
     session: AsyncSession = Depends(get_db_session),
 ):
+    validate_image(icon)
+    rename_uploadfile(icon, new_name=f"blog_{blog.title}")
     blog = blog_models.Blog.model_validate(blog)
     await check_foreign_keys(blog, session)
 
+    blog.icon = icon
     session.add(blog)
     try:
         await session.commit()
@@ -81,7 +111,7 @@ async def delete_blog(id: int, session: AsyncSession = Depends(get_db_session)):
 
 
 @blog_router.patch(
-    "/{id}",
+    "/{id}/",
     response_model=blog_schemas.BlogRead,
     responses={
         status.HTTP_404_NOT_FOUND: {

@@ -26,6 +26,7 @@ settings = Settings()
 
 STATIC_DIR = "static"
 AVATAR_DIR = os.path.join(STATIC_DIR, "avatar")
+BLOG_IMG_DIR = os.path.join(STATIC_DIR, "blog")
 
 MODELS_DIR = "mushrooms/prediction/models/"
 ALLOWED_ORIGINS = (settings.FRONTEND_URL,)
