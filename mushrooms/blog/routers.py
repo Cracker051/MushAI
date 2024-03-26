@@ -7,7 +7,8 @@ from fastapi import APIRouter, Depends, HTTPException, Request, UploadFile, stat
 from generic.database import AsyncSession
 from generic.dependencies import get_db_session
 from generic.sqlmodel.utils import check_foreign_keys, process_sa_exception
-from generic.storage.utils import rename_uploadfile, validate_image
+from generic.storage.depenencies import validate_image
+from generic.storage.utils import rename_uploadfile
 from sqlalchemy import exc as sa_exc
 from sqlmodel import select
 
@@ -75,16 +76,16 @@ async def get_blogs_by_user_id(
     },
 )
 async def create_blog(
-    icon: UploadFile,
     blog: blog_schemas.BlogCreate,
+    img: UploadFile = Depends(validate_image()),
     session: AsyncSession = Depends(get_db_session),
 ):
-    validate_image(icon)
-    rename_uploadfile(icon, new_name=f"blog_{blog.title}")
+    # validate_image(icon)
+    rename_uploadfile(img, new_name=f"blog_{blog.title}")
     blog = blog_models.Blog.model_validate(blog)
     await check_foreign_keys(blog, session)
 
-    blog.icon = icon
+    blog.icon = img
     session.add(blog)
     try:
         await session.commit()
