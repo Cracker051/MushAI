@@ -19,7 +19,7 @@ class Settings(BaseSettings):
     SMTP_EMAIL: str
     SMTP_TOKEN: str
 
-    FRONTEND_URL: str
+    FRONTEND_URL: str = "http://127.0.0.1:8888"
 
 
 settings = Settings()
@@ -30,3 +30,5 @@ BLOG_IMG_DIR = os.path.join(STATIC_DIR, "blog")
 
 MODELS_DIR = "mushrooms/prediction/models/"
 ALLOWED_ORIGINS = (settings.FRONTEND_URL,)
+
+DEFAULT_IMG_NAME = "default.webp"  # Use only in different subdirectories

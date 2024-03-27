@@ -3,7 +3,7 @@ from typing import List, Optional
 
 from auth.models import User
 from fastapi_storages import FileSystemStorage
-from generic.config import BLOG_IMG_DIR
+from generic.config import BLOG_IMG_DIR, DEFAULT_IMG_NAME
 from generic.sqlmodel.models import BaseSQLModel
 from generic.storage.models import WebpImageType
 from sqlmodel import Field, Relationship
@@ -18,6 +18,7 @@ class Blog(BaseSQLModel, table=True):
     created_at: datetime.datetime = Field(default=datetime.datetime.now())
     content: str
     icon: Optional[str] = Field(
+        default=DEFAULT_IMG_NAME,
         nullable=False,
         sa_type=WebpImageType(
             storage=FileSystemStorage(BLOG_IMG_DIR),

@@ -1,6 +1,6 @@
 import os
 
-from fastapi import HTTPException, UploadFile, status
+from fastapi import UploadFile
 
 
 def rename_uploadfile(

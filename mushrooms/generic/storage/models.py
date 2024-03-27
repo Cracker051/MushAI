@@ -5,7 +5,7 @@ from typing import Any
 from fastapi_storages import StorageImage
 from fastapi_storages.exceptions import ValidationException
 from fastapi_storages.integrations.sqlalchemy import ImageType
-from generic.config import AVATAR_DIR
+from generic.config import DEFAULT_IMG_NAME
 from generic.storage.utils import rename_uploadfile
 from PIL import Image, UnidentifiedImageError
 from sqlalchemy import Dialect
@@ -25,6 +25,9 @@ class WebpImageType(ImageType):
         )
 
     def process_bind_param(self, value: Any, dialect: Dialect) -> str | None:
+        if isinstance(value, str) and value == DEFAULT_IMG_NAME:
+            return value
+
         if value is None or len(value.file.read(1)) != 1:
             return
         image_buffer = io.BytesIO()
@@ -63,10 +66,3 @@ class AvatarImageType(WebpImageType):
             optimize=True,
             quality=95,
         )
-
-    def process_bind_param(self, value: Any, dialect: Dialect) -> str | None:
-        if isinstance(value, str) and os.path.isfile(
-            f"{os.getcwd()}/{AVATAR_DIR}/{value}"
-        ):
-            return value
-        return super().process_bind_param(value, dialect)

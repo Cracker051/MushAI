@@ -53,7 +53,8 @@ async def get_blog_by_id(id: int, session: AsyncSession = Depends(get_db_session
     },
 )
 async def get_blogs_by_user_id(
-    user_id: int, request: Request, session: AsyncSession = Depends(get_db_session)
+    user_id: int,
+    session: AsyncSession = Depends(get_db_session),
 ):
     user = await session.get(auth_models.User, user_id)
     if not user:
@@ -80,20 +81,15 @@ async def create_blog(
     img: UploadFile = Depends(validate_image()),
     session: AsyncSession = Depends(get_db_session),
 ):
-    # validate_image(icon)
-    rename_uploadfile(img, new_name=f"blog_{blog.title}")
     blog = blog_models.Blog.model_validate(blog)
     await check_foreign_keys(blog, session)
 
-    blog.icon = img
     session.add(blog)
     try:
         await session.commit()
-    except sa_exc.IntegrityError as e:
-        raise HTTPException(
-            status_code=status.HTTP_404_NOT_FOUND,
-            detail=process_sa_exception(e),
-        )
+    except sa_exc.SQLAlchemyError as e:
+        # TODO: Replace SQLAlchemyError to DBApi
+        raise e
     await session.refresh(blog)
     return blog
 
@@ -135,6 +131,37 @@ async def update_blog(
     patched_blog = updated_blog.model_dump(exclude_unset=True)
     for field, value in patched_blog.items():
         setattr(blog, field, value)
+    session.add(blog)
+    await session.commit()
+    await session.refresh(blog)
+    return blog
+
+
+# TODO: Write removing old photo
+@blog_router.put(
+    "/{id}/",
+    response_model=blog_schemas.BlogRead,
+    responses={
+        status.HTTP_404_NOT_FOUND: {
+            "description": "Not Found Error",
+            "model": Dict[str, str],
+        }
+    },
+)
+async def update_blog_icon(
+    id: int,
+    img: UploadFile = Depends(validate_image()),
+    session: AsyncSession = Depends(get_db_session),
+):
+    blog = await session.get(blog_models.Blog, id)
+    if blog is None:
+        raise HTTPException(
+            status_code=status.HTTP_404_NOT_FOUND,
+            detail=f"Blog with id = {id} not found!",
+        )
+    if img:
+        rename_uploadfile(img, new_name=f"blog_{blog.title}_{blog.user_id}")
+    blog.icon = img or blog_models.Blog.icon.default.arg
     session.add(blog)
     await session.commit()
     await session.refresh(blog)
