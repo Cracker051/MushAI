@@ -17,6 +17,7 @@ class Blog(BaseSQLModel, table=True):
     user_id: int = Field(foreign_key="auth_user.id")
     created_at: datetime.datetime = Field(default=datetime.datetime.now())
     content: str
+    is_draft: bool = True
     icon: Optional[str] = Field(
         default=DEFAULT_IMG_NAME,
         nullable=False,

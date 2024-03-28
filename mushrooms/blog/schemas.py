@@ -15,10 +15,10 @@ class BlogRead(BaseSQLModel, table=False):
     created_at: datetime.datetime
     content: str
     icon: str
+    is_draft: bool
 
 
 class BlogAction(BaseJSONModel):
-    title: str
     content: str
 
     @field_validator("content")
@@ -31,11 +31,14 @@ class BlogAction(BaseJSONModel):
 
 class BlogCreate(BlogAction):
     user_id: int
+    title: str
+    is_draft: bool = True
 
 
 class BlogUpdate(BlogAction):
     title: Optional[str] = None
     content: Optional[str] = None
+    is_draft: Optional[bool] = None
 
 
 class CommentRead(BaseSQLModel, table=False):

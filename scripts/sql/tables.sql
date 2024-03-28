@@ -17,6 +17,7 @@ CREATE TABLE mushroom_blog (
     created_at TIMESTAMP NOT NULL DEFAULT NOW(),
     user_id INTEGER NOT NULL REFERENCES auth_user(id),
     content TEXT NOT NULL,
+    is_draft BOOLEAN NOT NULL DEFAULT TRUE,
     avatar TEXT DEFAULT 'default.png' NOT NULL,
 );
 

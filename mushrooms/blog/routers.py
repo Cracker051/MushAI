@@ -3,10 +3,10 @@ from typing import Dict, List
 from auth import models as auth_models
 from blog import models as blog_models
 from blog import schemas as blog_schemas
-from fastapi import APIRouter, Depends, HTTPException, Request, UploadFile, status
+from fastapi import APIRouter, Depends, HTTPException, UploadFile, status
 from generic.database import AsyncSession
 from generic.dependencies import get_db_session
-from generic.sqlmodel.utils import check_foreign_keys, process_sa_exception
+from generic.sqlmodel.utils import check_foreign_keys, get_obj_by_id_or_404
 from generic.storage.depenencies import validate_image
 from generic.storage.utils import rename_uploadfile
 from sqlalchemy import exc as sa_exc
@@ -18,6 +18,48 @@ blog_router = APIRouter()
 @blog_router.get("/", response_model=List[blog_schemas.BlogRead])
 async def get_blogs(session: AsyncSession = Depends(get_db_session)):
     blogs = await session.exec(select(blog_models.Blog))
+    return blogs.all()
+
+
+# TODO: Write if exists utils, write schema
+@blog_router.get("/posted/", response_model=List[blog_schemas.BlogRead])
+async def get_posted_blogs(session: AsyncSession = Depends(get_db_session)):
+    blogs = await session.exec(
+        select(blog_models.Blog).where(blog_models.Blog.is_draft == False)
+    )
+    return blogs.all()
+
+
+@blog_router.get("/drafts/", response_model=List[blog_schemas.BlogRead])
+async def get_draft_blogs(session: AsyncSession = Depends(get_db_session)):
+    blogs = await session.exec(
+        select(blog_models.Blog).where(blog_models.Blog.is_draft == True)
+    )
+    return blogs.all()
+
+
+@blog_router.get("/posted/{user_id}", response_model=List[blog_schemas.BlogRead])
+async def get_posted_user_blogs(
+    user_id: int,
+    session: AsyncSession = Depends(get_db_session),
+):
+    blogs = await session.exec(
+        select(blog_models.Blog).where(blog_models.Blog.is_draft == False)
+    )
+    return blogs.all()
+
+
+@blog_router.get("/drafts/{user_id}", response_model=List[blog_schemas.BlogRead])
+async def get_draft_user_blogs(
+    user_id: int, session: AsyncSession = Depends(get_db_session)
+):
+    user = await session.get(auth_models.User, id)
+    blogs = await session.exec(
+        select(blog_models.Blog).where(
+            blog_models.Blog.is_draft == True,
+            blog_models.Blog.user_id == user_id,
+        )
+    )
     return blogs.all()
 
 

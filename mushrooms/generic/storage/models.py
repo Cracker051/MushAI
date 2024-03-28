@@ -25,7 +25,7 @@ class WebpImageType(ImageType):
         )
 
     def process_bind_param(self, value: Any, dialect: Dialect) -> str | None:
-        if isinstance(value, str) and value == DEFAULT_IMG_NAME:
+        if value == DEFAULT_IMG_NAME:
             return value
 
         if value is None or len(value.file.read(1)) != 1:
