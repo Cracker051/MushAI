@@ -9,5 +9,8 @@ def rename_uploadfile(
     new_extension: str | None = None,
 ):
     name, extension = os.path.splitext(file.filename)
-    final_name = (new_name or name) + (new_extension or ("." + extension))
+    if new_extension is not None:
+        new_extension = "." + new_extension
+
+    final_name = (new_name or name) + (new_extension or extension)
     file.filename = final_name

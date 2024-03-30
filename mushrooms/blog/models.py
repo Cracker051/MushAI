@@ -26,9 +26,7 @@ class Blog(BaseSQLModel, table=True):
         ),
     )
 
-    user: User = Relationship(
-        back_populates="blogs", sa_relationship_kwargs={"lazy": "joined"}
-    )
+    user: User = Relationship(back_populates="blogs", sa_relationship_kwargs={"lazy": "noload"})
     comments: List["Comment"] = Relationship(back_populates="blog")
 
     def __str__(self) -> str:
@@ -44,9 +42,7 @@ class Comment(BaseSQLModel, table=True):
     created_at: datetime.datetime = Field(default=datetime.datetime.now())
     body: str
 
-    user: User = Relationship(
-        back_populates="comments", sa_relationship_kwargs={"lazy": "joined"}
-    )
+    user: User = Relationship(back_populates="comments")
     blog: Blog = Relationship(back_populates="comments")
     comments: List["Comment"] = Relationship(back_populates="parent_comment")
     parent_comment: Optional["Comment"] = Relationship(

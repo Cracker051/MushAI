@@ -11,6 +11,16 @@ from pydantic import field_validator
 class BlogRead(BaseSQLModel, table=False):
     id: Optional[int] = None
     title: str
+    user_id: int
+    created_at: datetime.datetime
+    content: str
+    icon: str
+    is_draft: bool
+
+
+class UserBlogRead(BaseSQLModel, table=False):
+    id: Optional[int] = None
+    title: str
     user: UserRead
     created_at: datetime.datetime
     content: str
@@ -35,7 +45,7 @@ class BlogCreate(BlogAction):
     is_draft: bool = True
 
 
-class BlogUpdate(BlogAction):
+class BlogUpdate(BaseSQLModel, table=False):
     title: Optional[str] = None
     content: Optional[str] = None
     is_draft: Optional[bool] = None

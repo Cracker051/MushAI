@@ -1,15 +1,22 @@
+import os
+from secrets import token_urlsafe
 from typing import Dict, List
 
-from auth import models as auth_models
-from blog import models as blog_models
+from auth.dependecies import validate_user_id
 from blog import schemas as blog_schemas
+from blog.models import Blog, Comment
 from fastapi import APIRouter, Depends, HTTPException, UploadFile, status
 from generic.database import AsyncSession
 from generic.dependencies import get_db_session
-from generic.sqlmodel.utils import check_foreign_keys, get_obj_by_id_or_404
+from generic.sqlmodel.utils import (
+    check_foreign_keys,
+    get_obj_by_id_or_404,
+    process_sa_exception,
+)
 from generic.storage.depenencies import validate_image
 from generic.storage.utils import rename_uploadfile
 from sqlalchemy import exc as sa_exc
+from sqlalchemy.orm import joinedload
 from sqlmodel import select
 
 blog_router = APIRouter()
@@ -17,55 +24,43 @@ blog_router = APIRouter()
 
 @blog_router.get("/", response_model=List[blog_schemas.BlogRead])
 async def get_blogs(session: AsyncSession = Depends(get_db_session)):
-    blogs = await session.exec(select(blog_models.Blog))
+    blogs = await session.exec(select(Blog))
     return blogs.all()
 
 
-# TODO: Write if exists utils, write schema
 @blog_router.get("/posted/", response_model=List[blog_schemas.BlogRead])
 async def get_posted_blogs(session: AsyncSession = Depends(get_db_session)):
-    blogs = await session.exec(
-        select(blog_models.Blog).where(blog_models.Blog.is_draft == False)
-    )
+    blogs = await session.exec(select(Blog).where(Blog.is_draft == False))
     return blogs.all()
 
 
 @blog_router.get("/drafts/", response_model=List[blog_schemas.BlogRead])
 async def get_draft_blogs(session: AsyncSession = Depends(get_db_session)):
-    blogs = await session.exec(
-        select(blog_models.Blog).where(blog_models.Blog.is_draft == True)
-    )
+    blogs = await session.exec(select(Blog).where(Blog.is_draft == True))
     return blogs.all()
 
 
 @blog_router.get("/posted/{user_id}", response_model=List[blog_schemas.BlogRead])
 async def get_posted_user_blogs(
-    user_id: int,
+    user_id: int = Depends(validate_user_id()),
     session: AsyncSession = Depends(get_db_session),
 ):
-    blogs = await session.exec(
-        select(blog_models.Blog).where(blog_models.Blog.is_draft == False)
-    )
+    blogs = await session.exec(select(Blog).where(Blog.user_id == user_id).where(Blog.is_draft == False))
     return blogs.all()
 
 
 @blog_router.get("/drafts/{user_id}", response_model=List[blog_schemas.BlogRead])
 async def get_draft_user_blogs(
-    user_id: int, session: AsyncSession = Depends(get_db_session)
+    user_id: int = Depends(validate_user_id()),
+    session: AsyncSession = Depends(get_db_session),
 ):
-    user = await session.get(auth_models.User, id)
-    blogs = await session.exec(
-        select(blog_models.Blog).where(
-            blog_models.Blog.is_draft == True,
-            blog_models.Blog.user_id == user_id,
-        )
-    )
+    blogs = await session.exec(select(Blog).where(Blog.user_id == user_id).where(Blog.is_draft == True))
     return blogs.all()
 
 
 @blog_router.get(
     "/{id}",
-    response_model=blog_schemas.BlogRead,
+    response_model=blog_schemas.UserBlogRead,
     responses={
         status.HTTP_404_NOT_FOUND: {
             "description": "Not Found Error",
@@ -74,7 +69,8 @@ async def get_draft_user_blogs(
     },
 )
 async def get_blog_by_id(id: int, session: AsyncSession = Depends(get_db_session)):
-    blog = await session.get(blog_models.Blog, id)
+    statement = select(Blog).options(joinedload(Blog.user)).where(Blog.id == id)
+    blog = (await session.scalars(statement)).first()
     if not blog:
         raise HTTPException(
             status_code=status.HTTP_404_NOT_FOUND,
@@ -83,7 +79,6 @@ async def get_blog_by_id(id: int, session: AsyncSession = Depends(get_db_session
     return blog
 
 
-# TODO: Fix
 @blog_router.get(
     "/user/{user_id}/",
     response_model=List[blog_schemas.BlogRead],
@@ -95,16 +90,10 @@ async def get_blog_by_id(id: int, session: AsyncSession = Depends(get_db_session
     },
 )
 async def get_blogs_by_user_id(
-    user_id: int,
+    user_id: int = Depends(validate_user_id()),
     session: AsyncSession = Depends(get_db_session),
 ):
-    user = await session.get(auth_models.User, user_id)
-    if not user:
-        raise HTTPException(
-            status_code=status.HTTP_404_NOT_FOUND,
-            detail=f"User with id {user_id} not found!",
-        )
-    blogs = user.blogs
+    blogs = await session.exec(select(Blog).where(Blog.user_id == user_id))
     return blogs
 
 
@@ -123,22 +112,25 @@ async def create_blog(
     img: UploadFile = Depends(validate_image()),
     session: AsyncSession = Depends(get_db_session),
 ):
-    blog = blog_models.Blog.model_validate(blog)
+    blog = Blog.model_validate(blog)
     await check_foreign_keys(blog, session)
+
+    if img is not None:
+        rename_uploadfile(img, new_name=token_urlsafe())
+    blog.icon = img
 
     session.add(blog)
     try:
         await session.commit()
-    except sa_exc.SQLAlchemyError as e:
-        # TODO: Replace SQLAlchemyError to DBApi
-        raise e
+    except sa_exc.DBAPIError as e:
+        raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail=process_sa_exception(e))
     await session.refresh(blog)
     return blog
 
 
 @blog_router.delete("/{id}", status_code=status.HTTP_204_NO_CONTENT)
 async def delete_blog(id: int, session: AsyncSession = Depends(get_db_session)):
-    blog = await session.get(blog_models.Blog, id)
+    blog = await session.get(Blog, id)
     if not blog:
         raise HTTPException(
             status_code=status.HTTP_404_NOT_FOUND,
@@ -164,7 +156,7 @@ async def update_blog(
     updated_blog: blog_schemas.BlogUpdate,
     session: AsyncSession = Depends(get_db_session),
 ):
-    blog = await session.get(blog_models.Blog, id)
+    blog = await session.get(Blog, id)
     if not blog:
         raise HTTPException(
             status_code=status.HTTP_404_NOT_FOUND,
@@ -195,18 +187,20 @@ async def update_blog_icon(
     img: UploadFile = Depends(validate_image()),
     session: AsyncSession = Depends(get_db_session),
 ):
-    blog = await session.get(blog_models.Blog, id)
-    if blog is None:
-        raise HTTPException(
-            status_code=status.HTTP_404_NOT_FOUND,
-            detail=f"Blog with id = {id} not found!",
-        )
-    if img:
-        rename_uploadfile(img, new_name=f"blog_{blog.title}_{blog.user_id}")
-    blog.icon = img or blog_models.Blog.icon.default.arg
+    blog = await get_obj_by_id_or_404(Blog, id, session)
+    old_icon = blog.icon
+
+    if img is not None:
+        rename_uploadfile(img, new_name=token_urlsafe())
+
+    blog.icon = img or Blog.icon.default.arg
     session.add(blog)
     await session.commit()
     await session.refresh(blog)
+
+    if os.path.basename(old_icon) != Blog.icon.default.arg:
+        os.remove(old_icon)
+
     return blog
 
 
@@ -227,15 +221,11 @@ async def comment_create(
     comment: blog_schemas.CommentCreate,
     session: AsyncSession = Depends(get_db_session),
 ):
-    comment = blog_models.Comment.model_validate(comment)
+    comment = Comment.model_validate(comment)
     await check_foreign_keys(comment, session)
 
     if comment.parent_id is not None:
-        upper_parent_id = await session.exec(
-            select(blog_models.Comment.parent_id).where(
-                blog_models.Comment.id == comment.parent_id
-            )
-        )
+        upper_parent_id = await session.exec(select(Comment.parent_id).where(Comment.id == comment.parent_id))
         try:
             comment.parent_id = (
                 upper_parent_id.one() or comment.parent_id
@@ -257,7 +247,5 @@ async def get_comments_by_blog(
     blog_id: int,
     session: AsyncSession = Depends(get_db_session),
 ):
-    comments = await session.exec(
-        select(blog_models.Comment).where(blog_models.Comment.blog_id == blog_id)
-    )
+    comments = await session.exec(select(Comment).where(Comment.blog_id == blog_id))
     return comments.all()
