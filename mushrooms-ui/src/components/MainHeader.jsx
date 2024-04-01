@@ -32,7 +32,7 @@ const MainHeader = () => {
 						<img src={SearchIcon} alt="Search" />
 					</Link>
 					<Link
-						to={'/sign-in'}
+						to={'/profile'}
 						className="w-8 h-8 p-1 transition-colors rounded-md lg:h-10 lg:w-10 hover:bg-stone-400/50">
 						<img src={UserIcon} alt="Account" />
 					</Link>
