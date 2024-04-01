@@ -1,6 +1,6 @@
 import { useMutation } from '@tanstack/react-query';
-import { setAuthUser } from '../client/authStore';
-import { fetch } from '../../utils/apiAuth';
+import { setAuthUser } from '../../client/authStore';
+import { fetch } from '../../../utils/apiAuth';
 
 export async function getMe() {
 	const response = await fetch('/users/me', {

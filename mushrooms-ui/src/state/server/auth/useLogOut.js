@@ -1,7 +1,7 @@
 import toast from 'react-hot-toast';
 import { useMutation } from '@tanstack/react-query';
-import { resetState } from '../client/authStore';
-import { fetch } from '../../utils/apiAuth';
+import { resetState } from '../../client/authStore';
+import { fetch } from '../../../utils/apiAuth';
 
 export async function logOut() {
 	const response = await fetch('/auth/jwt/logout', {

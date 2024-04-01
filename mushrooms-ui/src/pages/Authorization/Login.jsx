@@ -3,7 +3,7 @@ import MainHeader from '../../components/MainHeader';
 import RequestSubscription from '../../components/RequestSubscription';
 import MainFooter from '../../components/MainFooter';
 import AuthSubmitButton from '../../components/AuthSubmitButton';
-import { useSignIn } from '../../state/server/useSignIn';
+import { useSignIn } from '../../state/server/auth/useSignIn';
 import { useForm } from 'react-hook-form';
 import { useAuthStore } from '../../state/client/authStore';
 

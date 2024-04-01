@@ -2,7 +2,7 @@ import toast from 'react-hot-toast';
 import { useMutation } from '@tanstack/react-query';
 import { useNavigate } from 'react-router-dom';
 import { signIn } from './useSignIn';
-import { setAuthAccessToken } from '../client/authStore';
+import { setAuthAccessToken } from '../../client/authStore';
 
 const BACKEND_URL = import.meta.env.VITE_APP_API_URL;
 

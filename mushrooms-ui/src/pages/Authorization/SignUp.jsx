@@ -6,7 +6,7 @@ import AuthSubmitButton from '../../components/AuthSubmitButton';
 import RequestSubscription from '../../components/RequestSubscription';
 import MainFooter from '../../components/MainFooter';
 import { useAuthStore } from '../../state/client/authStore';
-import { useSignUp } from '../../state/server/useSignUp';
+import { useSignUp } from '../../state/server/auth/useSignUp';
 
 const SignUp = () => {
 	const userToken = useAuthStore((state) => state.token);

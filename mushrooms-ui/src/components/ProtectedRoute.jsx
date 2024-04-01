@@ -1,8 +1,8 @@
 import { Navigate, Outlet } from 'react-router-dom';
 import { useEffect } from 'react';
 import { useAuthStore } from '../state/client/authStore';
-import { logOut } from '../state/server/useLogOut';
-import { useGetMe } from '../state/server/useGetMe';
+import { logOut } from '../state/server/auth/useLogOut';
+import { useGetMe } from '../state/server/auth/useGetMe';
 
 const ProtectedRoute = () => {
 	const userToken = useAuthStore((state) => state.token);

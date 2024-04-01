@@ -2,7 +2,7 @@ import { useNavigate } from 'react-router-dom';
 import MainFooter from '../../components/MainFooter';
 import MainHeader from '../../components/MainHeader';
 import { useAuthStore } from '../../state/client/authStore';
-import { useLogOut } from '../../state/server/useLogOut';
+import { useLogOut } from '../../state/server/auth/useLogOut';
 
 const Cabinet = () => {
 	const navigate = useNavigate();
