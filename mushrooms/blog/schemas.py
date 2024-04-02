@@ -3,6 +3,7 @@ from typing import Optional
 
 from auth.schemas import UserRead
 from bs4 import BeautifulSoup
+from generic.schemas import BaseJSONModel
 from generic.sqlmodel.models import BaseSQLModel
 from pydantic import field_validator
 
@@ -10,13 +11,24 @@ from pydantic import field_validator
 class BlogRead(BaseSQLModel, table=False):
     id: Optional[int] = None
     title: str
+    user_id: int
+    created_at: datetime.datetime
+    content: str
+    icon: str
+    is_draft: bool
+
+
+class UserBlogRead(BaseSQLModel, table=False):
+    id: Optional[int] = None
+    title: str
     user: UserRead
     created_at: datetime.datetime
     content: str
+    icon: str
+    is_draft: bool
 
 
-class BlogAction(BaseSQLModel, table=False):
-    title: str
+class BlogAction(BaseJSONModel):
     content: str
 
     @field_validator("content")
@@ -29,11 +41,14 @@ class BlogAction(BaseSQLModel, table=False):
 
 class BlogCreate(BlogAction):
     user_id: int
+    title: str
+    is_draft: bool = True
 
 
-class BlogUpdate(BlogAction):
+class BlogUpdate(BaseSQLModel, table=False):
     title: Optional[str] = None
     content: Optional[str] = None
+    is_draft: Optional[bool] = None
 
 
 class CommentRead(BaseSQLModel, table=False):
