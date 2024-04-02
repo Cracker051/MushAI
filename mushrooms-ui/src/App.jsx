@@ -26,7 +26,7 @@ function App() {
 				<Route path="/blog" element={<Blog />} />
 				<Route path="/blog/:blogId" element={<FullPost />} />
 				<Route path="/search" element={<Search />} />
-				<Route path="*" element={<Navigate to={'/'} />} />
+				<Route path="*" element={<Navigate to={'/'} replace />} />
 			</Routes>
 		</>
 	);
