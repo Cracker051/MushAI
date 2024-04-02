@@ -159,9 +159,8 @@ cython_debug/
 #  option (not recommended) you can uncomment the following to ignore the entire idea folder.
 #.idea/
 
-# User avatars
-static/avatar/*
-!static/avatar/default.webp
+# Default img
+!default.webp
 
 # Computer vision files
 mushrooms/prediction/notebooks/*
@@ -170,3 +169,10 @@ mushrooms/prediction/notebooks/*
 # Big files
 *.h5
 *.keras
+
+# Img files
+static/avatar/
+static/blog/
+
+# MacOS files
+.DS_Store

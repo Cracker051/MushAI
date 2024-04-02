@@ -2,7 +2,7 @@ from typing import List, Optional
 
 from fastapi_storages import FileSystemStorage
 from fastapi_users_db_sqlalchemy import SQLAlchemyBaseUserTable
-from generic.config import AVATAR_DIR
+from generic.config import AVATAR_DIR, DEFAULT_IMG_NAME
 from generic.sqlmodel.models import BaseSQLModel
 from generic.storage.models import AvatarImageType
 from sqlmodel import Field, Relationship
@@ -21,7 +21,7 @@ class User(SQLAlchemyBaseUserTable[int], BaseSQLModel, table=True):
     is_superuser: bool = Field(default=False)
     is_verified: bool = Field(default=False)
     avatar: Optional[str] = Field(
-        default="default.webp",
+        default=DEFAULT_IMG_NAME,
         nullable=False,
         sa_type=AvatarImageType(
             storage=FileSystemStorage(AVATAR_DIR),

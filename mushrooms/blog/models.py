@@ -2,7 +2,10 @@ import datetime
 from typing import List, Optional
 
 from auth.models import User
+from fastapi_storages import FileSystemStorage
+from generic.config import BLOG_IMG_DIR, DEFAULT_IMG_NAME
 from generic.sqlmodel.models import BaseSQLModel
+from generic.storage.models import WebpImageType
 from sqlmodel import Field, Relationship
 
 
@@ -14,10 +17,16 @@ class Blog(BaseSQLModel, table=True):
     user_id: int = Field(foreign_key="auth_user.id")
     created_at: datetime.datetime = Field(default=datetime.datetime.now())
     content: str
-
-    user: User = Relationship(
-        back_populates="blogs", sa_relationship_kwargs={"lazy": "joined"}
+    is_draft: bool = True
+    icon: Optional[str] = Field(
+        default=DEFAULT_IMG_NAME,
+        nullable=False,
+        sa_type=WebpImageType(
+            storage=FileSystemStorage(BLOG_IMG_DIR),
+        ),
     )
+
+    user: User = Relationship(back_populates="blogs", sa_relationship_kwargs={"lazy": "noload"})
     comments: List["Comment"] = Relationship(back_populates="blog")
 
     def __str__(self) -> str:
@@ -33,9 +42,7 @@ class Comment(BaseSQLModel, table=True):
     created_at: datetime.datetime = Field(default=datetime.datetime.now())
     body: str
 
-    user: User = Relationship(
-        back_populates="comments", sa_relationship_kwargs={"lazy": "joined"}
-    )
+    user: User = Relationship(back_populates="comments")
     blog: Blog = Relationship(back_populates="comments")
     comments: List["Comment"] = Relationship(back_populates="parent_comment")
     parent_comment: Optional["Comment"] = Relationship(
