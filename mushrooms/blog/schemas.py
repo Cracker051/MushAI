@@ -1,7 +1,7 @@
 import datetime
 from typing import Optional
 
-from auth.schemas import UserRead
+from auth.schemas import PreviewUserRead, UserRead
 from bs4 import BeautifulSoup
 from generic.schemas import BaseJSONModel
 from generic.sqlmodel.models import BaseSQLModel
@@ -12,6 +12,16 @@ class BlogRead(BaseSQLModel, table=False):
     id: Optional[int] = None
     title: str
     user_id: int
+    created_at: datetime.datetime
+    content: str
+    icon: str
+    is_draft: bool
+
+
+class PreviewBlogRead(BaseSQLModel, table=False):
+    id: Optional[int] = None
+    title: str
+    user: PreviewUserRead
     created_at: datetime.datetime
     content: str
     icon: str
@@ -54,7 +64,16 @@ class BlogUpdate(BaseSQLModel, table=False):
 class CommentRead(BaseSQLModel, table=False):
     id: Optional[int] = None
     parent_id: Optional[int]
-    user: UserRead
+    user_id: int
+    blog_id: int
+    created_at: datetime.datetime
+    body: str
+
+
+class PreviewCommendRead(BaseSQLModel, table=False):
+    id: Optional[int] = None
+    parent_id: Optional[int]
+    user: PreviewUserRead
     blog_id: int
     created_at: datetime.datetime
     body: str
