@@ -4,11 +4,11 @@ import SearchIcon from '../assets/icon_search.svg';
 
 const MainHeader = () => {
 	return (
-		<header className=" bg-stone-900">
+		<header className=" bg-msh-dark">
 			<div className="container flex items-center justify-between gap-4 px-6 py-4 mx-auto select-none lg:gap-12">
 				<Link to={'/'} className="space-x-1 text-3xl lg:text-5xl">
-					<span className="inline-block leading-none text-stone-100">Mush</span>
-					<span className="inline-block font-semibold px-1 py-0.5 leading-none text-stone-900 bg-stone-100 rounded-md">
+					<span className="inline-block leading-none text-msh-light">Mush</span>
+					<span className="inline-block font-semibold px-1 py-0.5 leading-none text-msh-dark bg-msh-light rounded-md">
 						AI
 					</span>
 				</Link>

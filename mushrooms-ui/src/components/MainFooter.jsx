@@ -10,7 +10,7 @@ const MainFooter = ({ dark }) => {
 		<footer
 			className={join(
 				'p-4 pt-10 sm:pt-20 text-3xl sm:text-4xl font-semibold',
-				dark ? 'bg-stone-900 text-stone-100' : 'bg-stone-100 text-stone-900',
+				dark ? 'bg-msh-dark text-msh-light' : 'bg-msh-light text-msh-dark',
 			)}>
 			<div className="flex flex-wrap gap-6 mx-auto justify-evenly max-sm:text-center max-w-screen-2xl">
 				<div>

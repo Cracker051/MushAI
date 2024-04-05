@@ -47,7 +47,7 @@ const Blog = () => {
 
 	return (
 		<>
-			<section className="bg-stone-900 text-stone-100">
+			<section className="bg-msh-dark text-msh-light">
 				<div className="container px-6 py-6 mx-auto">
 					<div className="space-y-1">
 						<h2 className="text-5xl font-semibold">ALL POSTS</h2>

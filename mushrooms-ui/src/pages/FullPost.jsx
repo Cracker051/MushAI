@@ -167,7 +167,7 @@ const FullPost = () => {
 		<>
 			{blogQuery.data && (
 				<>
-					<div className="relative w-full h-[600px] bg-stone-900">
+					<div className="relative w-full h-[600px] bg-msh-dark">
 						<div className="w-full h-full absolute shadow-[inset_0_0_40px_40px_rgba(28,25,23,0.5)] top-0 bottom-0"></div>
 						<img
 							src={BACKEND_URL + `/${blogQuery.data.icon}`}
@@ -180,10 +180,10 @@ const FullPost = () => {
 							className="object-cover object-center w-full h-full opacity-60"
 						/>
 					</div>
-					<div className="bg-stone-900 text-stone-100">
+					<div className="bg-msh-dark text-msh-light">
 						<section className="container relative flex flex-col items-center gap-12 px-6 pt-32 pb-24 mx-auto">
 							<div className="relative self-stretch xl:mx-64">
-								<div className="z-30 flex flex-col gap-6 absolute -top-16 -translate-y-full items-center w-full px-6 py-3 uppercase bg-stone-900 shadow-[0_0_20px_30px_rgba(0,0,0,0.4)] text-center">
+								<div className="z-30 flex flex-col gap-6 absolute -top-16 -translate-y-full items-center w-full px-6 py-3 uppercase bg-msh-dark shadow-[0_0_20px_30px_rgba(0,0,0,0.4)] text-center">
 									<button className="self-end" onClick={() => alert('Like!')}>
 										<img src={LikeIcon} alt="" />
 									</button>
@@ -194,13 +194,13 @@ const FullPost = () => {
 											{blogQuery.data.user.name} {blogQuery.data.user.surname}
 										</Link>
 									</h3>
-									<div className="w-2/6 border-t-4 border-stone-100"></div>
+									<div className="w-2/6 border-t-4 border-msh-light"></div>
 									<h4 className="text-2xl font-medium">{date.toDateString()}</h4>
 								</div>
 								<aside className="xl:w-[200px] xl:absolute xl:-translate-x-full xl:h-full">
 									<div className="sticky top-0 py-5 -mt-5 space-y-5">
 										<span className="text-xl font-medium">IN THIS ARTICLE</span>
-										<ul className="flex flex-col gap-5 pl-5 text-sm font-semibold uppercase border-l-2 border-stone-100">
+										<ul className="flex flex-col gap-5 pl-5 text-sm font-semibold uppercase border-l-2 border-msh-light">
 											{headlines.map((headline, index) => (
 												<li
 													key={index}
@@ -217,7 +217,7 @@ const FullPost = () => {
 									className="[&>p]:mb-12 [&>h1]:mb-4 [&>h1]:font-bold [&>h1]:text-2xl [&>p]:font-semibold [&>p]:text-lg"></article>
 							</div>
 							<div className="flex flex-col self-stretch gap-3 xl:mx-64">
-								<div className="border-b-2 border-stone-100">
+								<div className="border-b-2 border-msh-light">
 									<h3 ref={commentSectionHeadingRef} className="text-lg font-semibold uppercase">
 										{comments && <span>({comments?.length})</span>}
 										COMMENTS
@@ -257,9 +257,9 @@ const FullPost = () => {
 												type="textarea"
 												autoComplete="off"
 												placeholder="LEAVE A COMMENT..."
-												className="flex-1 px-2 text-base bg-transparent aria-[invalid=true]:border-red-500 border-2 focus:outline-none placeholder:text-stone-100 placeholder:font-semibold border-stone-100"
+												className="flex-1 px-2 text-base bg-transparent aria-[invalid=true]:border-red-500 border-2 focus:outline-none placeholder:text-msh-light placeholder:font-semibold border-msh-light"
 											/>
-											<button className="p-1 text-base font-semibold transition-colors rounded-sm shadow text-stone-100 bg-stone-300/20 hover:bg-stone-300/50">
+											<button className="p-1 text-base font-semibold transition-colors rounded-sm shadow text-msh-light bg-stone-300/20 hover:bg-stone-300/50">
 												SEND
 											</button>
 										</form>

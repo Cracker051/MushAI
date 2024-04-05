@@ -28,7 +28,7 @@ const SignUp = () => {
 	return (
 		<>
 			<div className="flex flex-col min-h-screen">
-				<main className="flex items-center justify-center flex-1 text-stone-100 bg-stone-900">
+				<main className="flex items-center justify-center flex-1 text-msh-light bg-msh-dark">
 					<form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-5 p-4 w-[32rem]">
 						<h2 className="text-2xl font-black">CREATE ACCOUNT</h2>
 						<h3 className="text-2xl font-bold">JOIN OUR COMMUNITY</h3>
@@ -39,7 +39,7 @@ const SignUp = () => {
 								name="name"
 								type="text"
 								placeholder="FIRST NAME..."
-								className="px-10 py-5 bg-transparent border-2 rounded-sm focus:outline-none border-stone-100 aria-[invalid=true]:border-red-500"
+								className="px-10 py-5 bg-transparent border-2 rounded-sm focus:outline-none border-msh-light aria-[invalid=true]:border-red-500"
 							/>
 							<input
 								{...register('surname', { required: 'Enter your surname' })}
@@ -47,7 +47,7 @@ const SignUp = () => {
 								name="surname"
 								type="text"
 								placeholder="SECOND NAME..."
-								className="px-10 py-5 bg-transparent border-2 rounded-sm focus:outline-none border-stone-100 aria-[invalid=true]:border-red-500"
+								className="px-10 py-5 bg-transparent border-2 rounded-sm focus:outline-none border-msh-light aria-[invalid=true]:border-red-500"
 							/>
 							<input
 								{...register('email', { required: 'Enter your email' })}
@@ -55,7 +55,7 @@ const SignUp = () => {
 								name="email"
 								type="email"
 								placeholder="EMAIL..."
-								className="px-10 py-5 bg-transparent border-2 rounded-sm focus:outline-none border-stone-100 aria-[invalid=true]:border-red-500"
+								className="px-10 py-5 bg-transparent border-2 rounded-sm focus:outline-none border-msh-light aria-[invalid=true]:border-red-500"
 							/>
 							<input
 								{...register('password', { required: 'Enter your password', minLength: 6 })}
@@ -63,7 +63,7 @@ const SignUp = () => {
 								name="password"
 								type="password"
 								placeholder="PASSWORD..."
-								className="px-10 py-5 bg-transparent border-2 rounded-sm focus:outline-none border-stone-100 aria-[invalid=true]:border-red-500"
+								className="px-10 py-5 bg-transparent border-2 rounded-sm focus:outline-none border-msh-light aria-[invalid=true]:border-red-500"
 							/>
 						</div>
 						<AuthSubmitButton type="submit">JOIN</AuthSubmitButton>

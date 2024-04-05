@@ -8,7 +8,7 @@ import PicSection2Blog from '../assets/icon_home_blog.svg';
 const Home = () => {
 	return (
 		<>
-			<section className="bg-stone-900 text-stone-100">
+			<section className="bg-msh-dark text-msh-light">
 				<div className="container p-6 py-2 mx-auto">
 					<div className="flex gap-10 max-md:flex-wrap">
 						<div className="relative w-full">
@@ -16,20 +16,20 @@ const Home = () => {
 							<img src={PicSection1} alt="" className="w-full rounded-xl" />
 						</div>
 						<div className="flex flex-col gap-4 xl:gap-8">
-							<div className="flex gap-6 max-sm:flex-wrap text-stone-900">
-								<div className="flex flex-col justify-center w-full h-40 gap-4 p-2 md:w-48 xl:gap-8 xl:h-72 xl:w-[23rem] bg-stone-100 rounded-xl">
+							<div className="flex gap-6 max-sm:flex-wrap text-msh-dark">
+								<div className="flex flex-col justify-center w-full h-40 gap-4 p-2 md:w-48 xl:gap-8 xl:h-72 xl:w-[23rem] bg-msh-light rounded-xl">
 									<p className="drop-shadow-[0_4px_4px_rgba(0,0,0,0.5)] text-2xl font-medium xl:text-4xl">
 										&quot;Mushrooms in medicine&quot;
 									</p>
-									<button className="hover:bg-opacity-80 shadow-[0_4px_4px_rgba(0,0,0,0.5)] self-end p-1 lg:p-2 text-2xl rounded-lg bg-stone-900 text-stone-200">
+									<button className="hover:bg-opacity-80 shadow-[0_4px_4px_rgba(0,0,0,0.5)] self-end p-1 lg:p-2 text-2xl rounded-lg bg-msh-dark text-stone-200">
 										Read
 									</button>
 								</div>
-								<div className="flex flex-col justify-center w-full h-40 gap-4 p-2 md:w-48 xl:gap-8 xl:h-72 xl:w-[23rem] bg-stone-100 rounded-xl">
+								<div className="flex flex-col justify-center w-full h-40 gap-4 p-2 md:w-48 xl:gap-8 xl:h-72 xl:w-[23rem] bg-msh-light rounded-xl">
 									<p className="drop-shadow-[0_4px_4px_rgba(0,0,0,0.5)] text-2xl font-medium xl:text-4xl">
 										&quot;How to pick mushrooms&quot;
 									</p>
-									<button className="hover:bg-opacity-80 shadow-[0_4px_4px_rgba(0,0,0,0.5)] self-end p-1 lg:p-2 text-2xl rounded-lg bg-stone-900 text-stone-200">
+									<button className="hover:bg-opacity-80 shadow-[0_4px_4px_rgba(0,0,0,0.5)] self-end p-1 lg:p-2 text-2xl rounded-lg bg-msh-dark text-stone-200">
 										Read
 									</button>
 								</div>
@@ -47,7 +47,7 @@ const Home = () => {
 						</div>
 					</div>
 					<div className="flex items-center gap-4 my-10 max-sm:flex-wrap-reverse max-sm:justify-center max-sm:text-center">
-						<button className="px-8 py-2 text-5xl font-medium leading-none text-black transition-colors lg:text-6xl rounded-2xl bg-stone-100 hover:bg-stone-300/80">
+						<button className="px-8 py-2 text-5xl font-medium leading-none text-black transition-colors lg:text-6xl rounded-2xl bg-msh-light hover:bg-stone-300/80">
 							Start
 						</button>
 						<p className="text-2xl">
@@ -56,11 +56,11 @@ const Home = () => {
 					</div>
 				</div>
 			</section>
-			<section className="bg-stone-100">
+			<section className="bg-msh-light">
 				<div className="container px-6 mx-auto py-14">
 					<h2 className="text-6xl font-medium text-center text-black lg:text-8xl">
 						What is Mush
-						<span className="px-2 mx-2 font-semibold leading-none bg-stone-900 text-stone-100 rounded-xl">
+						<span className="px-2 mx-2 font-semibold leading-none bg-msh-dark text-msh-light rounded-xl">
 							AI
 						</span>
 						?
@@ -73,8 +73,8 @@ const Home = () => {
 							Join us
 						</Link>
 					</div>
-					<div className="flex flex-wrap justify-center gap-6 mt-12 text-stone-100">
-						<div className="p-6 pb-12 space-y-4 shadow-[0_0_30px_rgba(28,25,23,0.8)] rounded-2xl bg-stone-900 lg:max-w-96">
+					<div className="flex flex-wrap justify-center gap-6 mt-12 text-msh-light">
+						<div className="p-6 pb-12 space-y-4 shadow-[0_0_30px_rgba(28,25,23,0.8)] rounded-2xl bg-msh-dark lg:max-w-96">
 							<h4 className="flex items-center gap-4 text-4xl font-medium">
 								<img src={PicSection2AiSearch} alt="" />
 								AI Search
@@ -84,7 +84,7 @@ const Home = () => {
 								algorithms work their magic.
 							</p>
 						</div>
-						<div className="p-6 pb-12 space-y-4 shadow-[0_0_30px_rgba(28,25,23,0.8)] rounded-2xl bg-stone-900 lg:max-w-96">
+						<div className="p-6 pb-12 space-y-4 shadow-[0_0_30px_rgba(28,25,23,0.8)] rounded-2xl bg-msh-dark lg:max-w-96">
 							<h4 className="flex items-center gap-4 text-4xl font-medium">
 								<img src={PicSection2Community} alt="" />
 								Community
@@ -93,7 +93,7 @@ const Home = () => {
 								Discover our Mushroom Community – your hub for all things fungi!
 							</p>
 						</div>
-						<div className="p-6 pb-12 space-y-4 shadow-[0_0_30px_rgba(28,25,23,0.8)] rounded-2xl bg-stone-900 lg:max-w-96">
+						<div className="p-6 pb-12 space-y-4 shadow-[0_0_30px_rgba(28,25,23,0.8)] rounded-2xl bg-msh-dark lg:max-w-96">
 							<h4 className="flex items-center gap-4 text-4xl font-medium">
 								<img src={PicSection2Blog} alt="" />
 								Blog
@@ -105,9 +105,9 @@ const Home = () => {
 					</div>
 				</div>
 			</section>
-			<section className="bg-stone-900 text-stone-900">
+			<section className="bg-msh-dark text-msh-dark">
 				<div className="container px-6 py-16 mx-auto lg:p-32 xl:px-44">
-					<div className="px-8 sm:px-12 py-14 lg:py-20 space-y-6 font-semibold shadow-[0_0_30px_rgba(206,182,147,0.5)] text-center bg-stone-100 rounded-3xl">
+					<div className="px-8 sm:px-12 py-14 lg:py-20 space-y-6 font-semibold shadow-[0_0_30px_rgba(206,182,147,0.5)] text-center bg-msh-light rounded-3xl">
 						<h2 className="text-6xl">Hi, we are the MushAI team </h2>
 						<p className="text-4xl">
 							We have developed this website based on artificial intelligence to search for

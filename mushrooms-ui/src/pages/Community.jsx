@@ -14,7 +14,7 @@ const mushs = [
 				<p className="text-3xl font-bold">POST YOUR MUSH</p>
 				<Link
 					to={'/sign-up'}
-					className="px-4 py-2 text-3xl font-extrabold leading-none text-black transition-colors rounded-2xl bg-stone-100 hover:bg-stone-300/80">
+					className="px-4 py-2 text-3xl font-extrabold leading-none text-black transition-colors rounded-2xl bg-msh-light hover:bg-stone-300/80">
 					JOIN
 				</Link>
 			</div>
@@ -38,7 +38,7 @@ const Community = () => {
 	const blogsQuery = useGetPostedBlogs();
 	return (
 		<>
-			<div className="bg-cover text-4xl bg-opacity-80 bg-center bg-[url('/community_bg.png')] lg:bg-[url('/community_bg_2x.png')] text-center text-stone-100">
+			<div className="bg-cover text-4xl bg-opacity-80 bg-center bg-[url('/community_bg.png')] lg:bg-[url('/community_bg_2x.png')] text-center text-msh-light">
 				<div className="px-2 py-40 sm:py-72">
 					<h1 className="font-black lg:text-5xl drop-shadow-[0_0_10px_rgba(0,0,0,0.5)]">
 						DISCOVER THE MAGIC
@@ -46,10 +46,10 @@ const Community = () => {
 				</div>
 				<h3 className="py-6 text-center max-sm:text-3xl">
 					Mush
-					<span className="px-1 mx-1 leading-none rounded-md text-stone-900 bg-stone-100">AI</span>
+					<span className="px-1 mx-1 leading-none rounded-md text-msh-dark bg-msh-light">AI</span>
 				</h3>
 			</div>
-			<section className="bg-stone-900 text-stone-100">
+			<section className="bg-msh-dark text-msh-light">
 				<div className="container px-10 py-6 mx-auto">
 					<h3 className="text-2xl font-extrabold">NEW POSTS</h3>
 					<div className="grid grid-cols-1 gap-5 py-6 lg:grid-cols-4">
@@ -71,7 +71,7 @@ const Community = () => {
 					</div>
 				</div>
 			</section>
-			<section className="bg-stone-900 text-stone-100">
+			<section className="bg-msh-dark text-msh-light">
 				<div className="container px-10 py-6 mx-auto">
 					<div className="grid grid-cols-1 py-6 lg:grid-cols-3">
 						{mushs?.map((mush, id) => (

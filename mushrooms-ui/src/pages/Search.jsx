@@ -54,7 +54,7 @@ const Search = () => {
 	return (
 		<>
 			<div className="flex flex-col min-h-screen">
-				<section className="relative flex items-center flex-1 text-center bg-stone-900 text-stone-100">
+				<section className="relative flex items-center flex-1 text-center bg-msh-dark text-msh-light">
 					<div className="bg-cover bg-center top-0 left-0 h-full w-full opacity-40 absolute bg-[url('/search_bg.png')]"></div>
 					<div className="container relative flex justify-between flex-1 gap-2 px-6 py-6 mx-auto sm:py-16 max-md:justify-center max-md:flex-col ">
 						<div>
@@ -71,7 +71,7 @@ const Search = () => {
 										data-type="file"
 										onDrop={handleOnDrop}
 										onDragOver={(event) => event.preventDefault()}
-										className="px-12 py-24 space-y-5 border-2 rounded-lg sm:px-24 sm:py-36 border-stone-100">
+										className="px-12 py-24 space-y-5 border-2 rounded-lg sm:px-24 sm:py-36 border-msh-light">
 										<input
 											type="file"
 											name="file"
@@ -81,7 +81,7 @@ const Search = () => {
 										/>
 										<button
 											onClick={() => fileRef.current?.click()}
-											className="px-4 py-4 text-2xl font-extrabold text-black transition-colors rounded-lg sm:px-8 sm:text-4xl bg-stone-100 hover:bg-stone-400">
+											className="px-4 py-4 text-2xl font-extrabold text-black transition-colors rounded-lg sm:px-8 sm:text-4xl bg-msh-light hover:bg-stone-400">
 											UPLOAD IMAGE
 										</button>
 										<p className="text-lg font-extrabold">OR DROP THE FILE HERE</p>
@@ -89,7 +89,7 @@ const Search = () => {
 								) : (
 									<img
 										src={fileData.file[0].blob}
-										className="select-none max-h-[500px] mx-auto border-2 rounded-lg border-stone-100"
+										className="select-none max-h-[500px] mx-auto border-2 rounded-lg border-msh-light"
 									/>
 								)}
 							</div>
@@ -102,13 +102,13 @@ const Search = () => {
 								<div className="space-y-3 text-2xl font-semibold">
 									<p>
 										RESULT:{' '}
-										<span className="p-1 font-black border-2 rounded-lg border-stone-100">
+										<span className="p-1 font-black border-2 rounded-lg border-msh-light">
 											{recognizeMushroomMutation.data.result}
 										</span>
 									</p>
 									<button
 										onClick={() => resetRecognition()}
-										className="px-2 py-2 text-2xl font-extrabold text-black transition-colors rounded-lg sm:text-2xl bg-stone-100 hover:bg-stone-400">
+										className="px-2 py-2 text-2xl font-extrabold text-black transition-colors rounded-lg sm:text-2xl bg-msh-light hover:bg-stone-400">
 										TRY AGAIN?
 									</button>
 								</div>
