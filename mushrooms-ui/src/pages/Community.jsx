@@ -1,8 +1,5 @@
 import { Link } from 'react-router-dom';
 
-import MainHeader from '../components/MainHeader';
-import RequestSubscription from '../components/RequestSubscription';
-import MainFooter from '../components/MainFooter';
 import BlogPost from '../components/BlogPost';
 
 import { useGetPostedBlogs } from '../state/server/blog/useGetBlogs';
@@ -41,7 +38,6 @@ const Community = () => {
 	const blogsQuery = useGetPostedBlogs();
 	return (
 		<>
-			<MainHeader />
 			<div className="bg-cover text-4xl bg-opacity-80 bg-center bg-[url('/community_bg.png')] lg:bg-[url('/community_bg_2x.png')] text-center text-stone-100">
 				<div className="px-2 py-40 sm:py-72">
 					<h1 className="font-black lg:text-5xl drop-shadow-[0_0_10px_rgba(0,0,0,0.5)]">
@@ -94,8 +90,6 @@ const Community = () => {
 					</div>
 				</div>
 			</section>
-			<RequestSubscription />
-			<MainFooter dark />
 		</>
 	);
 };

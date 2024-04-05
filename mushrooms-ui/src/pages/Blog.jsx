@@ -1,9 +1,6 @@
 import { useEffect, useMemo } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 
-import MainHeader from '../components/MainHeader';
-import RequestSubscription from '../components/RequestSubscription';
-import MainFooter from '../components/MainFooter';
 import BlogPost from '../components/BlogPost';
 
 import { useQuery } from '../utils/useQuery';
@@ -50,7 +47,6 @@ const Blog = () => {
 
 	return (
 		<>
-			<MainHeader />
 			<section className="bg-stone-900 text-stone-100">
 				<div className="container px-6 py-6 mx-auto">
 					<div className="space-y-1">
@@ -75,9 +71,6 @@ const Blog = () => {
 					</div>
 				</div>
 			</section>
-
-			<RequestSubscription />
-			<MainFooter dark />
 		</>
 	);
 };

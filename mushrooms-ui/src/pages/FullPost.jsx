@@ -2,9 +2,6 @@ import { useEffect, useMemo, useRef, useState } from 'react';
 import { Link, useNavigate, useParams } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
 
-import MainHeader from '../components/MainHeader';
-import RequestSubscription from '../components/RequestSubscription';
-import MainFooter from '../components/MainFooter';
 import LikeIcon from '../assets/icon_like.svg';
 import UserIcon from '../assets/icon_user_2.svg';
 import CommentBlog from '../components/CommentBlog';
@@ -168,7 +165,6 @@ const FullPost = () => {
 	console.log(blogQuery.data?.icon, 'icon');
 	return (
 		<>
-			<MainHeader />
 			{blogQuery.data && (
 				<>
 					<div className="relative w-full h-[600px] bg-stone-900">
@@ -288,8 +284,6 @@ const FullPost = () => {
 					</div>
 				</>
 			)}
-			<RequestSubscription />
-			<MainFooter dark />
 		</>
 	);
 };

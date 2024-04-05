@@ -1,10 +1,8 @@
 import { useUploadFile } from 'dex-react-file-upload';
 import { useRef } from 'react';
 
-import MainFooter from '../components/MainFooter';
-import MainHeader from '../components/MainHeader';
-import RequestSubscription from '../components/RequestSubscription';
 import { useRecognizeMushroomMutation } from '../state/server/prediction/useRecognizeMushroom';
+
 import { fetchFile, file2Base64 } from '../utils/fileUtils';
 
 const tryMushs = [
@@ -56,7 +54,6 @@ const Search = () => {
 	return (
 		<>
 			<div className="flex flex-col min-h-screen">
-				<MainHeader />
 				<section className="relative flex items-center flex-1 text-center bg-stone-900 text-stone-100">
 					<div className="bg-cover bg-center top-0 left-0 h-full w-full opacity-40 absolute bg-[url('/search_bg.png')]"></div>
 					<div className="container relative flex justify-between flex-1 gap-2 px-6 py-6 mx-auto sm:py-16 max-md:justify-center max-md:flex-col ">
@@ -144,8 +141,6 @@ const Search = () => {
 					</div>
 				</section>
 			</div>
-			<RequestSubscription />
-			<MainFooter dark />
 		</>
 	);
 };

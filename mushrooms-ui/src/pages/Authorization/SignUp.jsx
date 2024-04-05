@@ -1,10 +1,8 @@
 import { useForm } from 'react-hook-form';
 import { Navigate } from 'react-router-dom';
 
-import MainHeader from '../../components/MainHeader';
 import AuthSubmitButton from '../../components/AuthSubmitButton';
-import RequestSubscription from '../../components/RequestSubscription';
-import MainFooter from '../../components/MainFooter';
+
 import { useAuthStore } from '../../state/client/authStore';
 import { useSignUp } from '../../state/server/auth/useSignUp';
 
@@ -30,7 +28,6 @@ const SignUp = () => {
 	return (
 		<>
 			<div className="flex flex-col min-h-screen">
-				<MainHeader />
 				<main className="flex items-center justify-center flex-1 text-stone-100 bg-stone-900">
 					<form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-5 p-4 w-[32rem]">
 						<h2 className="text-2xl font-black">CREATE ACCOUNT</h2>
@@ -73,8 +70,6 @@ const SignUp = () => {
 					</form>
 				</main>
 			</div>
-			<RequestSubscription />
-			<MainFooter dark />
 		</>
 	);
 };

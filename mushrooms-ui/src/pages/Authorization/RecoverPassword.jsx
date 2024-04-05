@@ -1,13 +1,9 @@
-import MainHeader from '../../components/MainHeader';
 import AuthSubmitButton from '../../components/AuthSubmitButton';
-import RequestSubscription from '../../components/RequestSubscription';
-import MainFooter from '../../components/MainFooter';
 
 const RecoverPassword = () => {
 	return (
 		<>
 			<div className="flex flex-col min-h-screen">
-				<MainHeader />
 				<main className="flex items-center justify-center flex-1 text-stone-100 bg-stone-900">
 					<form className="flex flex-col gap-5 p-4 w-[32rem]">
 						<h2 className="text-2xl font-black">FORGOT YOUR PASSWORD?</h2>
@@ -22,8 +18,6 @@ const RecoverPassword = () => {
 					</form>
 				</main>
 			</div>
-			<RequestSubscription />
-			<MainFooter dark />
 		</>
 	);
 };

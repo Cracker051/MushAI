@@ -1,10 +1,9 @@
 import { Link, Navigate } from 'react-router-dom';
-import MainHeader from '../../components/MainHeader';
-import RequestSubscription from '../../components/RequestSubscription';
-import MainFooter from '../../components/MainFooter';
-import AuthSubmitButton from '../../components/AuthSubmitButton';
-import { useSignIn } from '../../state/server/auth/useSignIn';
 import { useForm } from 'react-hook-form';
+
+import AuthSubmitButton from '../../components/AuthSubmitButton';
+
+import { useSignIn } from '../../state/server/auth/useSignIn';
 import { useAuthStore } from '../../state/client/authStore';
 
 const Login = () => {
@@ -27,7 +26,6 @@ const Login = () => {
 	return (
 		<>
 			<div className="flex flex-col min-h-screen">
-				<MainHeader />
 				<main className="flex items-center justify-center flex-1 text-stone-100 bg-stone-900">
 					<form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-5 p-4 w-[32rem]">
 						<h2 className="text-2xl font-black">AUTHORIZATION</h2>
@@ -64,8 +62,6 @@ const Login = () => {
 					</form>
 				</main>
 			</div>
-			<RequestSubscription />
-			<MainFooter dark />
 		</>
 	);
 };

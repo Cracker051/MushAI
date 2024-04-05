@@ -1,16 +1,13 @@
 import { Link } from 'react-router-dom';
-import MainHeader from '../components/MainHeader';
 
 import PicSection1 from '../assets/home_section1_mush.jpg';
 import PicSection2AiSearch from '../assets/icon_home_aisearch.svg';
 import PicSection2Community from '../assets/icon_home_community.svg';
 import PicSection2Blog from '../assets/icon_home_blog.svg';
-import MainFooter from '../components/MainFooter';
 
 const Home = () => {
 	return (
 		<>
-			<MainHeader />
 			<section className="bg-stone-900 text-stone-100">
 				<div className="container p-6 py-2 mx-auto">
 					<div className="flex gap-10 max-md:flex-wrap">
@@ -121,7 +118,6 @@ const Home = () => {
 					</div>
 				</div>
 			</section>
-			<MainFooter />
 		</>
 	);
 };

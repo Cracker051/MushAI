@@ -10,22 +10,27 @@ import Blog from './pages/Blog';
 import FullPost from './pages/FullPost';
 import Cabinet from './pages/Cabinet/Cabinet';
 import ProtectedRoute from './components/ProtectedRoute';
+import MainLayout from './layouts/MainLayout';
 
 function App() {
 	return (
 		<>
 			<Routes>
-				<Route path="/" element={<Home />} />
-				<Route path="/sign-in" element={<Login />} />
-				<Route path="/sign-up" element={<SignUp />} />
-				<Route path="/recover-password" element={<RecoverPassword />} />
-				<Route element={<ProtectedRoute />}>
-					<Route path="/profile" element={<Cabinet />} />
+				<Route element={<MainLayout />}>
+					<Route path="/" element={<Home />} />
+					<Route element={<ProtectedRoute />}>
+						<Route path="/profile" element={<Cabinet />} />
+					</Route>
 				</Route>
-				<Route path="/community" element={<Community />} />
-				<Route path="/blog" element={<Blog />} />
-				<Route path="/blog/:blogId" element={<FullPost />} />
-				<Route path="/search" element={<Search />} />
+				<Route element={<MainLayout withSubscription />}>
+					<Route path="/sign-in" element={<Login />} />
+					<Route path="/sign-up" element={<SignUp />} />
+					<Route path="/recover-password" element={<RecoverPassword />} />
+					<Route path="/community" element={<Community />} />
+					<Route path="/blog" element={<Blog />} />
+					<Route path="/blog/:blogId" element={<FullPost />} />
+					<Route path="/search" element={<Search />} />
+				</Route>
 				<Route path="*" element={<Navigate to={'/'} replace />} />
 			</Routes>
 		</>
