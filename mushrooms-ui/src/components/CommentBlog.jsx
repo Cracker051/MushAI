@@ -11,7 +11,7 @@ const CommentBlog = ({ data, setReplyCommentId }) => {
 		<div className="space-y-2">
 			<div className="flex items-start gap-2">
 				<img
-					src={BACKEND_URL + `/${data.user.avatar}`}
+					src={data.user.avatar ? BACKEND_URL + `/${data.user.avatar}` : UserIcon}
 					onError={(e) => {
 						if (e.target.src !== UserIcon) {
 							e.target.src = UserIcon;

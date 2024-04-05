@@ -16,7 +16,7 @@ const BlogPost = ({ post }) => {
 					</div>
 				)}
 				<img
-					src={post.avatar ? BACKEND_URL + `/${post.avatar}` : ''}
+					src={post.icon ? BACKEND_URL + `/${post.icon}` : ''}
 					onError={(e) => {
 						if (e.target.src !== fallbackImageSrc) {
 							e.target.src = fallbackImageSrc;

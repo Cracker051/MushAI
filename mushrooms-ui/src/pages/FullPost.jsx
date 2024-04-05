@@ -1,5 +1,5 @@
 import { useEffect, useMemo, useRef, useState } from 'react';
-import { useNavigate, useParams } from 'react-router-dom';
+import { Link, useNavigate, useParams } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
 
 import MainHeader from '../components/MainHeader';
@@ -13,6 +13,8 @@ import { useAuthStore } from '../state/client/authStore';
 import { useGetBlog } from '../state/server/blog/useGetBlog';
 import { useGetBlogComments } from '../state/server/blog/useGetBlogComments';
 import { usePostBlogComment } from '../state/server/blog/usePostBlogComment';
+
+const BACKEND_URL = import.meta.env.VITE_APP_API_URL;
 
 const scrollToHeading = (id) => {
 	const element = document.getElementById(id);
@@ -163,7 +165,7 @@ const FullPost = () => {
 		);
 	};
 
-	console.log(replyCommentId);
+	console.log(blogQuery.data?.icon, 'icon');
 	return (
 		<>
 			<MainHeader />
@@ -172,8 +174,12 @@ const FullPost = () => {
 					<div className="relative w-full h-[600px] bg-stone-900">
 						<div className="w-full h-full absolute shadow-[inset_0_0_40px_40px_rgba(28,25,23,0.5)] top-0 bottom-0"></div>
 						<img
-							src={'/blogpost_bg.png'}
-							srcSet={`/blogpost_bg.png 768w, /blogpost_bg_3x.jpg 1280w`}
+							src={BACKEND_URL + `/${blogQuery.data.icon}`}
+							onError={(e) => {
+								if (e.target.src !== '/blogpost_bg_3x.jpg') {
+									e.target.src = '/blogpost_bg_3x.jpg';
+								}
+							}}
 							alt=""
 							className="object-cover object-center w-full h-full opacity-60"
 						/>
@@ -187,7 +193,10 @@ const FullPost = () => {
 									</button>
 									<h1 className="text-6xl font-extrabold">{blogQuery.data.title}</h1>
 									<h3 className="text-3xl font-bold">
-										WRITTEN BY: {blogQuery.data.user.name} {blogQuery.data.user.surname}
+										WRITTEN BY:{' '}
+										<Link to={`/user/${blogQuery.data.user.id}`}>
+											{blogQuery.data.user.name} {blogQuery.data.user.surname}
+										</Link>
 									</h3>
 									<div className="w-2/6 border-t-4 border-stone-100"></div>
 									<h4 className="text-2xl font-medium">{date.toDateString()}</h4>
@@ -236,7 +245,16 @@ const FullPost = () => {
 										<form
 											onSubmit={handleSubmit(handlePostBlogComment)}
 											className="flex items-center gap-2">
-											<img src={UserIcon} alt="" className="w-10 h-10" />
+											<img
+												src={userData.avatar ? BACKEND_URL + `/${userData.avatar}` : UserIcon}
+												onError={(e) => {
+													if (e.target.src !== UserIcon) {
+														e.target.src = UserIcon;
+													}
+												}}
+												alt=""
+												className="w-10 h-10"
+											/>
 											<input
 												{...register('userComment', { maxLength: 200, required: true })}
 												aria-invalid={errors.userComment ? 'true' : 'false'}

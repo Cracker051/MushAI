@@ -5,7 +5,7 @@ import RequestSubscription from '../components/RequestSubscription';
 import MainFooter from '../components/MainFooter';
 import BlogPost from '../components/BlogPost';
 
-import { useGetBlogs } from '../state/server/blog/useGetBlogs';
+import { useGetPostedBlogs } from '../state/server/blog/useGetBlogs';
 
 const mushs = [
 	{
@@ -38,7 +38,7 @@ const mushs = [
 ];
 
 const Community = () => {
-	const blogsQuery = useGetBlogs();
+	const blogsQuery = useGetPostedBlogs();
 	return (
 		<>
 			<MainHeader />

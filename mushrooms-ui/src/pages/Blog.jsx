@@ -8,7 +8,7 @@ import BlogPost from '../components/BlogPost';
 
 import { useQuery } from '../utils/useQuery';
 import { useAuthStore } from '../state/client/authStore';
-import { useGetBlogs } from '../state/server/blog/useGetBlogs';
+import { useGetPostedBlogs } from '../state/server/blog/useGetBlogs';
 
 const Selector = ({ onClick, linkTo, children, isActive }) => {
 	return (
@@ -46,7 +46,7 @@ const Blog = () => {
 		if (!currentTab || !tabOptions.includes(currentTab)) changeTab(tabOptions[0]);
 	}, [currentTab, navigate, tabOptions]);
 
-	const blogsQuery = useGetBlogs();
+	const blogsQuery = useGetPostedBlogs();
 
 	return (
 		<>
