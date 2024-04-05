@@ -26,3 +26,9 @@ class UserRead(BaseSQLModel, table=False):
 class UserUpdate(BaseSQLModel, table=False):
     name: str
     surname: str
+
+
+class PreviewUserRead(BaseSQLModel, table=False):
+    id: int
+    name: str
+    surname: str

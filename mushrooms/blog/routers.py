@@ -3,6 +3,7 @@ from secrets import token_urlsafe
 from typing import Dict, List
 
 from auth.dependecies import validate_user_id
+from auth.models import User
 from blog import schemas as blog_schemas
 from blog.models import Blog, Comment
 from fastapi import APIRouter, Depends, HTTPException, UploadFile, status
@@ -22,21 +23,29 @@ from sqlmodel import select
 blog_router = APIRouter()
 
 
-@blog_router.get("/", response_model=List[blog_schemas.BlogRead])
+@blog_router.get("/", response_model=List[blog_schemas.PreviewBlogRead])
 async def get_blogs(session: AsyncSession = Depends(get_db_session)):
-    blogs = await session.exec(select(Blog))
+    blogs = await session.exec(select(Blog).options(joinedload(Blog.user).load_only(User.id, User.name, User.surname)))
     return blogs.all()
 
 
-@blog_router.get("/posted/", response_model=List[blog_schemas.BlogRead])
+@blog_router.get("/posted/", response_model=List[blog_schemas.PreviewBlogRead])
 async def get_posted_blogs(session: AsyncSession = Depends(get_db_session)):
-    blogs = await session.exec(select(Blog).where(Blog.is_draft == False))
+    blogs = await session.exec(
+        select(Blog)
+        .options(joinedload(Blog.user).load_only(User.id, User.name, User.surname))
+        .where(Blog.is_draft == False)
+    )
     return blogs.all()
 
 
-@blog_router.get("/drafts/", response_model=List[blog_schemas.BlogRead])
+@blog_router.get("/drafts/", response_model=List[blog_schemas.PreviewBlogRead])
 async def get_draft_blogs(session: AsyncSession = Depends(get_db_session)):
-    blogs = await session.exec(select(Blog).where(Blog.is_draft == True))
+    blogs = await session.exec(
+        select(Blog)
+        .options(joinedload(Blog.user).load_only(User.id, User.name, User.surname))
+        .where(Blog.is_draft == True)
+    )
     return blogs.all()
 
 
@@ -242,10 +251,14 @@ async def comment_create(
     return comment
 
 
-@comment_router.get("/blog/{blog_id}", response_model=List[blog_schemas.CommentRead])
+@comment_router.get("/blog/{blog_id}", response_model=List[blog_schemas.PreviewCommendRead])
 async def get_comments_by_blog(
     blog_id: int,
     session: AsyncSession = Depends(get_db_session),
 ):
-    comments = await session.exec(select(Comment).where(Comment.blog_id == blog_id))
+    comments = await session.exec(
+        select(Comment)
+        .options(joinedload(Comment.user).load_only(User.id, User.name, User.surname))
+        .where(Comment.blog_id == blog_id)
+    )
     return comments.all()
