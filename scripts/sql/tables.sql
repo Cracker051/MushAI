@@ -8,7 +8,7 @@ CREATE TABLE auth_user (
     is_staff BOOLEAN NOT NULL DEFAULT FALSE,
     is_superuser BOOLEAN NOT NULL DEFAULT FALSE,
     is_verified BOOLEAN NOT NULL DEFAULT FALSE,
-    avatar TEXT DEFAULT 'default.png' NOT NULL,
+    avatar TEXT DEFAULT 'default.png' NOT NULL
 );
 
 CREATE TABLE mushroom_blog (
@@ -18,7 +18,7 @@ CREATE TABLE mushroom_blog (
     user_id INTEGER NOT NULL REFERENCES auth_user(id),
     content TEXT NOT NULL,
     is_draft BOOLEAN NOT NULL DEFAULT TRUE,
-    avatar TEXT DEFAULT 'default.png' NOT NULL,
+    icon TEXT DEFAULT 'default.png' NOT NULL
 );
 
 CREATE TABLE mushroom_comment (
