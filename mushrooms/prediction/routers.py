@@ -16,7 +16,7 @@ prediction_router = APIRouter()
 ml_models = {}
 
 
-# TODO: Lifespan doesnt work, so we use deprecated
+# XXX: Lifespan doesnt work, so we use deprecated
 @prediction_router.on_event("startup")
 async def model_preload():
     global ml_models
