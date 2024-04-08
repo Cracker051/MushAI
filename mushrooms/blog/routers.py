@@ -9,11 +9,7 @@ from blog.models import Blog, Comment
 from fastapi import APIRouter, Depends, HTTPException, UploadFile, status
 from generic.database import AsyncSession
 from generic.dependencies import get_db_session
-from generic.sqlmodel.utils import (
-    check_foreign_keys,
-    get_obj_by_id_or_404,
-    process_sa_exception,
-)
+from generic.sqlmodel.utils import check_foreign_keys, get_obj_by_id_or_404, process_sa_exception
 from generic.storage.depenencies import validate_image
 from generic.storage.utils import rename_uploadfile
 from sqlalchemy import exc as sa_exc
@@ -251,14 +247,14 @@ async def comment_create(
     return comment
 
 
-@comment_router.get("/blog/{blog_id}", response_model=List[blog_schemas.PreviewCommendRead])
+@comment_router.get("/blog/{blog_id}", response_model=List[blog_schemas.PreviewComment])
 async def get_comments_by_blog(
     blog_id: int,
     session: AsyncSession = Depends(get_db_session),
 ):
     comments = await session.exec(
         select(Comment)
-        .options(joinedload(Comment.user).load_only(User.id, User.name, User.surname))
+        .options(joinedload(Comment.user).load_only(User.id, User.name, User.surname, User.avatar))
         .where(Comment.blog_id == blog_id)
     )
     return comments.all()
