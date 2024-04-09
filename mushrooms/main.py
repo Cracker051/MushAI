@@ -3,6 +3,7 @@ from blog import routers as blog_routers
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import RedirectResponse
+from fastapi_pagination import add_pagination
 from generic.config import ALLOWED_ORIGINS
 from generic.database import engine
 from prediction.routers import prediction_router
@@ -87,3 +88,5 @@ admin.add_view(auth_admin.UserAdmin)
 admin.add_view(blog_admin.BlogAdmin)
 
 admin.add_view(blog_admin.CommentAdmin)
+
+add_pagination(app)
