@@ -6,7 +6,7 @@ import RequestSubscription from '../components/RequestSubscription';
 
 const MainLayout = ({ withSubscription }) => {
 	return (
-		<div>
+		<div className="flex flex-col min-h-screen bg-msh-dark">
 			<MainHeader />
 			<div className="flex-1">
 				<Outlet />

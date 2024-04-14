@@ -200,7 +200,7 @@ const FullPost = () => {
 								<aside className="xl:w-[200px] xl:absolute xl:-translate-x-full xl:h-full">
 									<div className="sticky top-0 py-5 -mt-5 space-y-5">
 										<span className="text-xl font-medium">IN THIS ARTICLE</span>
-										<ul className="flex flex-col gap-5 pl-5 text-sm font-semibold uppercase border-l-2 border-msh-light">
+										<ul className="flex flex-col gap-5 px-5 text-sm font-semibold uppercase border-l-2 border-msh-light">
 											{headlines.map((headline, index) => (
 												<li
 													key={index}
