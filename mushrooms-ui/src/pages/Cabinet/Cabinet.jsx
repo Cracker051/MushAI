@@ -5,12 +5,12 @@ import { useQuery } from '../../utils/useQuery';
 import { useAuthStore } from '../../state/client/authStore';
 import { useGetUser } from '../../state/server/users/useGetUser';
 
-import UserIcon from '../../assets/icon_user_2.svg';
 import { Selector } from '../../components/Selector';
 import UserPosts from '../../components/UserPosts';
 import UserDrafts from '../../components/UserDrafts';
 
 const BACKEND_URL = import.meta.env.VITE_APP_API_URL;
+const fallBackAvatarUrl = '/default_avatar.webp';
 
 const options = ['posts', 'drafts'];
 const pageSize = 8;
@@ -41,31 +41,33 @@ const Cabinet = () => {
 
 	return (
 		<>
-			<section className="bg-msh-dark text-msh-light">
-				<div className="container px-6 py-6 mx-auto">
+			<section className="py-6 bg-msh-dark text-msh-light">
+				<div className="container px-6 mx-auto">
 					{userQuery.isSuccess && (
-						<div className="flex">
-							<div>
-								<img
-									src={userQuery.data.avatar ? BACKEND_URL + `/${userQuery.data.avatar}` : UserIcon}
-									onError={(e) => {
-										if (e.target.src !== UserIcon) {
-											e.target.src = UserIcon;
-										}
-									}}
-									alt=""
-									className="object-cover w-full h-72"
-								/>
-							</div>
+						<div className="flex flex-col gap-5 mb-8 sm:flex-row">
+							<img
+								src={
+									userQuery.data.avatar
+										? BACKEND_URL + `/${userQuery.data.avatar}`
+										: fallBackAvatarUrl
+								}
+								onError={(e) => {
+									if (e.target.src !== fallBackAvatarUrl) {
+										e.target.src = fallBackAvatarUrl;
+									}
+								}}
+								alt=""
+								className="object-cover w-full rounded-full sm:h-72 sm:w-72"
+							/>
 							<div className="flex flex-col justify-center gap-4 uppercase">
-								<div className="flex gap-4">
-									<p className="font-extrabold sm:text-5xl">
+								<div className="flex flex-col gap-4 sm:flex-row">
+									<p className="self-center text-2xl font-extrabold sm:text-5xl">
 										{userQuery.data.name} {userQuery.data.surname}
 									</p>
 									{own && (
 										<button
 											onClick={() => navigate('/settings')}
-											className="p-1 text-2xl font-semibold transition-colors border rounded-md border-msh-light hover:bg-stone-500">
+											className="p-1 text-lg font-semibold transition-colors border rounded-md sm:text-2xl border-msh-light hover:bg-stone-500">
 											SETTINGS
 										</button>
 									)}

@@ -18,7 +18,7 @@ const CommentBlog = ({ data, setReplyCommentId }) => {
 						}
 					}}
 					alt=""
-					className="w-10 h-10"
+					className="w-10 h-10 rounded-full"
 				/>
 				<div className="flex-1 space-y-0.5">
 					<div className="flex justify-between text-sm font-semibold">

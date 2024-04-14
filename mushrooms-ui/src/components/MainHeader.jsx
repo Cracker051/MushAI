@@ -4,7 +4,7 @@ import SearchIcon from '../assets/icon_search.svg';
 
 const MainHeader = () => {
 	return (
-		<header className="sticky top-0 z-40 bg-msh-dark">
+		<header className="sticky top-0 z-40 bg-msh-dark/30 backdrop-blur-md">
 			<div className="container px-6 mx-auto select-none ">
 				<div className="flex items-center justify-between gap-4 py-4 border-b-2 lg:gap-12 border-msh-light">
 					<Link to={'/'} className="space-x-1 text-3xl lg:text-5xl">
@@ -13,7 +13,7 @@ const MainHeader = () => {
 							AI
 						</span>
 					</Link>
-					<div className="flex flex-grow gap-4 text-lg max-sm:hidden lg:text-2xl lg:gap-12 text-stone-300">
+					<div className="flex flex-grow gap-4 text-lg font-light max-sm:hidden lg:text-2xl lg:gap-12 text-msh-light">
 						<Link to={'/search'} className="p-1 transition-colors rounded-md hover:bg-stone-400/50">
 							Search AI
 						</Link>

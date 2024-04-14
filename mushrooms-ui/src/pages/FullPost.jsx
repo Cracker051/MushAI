@@ -249,7 +249,7 @@ const FullPost = () => {
 													}
 												}}
 												alt=""
-												className="w-10 h-10"
+												className="w-10 h-10 rounded-full"
 											/>
 											<input
 												{...register('userComment', { maxLength: 200, required: true })}
