@@ -1,7 +1,8 @@
-import { useEffect, useMemo } from 'react';
+import { useCallback, useEffect, useMemo, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 
 import BlogPost from '../components/BlogPost';
+import Pagination from '../components/Pagination';
 
 import { useQuery } from '../utils/useQuery';
 import { useAuthStore } from '../state/client/authStore';
@@ -24,6 +25,7 @@ const Selector = ({ onClick, linkTo, children, isActive }) => {
 };
 
 const options = ['all', 'popular', 'new', 'your', 'our'];
+const pageSize = 20;
 
 const Blog = () => {
 	const query = useQuery();
@@ -36,14 +38,21 @@ const Blog = () => {
 	);
 	const currentTab = query.get('tab');
 
-	useEffect(() => {
-		const changeTab = (newTab) => {
-			navigate(`/blog/?tab=${newTab}`);
-		};
-		if (!currentTab || !tabOptions.includes(currentTab)) changeTab(tabOptions[0]);
-	}, [currentTab, navigate, tabOptions]);
+	const [currentPage, setCurrentPage] = useState(query.get('page') ?? 1);
 
-	const blogsQuery = useGetPostedBlogs();
+	const changeURL = useCallback(
+		(newTab) => {
+			navigate(`/blog/?tab=${newTab}&page=${currentPage}`);
+		},
+		[currentPage, navigate],
+	);
+
+	useEffect(() => {
+		if (!currentTab || !tabOptions.includes(currentTab)) changeURL(tabOptions[0]);
+		else changeURL(currentTab);
+	}, [changeURL, currentPage, currentTab, navigate, tabOptions]);
+
+	const blogsQuery = useGetPostedBlogs({ page: currentPage, size: pageSize });
 
 	return (
 		<>
@@ -60,7 +69,7 @@ const Blog = () => {
 						</div>
 					</div>
 					<div className="grid grid-cols-1 gap-5 py-6 sm:grid-cols-2 lg:grid-cols-4">
-						{blogsQuery.data?.map((post) => (
+						{blogsQuery.data?.items.map((post) => (
 							<BlogPost
 								post={{
 									...post,
@@ -69,6 +78,13 @@ const Blog = () => {
 							/>
 						))}
 					</div>
+					{blogsQuery.data && (
+						<Pagination
+							currentPage={currentPage}
+							onChangePage={setCurrentPage}
+							pageCount={blogsQuery.data?.pages}
+						/>
+					)}
 				</div>
 			</section>
 		</>

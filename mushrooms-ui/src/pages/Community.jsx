@@ -35,7 +35,7 @@ const mushs = [
 ];
 
 const Community = () => {
-	const blogsQuery = useGetPostedBlogs();
+	const blogsQuery = useGetPostedBlogs({ page: 1, size: 4 });
 	return (
 		<>
 			<div className="bg-cover text-4xl bg-opacity-80 bg-center bg-[url('/community_bg.png')] lg:bg-[url('/community_bg_2x.png')] text-center text-msh-light">
@@ -53,7 +53,7 @@ const Community = () => {
 				<div className="container px-10 py-6 mx-auto">
 					<h3 className="text-2xl font-extrabold">NEW POSTS</h3>
 					<div className="grid grid-cols-1 gap-5 py-6 lg:grid-cols-4">
-						{blogsQuery.data?.slice(0, 4).map((post) => (
+						{blogsQuery.data?.items.map((post) => (
 							<BlogPost
 								post={{
 									...post,

@@ -92,7 +92,7 @@ const FullPost = () => {
 	const navigate = useNavigate();
 	const userData = useAuthStore((state) => state.userData);
 	const blogQuery = useGetBlog({ id: blogId });
-	const blogCommentsQuery = useGetBlogComments({ id: blogId });
+	const blogCommentsQuery = useGetBlogComments({ id: blogId, page: 1 }); // TODO: make an infinite load
 
 	useEffect(() => {
 		if (blogQuery.isError) {
@@ -121,7 +121,7 @@ const FullPost = () => {
 	const replyCommentUser = useMemo(
 		() =>
 			replyCommentId
-				? blogCommentsQuery.data?.find((comment) => comment.id == replyCommentId).user
+				? blogCommentsQuery.data?.items?.find((comment) => comment.id == replyCommentId).user
 				: null,
 		[blogCommentsQuery.data, replyCommentId],
 	);
@@ -145,8 +145,8 @@ const FullPost = () => {
 	}, []);
 
 	useEffect(() => {
-		if (blogCommentsQuery.data) {
-			setComments(transformComments(blogCommentsQuery.data));
+		if (blogCommentsQuery.data?.items) {
+			setComments(transformComments(blogCommentsQuery.data.items));
 		}
 	}, [blogCommentsQuery.data]);
 
