@@ -190,7 +190,7 @@ const FullPost = () => {
 									<h1 className="text-6xl font-extrabold">{blogQuery.data.title}</h1>
 									<h3 className="text-3xl font-bold">
 										WRITTEN BY:{' '}
-										<Link to={`/user/${blogQuery.data.user.id}`}>
+										<Link to={`/profile/${blogQuery.data.user.id}`}>
 											{blogQuery.data.user.name} {blogQuery.data.user.surname}
 										</Link>
 									</h3>

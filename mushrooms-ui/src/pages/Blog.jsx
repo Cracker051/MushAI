@@ -1,28 +1,13 @@
 import { useCallback, useEffect, useMemo, useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 
 import BlogPost from '../components/BlogPost';
 import Pagination from '../components/Pagination';
+import { Selector } from '../components/Selector';
 
 import { useQuery } from '../utils/useQuery';
 import { useAuthStore } from '../state/client/authStore';
 import { useGetPostedBlogs } from '../state/server/blog/useGetBlogs';
-
-const Selector = ({ onClick, linkTo, children, isActive }) => {
-	return (
-		<Link
-			onClick={onClick}
-			to={linkTo}
-			className={
-				'block p-1 uppercase' +
-				(isActive
-					? ' border-b-2 border-white'
-					: ' transition-colors border-b-2 border-transparent hover:border-white')
-			}>
-			{children}
-		</Link>
-	);
-};
 
 const options = ['all', 'popular', 'new', 'your', 'our'];
 const pageSize = 20;

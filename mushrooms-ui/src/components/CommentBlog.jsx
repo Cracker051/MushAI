@@ -22,7 +22,9 @@ const CommentBlog = ({ data, setReplyCommentId }) => {
 				/>
 				<div className="flex-1 space-y-0.5">
 					<div className="flex justify-between text-sm font-semibold">
-						<Link to={`/user/${data.user.id}`} className="underline uppercase underline-offset-2 ">
+						<Link
+							to={`/profile/${data.user.id}`}
+							className="underline uppercase underline-offset-2 ">
 							{data.user.name} {data.user.surname}
 						</Link>
 						<span className="opacity-90">

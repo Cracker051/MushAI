@@ -21,6 +21,7 @@ function App() {
 					<Route element={<ProtectedRoute />}>
 						<Route path="/profile" element={<Cabinet />} />
 					</Route>
+					<Route path="/profile/:id" element={<Cabinet />} />
 				</Route>
 				<Route element={<MainLayout withSubscription />}>
 					<Route path="/sign-in" element={<Login />} />
