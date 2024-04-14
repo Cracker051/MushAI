@@ -28,7 +28,11 @@ class UserUpdate(BaseSQLModel, table=False):
     surname: str
 
 
-class PreviewUserRead(BaseSQLModel, table=False):
+class PreviewUser(BaseSQLModel, table=False):
     id: int
     name: str
     surname: str
+
+
+class AvatarPreviewUser(PreviewUser):
+    avatar: str

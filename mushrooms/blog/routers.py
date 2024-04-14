@@ -1,7 +1,6 @@
 import os
 from secrets import token_urlsafe
-from typing import Dict, List
-
+from typing import Dict
 from auth.dependecies import validate_user_id
 from auth.models import User
 from blog import schemas as blog_schemas
@@ -9,62 +8,73 @@ from blog.models import Blog, Comment
 from fastapi import APIRouter, Depends, HTTPException, UploadFile, status
 from generic.database import AsyncSession
 from generic.dependencies import get_db_session
-from generic.sqlmodel.utils import (
-    check_foreign_keys,
-    get_obj_by_id_or_404,
-    process_sa_exception,
-)
+from generic.sqlmodel.utils import check_foreign_keys, get_obj_by_id_or_404, process_sa_exception
 from generic.storage.depenencies import validate_image
+from fastapi_pagination.ext.sqlmodel import paginate
+from fastapi_pagination import Page
 from generic.storage.utils import rename_uploadfile
 from sqlalchemy import exc as sa_exc
 from sqlalchemy.orm import joinedload
 from sqlmodel import select
 
+from blog.dependencies import validate_blog_id
+
 blog_router = APIRouter()
 
 
-@blog_router.get("/", response_model=List[blog_schemas.PreviewBlogRead])
+@blog_router.get("/", response_model=Page[blog_schemas.PreviewBlogRead])
 async def get_blogs(session: AsyncSession = Depends(get_db_session)):
-    blogs = await session.exec(select(Blog).options(joinedload(Blog.user).load_only(User.id, User.name, User.surname)))
-    return blogs.all()
+    blogs = await paginate(
+        session,
+        select(Blog).options(joinedload(Blog.user).load_only(User.id, User.name, User.surname)),
+    )
+    return blogs
 
 
-@blog_router.get("/posted/", response_model=List[blog_schemas.PreviewBlogRead])
+@blog_router.get("/posted/", response_model=Page[blog_schemas.PreviewBlogRead])
 async def get_posted_blogs(session: AsyncSession = Depends(get_db_session)):
-    blogs = await session.exec(
+    blogs = await paginate(
+        session,
         select(Blog)
         .options(joinedload(Blog.user).load_only(User.id, User.name, User.surname))
-        .where(Blog.is_draft == False)
+        .where(Blog.is_draft == False),
     )
-    return blogs.all()
+    return blogs
 
 
-@blog_router.get("/drafts/", response_model=List[blog_schemas.PreviewBlogRead])
+@blog_router.get("/drafts/", response_model=Page[blog_schemas.PreviewBlogRead])
 async def get_draft_blogs(session: AsyncSession = Depends(get_db_session)):
-    blogs = await session.exec(
+    blogs = await paginate(
+        session,
         select(Blog)
         .options(joinedload(Blog.user).load_only(User.id, User.name, User.surname))
-        .where(Blog.is_draft == True)
+        .where(Blog.is_draft == True),
     )
-    return blogs.all()
+    return blogs
 
 
-@blog_router.get("/posted/{user_id}", response_model=List[blog_schemas.BlogRead])
+@blog_router.get("/posted/{user_id}", response_model=Page[blog_schemas.BlogRead])
 async def get_posted_user_blogs(
     user_id: int = Depends(validate_user_id()),
     session: AsyncSession = Depends(get_db_session),
 ):
-    blogs = await session.exec(select(Blog).where(Blog.user_id == user_id).where(Blog.is_draft == False))
-    return blogs.all()
+    blogs = await paginate(
+        session,
+        select(Blog).where(Blog.user_id == user_id).where(Blog.is_draft == False),
+    )
+    return blogs
 
 
-@blog_router.get("/drafts/{user_id}", response_model=List[blog_schemas.BlogRead])
+@blog_router.get("/drafts/{user_id}", response_model=Page[blog_schemas.BlogRead])
 async def get_draft_user_blogs(
     user_id: int = Depends(validate_user_id()),
     session: AsyncSession = Depends(get_db_session),
 ):
-    blogs = await session.exec(select(Blog).where(Blog.user_id == user_id).where(Blog.is_draft == True))
-    return blogs.all()
+    blogs = await paginate(
+        session,
+        select(Blog).where(Blog.user_id == user_id).where(Blog.is_draft == True),
+    )
+    return blogs
 
 
 @blog_router.get(
@@ -90,7 +100,7 @@ async def get_blog_by_id(id: int, session: AsyncSession = Depends(get_db_session
 
 @blog_router.get(
     "/user/{user_id}/",
-    response_model=List[blog_schemas.BlogRead],
+    response_model=Page[blog_schemas.BlogRead],
     responses={
         status.HTTP_404_NOT_FOUND: {
             "description": "Not Found Error",
@@ -102,7 +112,10 @@ async def get_blogs_by_user_id(
     user_id: int = Depends(validate_user_id()),
     session: AsyncSession = Depends(get_db_session),
 ):
-    blogs = await session.exec(select(Blog).where(Blog.user_id == user_id))
+    blogs = await paginate(
+        session,
+        select(Blog).where(Blog.user_id == user_id),
+    )
     return blogs
 
 
@@ -251,14 +264,15 @@ async def comment_create(
     return comment
 
 
-@comment_router.get("/blog/{blog_id}", response_model=List[blog_schemas.PreviewCommendRead])
+@comment_router.get("/blog/{blog_id}", response_model=Page[blog_schemas.PreviewComment])
 async def get_comments_by_blog(
-    blog_id: int,
+    blog_id: int = Depends(validate_blog_id()),
     session: AsyncSession = Depends(get_db_session),
 ):
-    comments = await session.exec(
+    comments = await paginate(
+        session,
         select(Comment)
-        .options(joinedload(Comment.user).load_only(User.id, User.name, User.surname))
-        .where(Comment.blog_id == blog_id)
+        .options(joinedload(Comment.user).load_only(User.id, User.name, User.surname, User.avatar))
+        .where(Comment.blog_id == blog_id),
     )
-    return comments.all()
+    return comments
