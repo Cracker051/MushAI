@@ -1,3 +1,5 @@
+from fastapi.staticfiles import StaticFiles
+
 from auth import routers as auth_routers
 from blog import routers as blog_routers
 from fastapi import FastAPI
@@ -13,6 +15,9 @@ from auth import admin as auth_admin  # isort: skip
 from blog import admin as blog_admin  # isort: skip
 
 app = FastAPI()
+app.mount("/static", StaticFiles(directory="static"), name="static")
+
+
 admin = Admin(app, engine)
 
 app.add_middleware(
@@ -25,7 +30,7 @@ app.add_middleware(
 
 
 @app.get("/", include_in_schema=False)
-async def swagger_redirect():
+async def swagger_redirect() -> RedirectResponse:
     return RedirectResponse("/docs/")
 
 
