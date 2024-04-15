@@ -59,6 +59,12 @@ app.include_router(
 )
 
 app.include_router(
+    auth_routers.shared_router,
+    prefix="/shared/users",
+    tags=["shared", "users"],
+)
+
+app.include_router(
     auth_routers.reset_password_router,
     prefix="/auth/password",
     tags=["auth"],

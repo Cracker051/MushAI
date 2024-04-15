@@ -25,6 +25,7 @@ reset_password_router = fastapi_users.get_reset_password_router()
 
 avatar_router = APIRouter()
 
+shared_router = APIRouter()
 
 @avatar_router.put(
     "/{user_id}/avatar/",
@@ -52,4 +53,23 @@ async def update_avatar(
     session.add(user)
     await session.commit()
     await session.refresh(user)
+    return user
+
+
+@shared_router.get(
+    "/{user_id}/",
+    responses={
+        status.HTTP_400_BAD_REQUEST: {
+            "description": "Bad File Error",
+            "model": Dict[str, str],
+        },
+        status.HTTP_404_NOT_FOUND: {
+            "description": "Not Found Error",
+            "model": Dict[str, str],
+        },
+    },
+    response_model=schemas.UserRead,
+)
+async def get_user_by_id(user_id: int, session: AsyncSession = Depends(get_db_session)):
+    user = await get_obj_by_id_or_404(User, user_id, session)
     return user
