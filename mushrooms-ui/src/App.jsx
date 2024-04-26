@@ -11,6 +11,7 @@ import FullPost from './pages/FullPost';
 import Cabinet from './pages/Cabinet/Cabinet';
 import ProtectedRoute from './components/ProtectedRoute';
 import MainLayout from './layouts/MainLayout';
+import Preferences from './pages/Cabinet/Preferences';
 
 function App() {
 	return (
@@ -20,6 +21,7 @@ function App() {
 					<Route path="/" element={<Home />} />
 					<Route element={<ProtectedRoute />}>
 						<Route path="/profile" element={<Cabinet />} />
+						<Route path="/profile/preferences" element={<Preferences />} />
 					</Route>
 					<Route path="/profile/:id" element={<Cabinet />} />
 				</Route>

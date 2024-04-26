@@ -66,7 +66,7 @@ const Cabinet = () => {
 									</p>
 									{own && (
 										<button
-											onClick={() => navigate('/settings')}
+											onClick={() => navigate('/profile/preferences')}
 											className="p-1 text-lg font-semibold transition-colors border rounded-md sm:text-2xl border-msh-light hover:bg-stone-500">
 											SETTINGS
 										</button>
