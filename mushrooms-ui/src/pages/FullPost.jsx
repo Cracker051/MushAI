@@ -162,7 +162,6 @@ const FullPost = () => {
 		);
 	};
 
-	console.log(blogQuery.data?.icon, 'icon');
 	return (
 		<>
 			{blogQuery.data && (
@@ -198,7 +197,7 @@ const FullPost = () => {
 									<h4 className="text-2xl font-medium">{date.toDateString()}</h4>
 								</div>
 								<aside className="xl:w-[200px] xl:absolute xl:-translate-x-full xl:h-full">
-									<div className="sticky top-0 py-5 -mt-5 space-y-5">
+									<div className="sticky py-5 -mt-5 space-y-5 top-24">
 										<span className="text-xl font-medium">IN THIS ARTICLE</span>
 										<ul className="flex flex-col gap-5 px-5 text-sm font-semibold uppercase border-l-2 border-msh-light">
 											{headlines.map((headline, index) => (
