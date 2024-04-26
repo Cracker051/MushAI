@@ -14,7 +14,7 @@ class UserManager(IntegerIDMixin, BaseUserManager[User, int]):
     reset_password_token_secret = settings.APP_SECRET
     verification_token_secret = settings.APP_SECRET
 
-    def __init__(self, *args, **kwargs):
+    def __init__(self, *args, **kwargs) -> None:
         super().__init__(*args, **kwargs)
         self.templateLoader = jinja2.FileSystemLoader(searchpath=EMAIL_DIR)
         self.templateEnv = jinja2.Environment(loader=self.templateLoader)
@@ -24,23 +24,28 @@ class UserManager(IntegerIDMixin, BaseUserManager[User, int]):
             raise InvalidPasswordException("Password must have at least 8 characters")
 
     # TODO: Write logger
-    async def on_after_register(self, user: User, request: Optional[Request] = None):
+    async def on_after_register(
+        self,
+        user: User,
+        request: Optional[Request] = None,
+    ) -> None:
         await self.request_verify(user, request)
         print(f"User {user.id} has registered.")
 
     async def on_after_forgot_password(
-        self, user: User, token: str, request: Optional[Request] = None
-    ):
+        self,
+        user: User,
+        token: str,
+        request: Optional[Request] = None,
+    ) -> None:
         print(f"User {user.id} has forgot their password. Reset token: {token}")
 
-    # TODO: Can I switch it to FastAPI Background Tasks?
-    # I must send message with frontend verification link, for example <a>
     async def on_after_request_verify(
         self,
         user: User,
         token: str,
         request: Optional[Request] = None,
-    ):
+    ) -> None:
         verification_template = self.templateEnv.get_template("verification.html")
         msg_text = verification_template.render(
             name=user.name,
@@ -53,3 +58,22 @@ class UserManager(IntegerIDMixin, BaseUserManager[User, int]):
         )
         send_email(to_email=user.email, message=msg_text, subject="Registration in MushAI")
         print(f"Verification requested for user {user.id}. Verification token: {token}")
+
+    async def on_after_forgot_password(
+        self,
+        user: User,
+        token: str,
+        request: Optional[Request] = None,
+    ) -> None:
+        forgot_template = self.templateEnv.get_template("forget_password.html")
+        msg_text = forgot_template.render(
+            name=user.name,
+            surname=user.surname,
+            reset_password_url=urljoin(
+                settings.FRONTEND_URL,
+                "reset_password/",
+            ),
+            token_value=token,
+        )
+        send_email(to_email=user.email, message=msg_text, subject="Reset password in MushAI")
+        print(f"Reseting password requested for user {user.id}. Verification token: {token}")
