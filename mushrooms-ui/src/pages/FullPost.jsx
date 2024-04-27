@@ -218,8 +218,7 @@ const FullPost = () => {
 							<div className="flex flex-col self-stretch gap-3 xl:mx-64">
 								<div className="border-b-2 border-msh-light">
 									<h3 ref={commentSectionHeadingRef} className="text-lg font-semibold uppercase">
-										{comments && <span>({comments?.length})</span>}
-										COMMENTS
+										{comments && <span>({comments?.length})</span>} COMMENTS
 									</h3>
 								</div>
 								{userData && (
@@ -268,6 +267,7 @@ const FullPost = () => {
 									<div className="flex flex-col gap-4">
 										{comments.map((comm) => (
 											<CommentBlog
+												canReply={userData}
 												key={comm.id}
 												data={comm}
 												setReplyCommentId={(id) => {

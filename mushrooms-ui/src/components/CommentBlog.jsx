@@ -5,7 +5,7 @@ import UserIcon from '../assets/icon_user_2.svg';
 
 const BACKEND_URL = import.meta.env.VITE_APP_API_URL;
 
-const CommentBlog = ({ data, setReplyCommentId }) => {
+const CommentBlog = ({ data, setReplyCommentId, canReply }) => {
 	const date = new Date(data.created_at);
 	return (
 		<div className="space-y-2">
@@ -32,25 +32,32 @@ const CommentBlog = ({ data, setReplyCommentId }) => {
 						</span>
 					</div>
 					<p>{data.body}</p>
-					<div className="flex items-center gap-2 text-xs">
-						<button
-							onClick={() => setReplyCommentId(data.id)}
-							className="underline uppercase underline-offset-2 opacity-90">
-							REPLY
-						</button>
-						{/* <div className="flex items-center gap-1">
+					{canReply && (
+						<div className="flex items-center gap-2 text-xs">
+							<button
+								onClick={() => setReplyCommentId(data.id)}
+								className="underline uppercase underline-offset-2 opacity-90">
+								REPLY
+							</button>
+							{/* <div className="flex items-center gap-1">
 							<span>1</span>
 							<button>
 								<img src={CommentLikeIcon} alt="" className="w-4 h-4" />
 							</button>
 						</div> */}
-					</div>
+						</div>
+					)}
 				</div>
 			</div>
 			{data?.comments?.length > 0 && (
 				<div className="ml-12 space-y-2">
 					{data.comments.map((comm) => (
-						<CommentBlog key={comm.id} data={comm} setReplyCommentId={setReplyCommentId} />
+						<CommentBlog
+							canReply={canReply}
+							key={comm.id}
+							data={comm}
+							setReplyCommentId={setReplyCommentId}
+						/>
 					))}
 				</div>
 			)}
