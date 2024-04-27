@@ -1,8 +1,8 @@
 import { useMutation } from '@tanstack/react-query';
 import { fetch } from '../../../utils/apiAuth';
 
-export async function updateUser({ id, values }) {
-	const response = await fetch(`/users/${id}`, {
+export async function updateUser({ values }) {
+	const response = await fetch(`/users/me`, {
 		method: 'PATCH',
 		body: JSON.stringify(values),
 	});
@@ -13,7 +13,7 @@ export async function updateUser({ id, values }) {
 
 export function useUpdateUser() {
 	const updateUserMutation = useMutation({
-		mutationFn: ({ id, values }) => updateUser({ id, values }),
+		mutationFn: ({ values }) => updateUser({ values }),
 		onSuccess: () => {},
 	});
 
