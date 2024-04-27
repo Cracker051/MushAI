@@ -1,3 +1,4 @@
+// TODO: duplicate code, refactor
 export async function fetchFile(url) {
 	let response = await fetch(url);
 	let data = await response.blob();
@@ -14,4 +15,11 @@ export const file2Base64 = (file) => {
 		reader.onload = () => resolve(reader.result?.toString() || '');
 		reader.onerror = (error) => reject(error);
 	});
+};
+
+export const dataUrlToFile = async (url, fileName, mimeType) => {
+	const response = await fetch(url);
+	const buffer = await response.arrayBuffer();
+
+	return new File([buffer], fileName, { type: mimeType });
 };
