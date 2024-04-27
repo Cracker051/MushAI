@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 
 import { useQuery } from '../utils/useQuery';
 import { useGetPostedBlogsByUser } from '../state/server/blog/useGetPostedBlogsByUser';
@@ -6,10 +6,16 @@ import { useGetPostedBlogsByUser } from '../state/server/blog/useGetPostedBlogsB
 import BlogPost from './BlogPost';
 import Pagination from './Pagination';
 
-const UserPosts = ({ user, pageSize }) => {
+const UserPosts = ({ user, pageSize, setCountPosts }) => {
 	const query = useQuery();
 	const [currentPage, setCurrentPage] = useState(query.get('page') ?? 1);
 	const blogsQuery = useGetPostedBlogsByUser({ id: user?.id, page: currentPage, size: pageSize });
+
+	useEffect(() => {
+		if (blogsQuery.isSuccess) {
+			setCountPosts(blogsQuery.data?.total);
+		}
+	}, [blogsQuery.data?.total, blogsQuery.isSuccess, setCountPosts]);
 
 	return (
 		<>

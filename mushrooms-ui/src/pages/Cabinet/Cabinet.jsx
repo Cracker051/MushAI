@@ -1,4 +1,4 @@
-import { useEffect, useMemo } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 
 import { useQuery } from '../../utils/useQuery';
@@ -22,7 +22,7 @@ const Cabinet = () => {
 
 	const userData = useAuthStore((state) => state.userData);
 
-	const own = userData.id == id || !id;
+	const own = userData?.id == id || !id;
 	const userId = own ? userData.id : id;
 
 	const userQuery = useGetUser({ id: userId });
@@ -38,6 +38,8 @@ const Cabinet = () => {
 			navigate('/', { replace: true });
 		}
 	}, [userQuery.isError, navigate]);
+
+	const [countPosts, setCountPosts] = useState(0);
 
 	return (
 		<>
@@ -72,14 +74,16 @@ const Cabinet = () => {
 										</button>
 									)}
 								</div>
-								{/* <div className="flex">
-									<span>4 posts</span>
-								</div> */}
+								<div className="flex">
+									<span>
+										{countPosts} {countPosts != 1 ? 'posts' : 'post'}
+									</span>
+								</div>
 								<div className="space-y-3 max-w-[420px]">
 									<h3 className="text-xl font-extrabold">About me</h3>
 									<p className="font-semibold">
-										HEY ALL! I`M WILLIAM TAYLOR, A FUNGI FANATIC READY TO DIVE INTO THE MUSHROOM
-										WORLD WITH YOU. LET`S SHARE TIPS AND STORIES!
+										HEY ALL! I`M {userQuery.data.name} {userQuery.data.surname}, A FUNGI FANATIC
+										READY TO DIVE INTO THE MUSHROOM WORLD WITH YOU. LET`S SHARE TIPS AND STORIES!
 									</p>
 								</div>
 							</div>
@@ -101,7 +105,7 @@ const Cabinet = () => {
 						currentTab == 'drafts' && own ? (
 							<UserDrafts user={userQuery.data} pageSize={pageSize} />
 						) : (
-							<UserPosts user={userQuery.data} pageSize={pageSize} />
+							<UserPosts user={userQuery.data} pageSize={pageSize} setCountPosts={setCountPosts} />
 						)
 					) : null}
 				</div>
