@@ -8,6 +8,7 @@ import { useGetUser } from '../../state/server/users/useGetUser';
 import { useUpdateUser } from '../../state/server/users/useUpdateUser';
 import { useUpdateUserAvatar } from '../../state/server/users/useUpdateUserAvatar';
 import { file2Base64 } from '../../utils/fileUtils';
+import { useLogOut } from '../../state/server/auth/useLogOut';
 
 const BACKEND_URL = import.meta.env.VITE_APP_API_URL;
 const fallBackAvatarUrl = '/default_avatar.webp';
@@ -19,6 +20,7 @@ const Preferences = () => {
 
 	const updateUserMutation = useUpdateUser();
 	const updateUserAvatarMutation = useUpdateUserAvatar();
+	const logOutMutate = useLogOut();
 
 	const changePhotoFileInputRef = useRef(null);
 	const [uploaded, setUploaded] = useState(null);
@@ -102,6 +104,13 @@ const Preferences = () => {
 	const handleDeleteAcount = () => {
 		navigate('/profile/delete-account');
 	};
+	const handleLeaveAcount = async () => {
+		if (window.confirm('Exit from account?')) {
+			logOutMutate();
+			navigate('/');
+		}
+	};
+
 	return (
 		<>
 			<section className="py-6 bg-msh-dark text-msh-light">
@@ -244,6 +253,12 @@ const Preferences = () => {
 										onClick={handleDeleteAcount}
 										className="text-xl font-bold underline transition-opacity underline-offset-4 hover:opacity-60">
 										DELETE ACCOUNT
+									</button>
+									<button
+										type="button"
+										onClick={handleLeaveAcount}
+										className="text-xl font-bold underline transition-opacity underline-offset-4 hover:opacity-60">
+										LOG OUT
 									</button>
 								</div>
 								<div className="text-center">
