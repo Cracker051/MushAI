@@ -1,14 +1,12 @@
 import { useQuery } from '@tanstack/react-query';
 
-import { fetch } from '../../../utils/apiAuth';
-
-// const BACKEND_URL = import.meta.env.VITE_APP_API_URL;
+const BACKEND_URL = import.meta.env.VITE_APP_API_URL;
 
 export async function getUser({ id }) {
-	const response = await fetch(/*BACKEND_URL + */ '/users' + `/${id}`, {
+	const response = await fetch(BACKEND_URL + '/shared/users' + `/${id}`, {
 		method: 'GET',
 	});
-	if (!response.ok) throw new Error('Failed fetching blogs', response);
+	if (!response.ok) throw new Error('Failed fetching user', response);
 
 	return await response.json();
 }
