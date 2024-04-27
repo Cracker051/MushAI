@@ -3,6 +3,7 @@ import { useAuthStore } from '../../state/client/authStore';
 import { useGetUser } from '../../state/server/users/useGetUser';
 import { useForm } from 'react-hook-form';
 import { useNavigate } from 'react-router-dom';
+import { useUpdateUser } from '../../state/server/users/useUpdateUser';
 
 const BACKEND_URL = import.meta.env.VITE_APP_API_URL;
 const fallBackAvatarUrl = '/default_avatar.webp';
@@ -11,6 +12,8 @@ const Preferences = () => {
 	const navigate = useNavigate();
 	const userData = useAuthStore((state) => state.userData);
 	const userQuery = useGetUser({ id: userData.id });
+
+	const updateUserMutation = useUpdateUser();
 
 	const changePhotoFileInputRef = useRef(null);
 
@@ -41,15 +44,17 @@ const Preferences = () => {
 
 	const onSubmit = (data) => {
 		console.log(data);
+		updateUserMutation.mutate({
+			id: userQuery.data?.id,
+			values: { name: data.name, surname: data.surname },
+		});
 	};
 
 	const handleChangePassword = () => {
 		alert('Change password');
-		navigate('/profile/change-password');
 	};
 
 	const handleDeleteAcount = () => {
-		alert('Delete account');
 		navigate('/profile/delete-account');
 	};
 	return (
@@ -80,7 +85,7 @@ const Preferences = () => {
 								</button>
 								<input type="file" className="hidden" ref={changePhotoFileInputRef} />
 							</div>
-							<form onSubmit={handleSubmit(onSubmit)} className="flex-1 space-y-5">
+							<form onSubmit={handleSubmit(onSubmit)} className="flex-1 py-10 space-y-5">
 								<div className="flex flex-col justify-start gap-4 uppercase">
 									<div className="flex justify-between gap-3">
 										<label className="w-1/3 text-xl font-bold">FIRST NAME:</label>
@@ -176,8 +181,9 @@ const Preferences = () => {
 								<div className="flex flex-col items-start gap-4">
 									<button
 										type="button"
+										disabled
 										onClick={handleChangePassword}
-										className="text-xl font-bold underline transition-opacity underline-offset-4 hover:opacity-60">
+										className="text-xl font-bold underline transition-opacity underline-offset-4 hover:opacity-60 disabled:opacity-60">
 										CHANGE PASSWORD
 									</button>
 									<button
