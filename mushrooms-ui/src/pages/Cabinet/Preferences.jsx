@@ -62,31 +62,23 @@ const Preferences = () => {
 
 	const onSubmit = async (data) => {
 		setUpdating(true);
-		console.log(data);
 		uploaded &&
-			(await updateUserAvatarMutation.mutate(
-				{ id: userQuery.data?.id, newImageBase64: uploaded },
-				{
-					onSuccess: (data) => {
-						console.log('refetch', data);
-						userQuery.refetch();
-					},
-				},
-			));
-		updateUserMutation.mutate(
+			(await updateUserAvatarMutation.mutateAsync({
+				id: userQuery.data?.id,
+				newImageBase64: uploaded,
+			}));
+		await updateUserMutation.mutateAsync(
 			{
 				id: userQuery.data?.id,
 				values: { name: data.name, surname: data.surname },
 			},
 			{
-				onSuccess: (data) => {
-					console.log('refetch', data);
+				onSuccess: () => {
 					userQuery.refetch();
 				},
 			},
 		);
 		setUpdating(false);
-		// window.location.reload();
 	};
 
 	const onSubmitToasted = async (data) => {
