@@ -23,9 +23,9 @@ class UserRead(BaseSQLModel, table=False):
     avatar: Optional[str]
 
 
-class UserUpdate(BaseSQLModel, table=False):
-    name: str
-    surname: str
+class UserUpdate(schemas.CreateUpdateDictModel, BaseSQLModel, table=False):
+    name: Optional[str] = None
+    surname: Optional[str] = None
 
 
 class PreviewUser(BaseSQLModel, table=False):
