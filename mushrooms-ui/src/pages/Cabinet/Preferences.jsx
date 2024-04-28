@@ -44,7 +44,6 @@ const Preferences = () => {
 		handleSubmit,
 		reset,
 		formState: { errors },
-		watch,
 	} = useForm({ disabled: updating });
 
 	useEffect(() => {
@@ -52,10 +51,6 @@ const Preferences = () => {
 			reset({
 				name: userQuery.data?.name ?? '',
 				surname: userQuery.data?.surname ?? '',
-				gender: 'female',
-				country: 'USA',
-				region: 'LOS ANGELES',
-				about: `HEY ALL!\nI'M WILLIAM TAYLOR, A FUNGI FANATIC READY TO DIVE INTO THE MUSHROOM WORLD WITH YOU. LET'S SHARE TIPS AND STORIES!`,
 			});
 		}
 	}, [userQuery.isSuccess, userQuery.data, reset]);
@@ -73,8 +68,8 @@ const Preferences = () => {
 				values: { name: data.name, surname: data.surname },
 			},
 			{
-				onSuccess: () => {
-					userQuery.refetch();
+				onSuccess: async () => {
+					await userQuery.refetch();
 				},
 			},
 		);
@@ -165,70 +160,11 @@ const Preferences = () => {
 											<span className="overflow-x-auto">{userQuery.data.email}</span>
 											<button
 												type="button"
+												disabled
 												onClick={() => alert('Change email')}
-												className="font-bold underline transition-opacity underline-offset-4 hover:opacity-60">
+												className="font-bold underline transition-opacity underline-offset-4 hover:opacity-60 disabled:opacity-60">
 												CHANGE
 											</button>
-										</div>
-									</div>
-									<div className="flex justify-between gap-3">
-										<label className="w-1/3 text-xl font-bold">GENDER:</label>
-										<div className="flex w-2/3 gap-4 text-lg font-semibold">
-											<div>
-												<input
-													{...register('gender')}
-													type="radio"
-													value="male"
-													id="male"
-													className="mr-2 accent-msh-dark"
-												/>
-												<label htmlFor="male">Male</label>
-											</div>
-											<div>
-												<input
-													{...register('gender')}
-													type="radio"
-													value="female"
-													id="female"
-													className="mr-2 accent-msh-dark"
-												/>
-												<label htmlFor="female">Female</label>
-											</div>
-										</div>
-									</div>
-									<div className="flex justify-between gap-3">
-										<label className="w-1/3 text-xl font-bold">COUNTRY:</label>
-										<input
-											{...register('country')}
-											aria-invalid={errors.country ? 'true' : 'false'}
-											name="country"
-											className="px-1 w-2/3 bg-transparent border text-lg font-semibold rounded-sm focus:outline-none border-msh-light aria-[invalid=true]:border-red-500"
-										/>
-									</div>
-									<div className="flex justify-between gap-3">
-										<label className="w-1/3 text-xl font-bold">REGION:</label>
-										<input
-											{...register('region')}
-											aria-invalid={errors.region ? 'true' : 'false'}
-											name="region"
-											className="px-1 w-2/3 bg-transparent border text-lg font-semibold rounded-sm focus:outline-none border-msh-light aria-[invalid=true]:border-red-500"
-										/>
-									</div>
-									<div className="flex justify-between gap-3">
-										<label className="w-1/3 text-xl font-bold">ABOUT ME:</label>
-										<div className="w-2/3">
-											<textarea
-												{...register('about')}
-												rows={4}
-												maxLength={250}
-												aria-invalid={errors.about ? 'true' : 'false'}
-												name="about"
-												className="px-1 w-full peer bg-transparent border text-lg font-semibold rounded-sm focus:outline-none border-msh-light aria-[invalid=true]:border-red-500"
-											/>
-											<div className="text-sm font-semibold text-right peer-invalid:text-red-500">
-												<span>{watch('about', '').length}</span>
-												<span>/250</span>
-											</div>
 										</div>
 									</div>
 								</div>
