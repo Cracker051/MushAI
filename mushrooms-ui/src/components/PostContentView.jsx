@@ -1,6 +1,7 @@
 import { useEffect, useMemo, useRef, useState } from 'react';
 import { Link } from 'react-router-dom';
 import Markdown from 'react-markdown';
+import { stringToHash } from '../utils/stringToHash';
 
 const scrollToHeading = (id) => {
 	const element = document.getElementById(id);
@@ -8,19 +9,18 @@ const scrollToHeading = (id) => {
 		element.scrollIntoView({ behavior: 'smooth' });
 	}
 };
-//TODO: make ids from headlines hash
+
 const PostContentView = ({ post, userData, children }) => {
 	const articleRef = useRef(null);
 	const [headlines, setHeadlines] = useState([]);
 
 	const [isMounted, setIsMounted] = useState(false);
-	const hCount = useRef(0);
 	useEffect(() => {
 		if (isMounted) {
 			const headings = Array.from(articleRef.current?.querySelectorAll('h1, h2, h3'));
 			const headlineTexts = headings?.map((heading) => ({
 				text: heading.textContent,
-				id: `headline-${parseInt(heading.id?.split('-')[1]) + headings.length}`,
+				id: `headline-${stringToHash(heading.textContent ?? '')}`,
 			}));
 			setHeadlines(headlineTexts);
 		}
@@ -32,11 +32,17 @@ const PostContentView = ({ post, userData, children }) => {
 	const obj = useMemo(() => {
 		return {
 			// eslint-disable-next-line no-unused-vars
-			h1: ({ node, ...props }) => <h1 {...props} id={`headline-${hCount.current++}`}></h1>,
+			h1: ({ node, ...props }) => (
+				<h1 {...props} id={`headline-${stringToHash(props.children ?? '')}`}></h1>
+			),
 			// eslint-disable-next-line no-unused-vars
-			h2: ({ node, ...props }) => <h2 {...props} id={`headline-${hCount.current++}`}></h2>,
+			h2: ({ node, ...props }) => (
+				<h2 {...props} id={`headline-${stringToHash(props.children ?? '')}`}></h2>
+			),
 			// eslint-disable-next-line no-unused-vars
-			h3: ({ node, ...props }) => <h3 {...props} id={`headline-${hCount.current++}`}></h3>,
+			h3: ({ node, ...props }) => (
+				<h3 {...props} id={`headline-${stringToHash(props.children ?? '')}`}></h3>
+			),
 		};
 	}, []);
 	return (
