@@ -2,6 +2,9 @@
 	@apply uppercase;
 }
 
+.article-content > * {
+	@apply scroll-mt-28;
+}
 .article-content h1 {
 	@apply mb-4 text-3xl font-extrabold;
 }
