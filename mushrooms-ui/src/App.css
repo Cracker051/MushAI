@@ -1,0 +1,36 @@
+.article-content {
+	@apply uppercase;
+}
+
+.article-content h1 {
+	@apply mb-4 text-3xl font-extrabold;
+}
+.article-content h2 {
+	@apply mb-4 text-2xl font-bold;
+}
+
+.article-content h3 {
+	@apply mb-3 text-xl font-semibold;
+}
+
+.article-content h4 {
+	@apply mb-2 text-lg font-medium;
+}
+
+.article-content h5 {
+	@apply mb-2 text-base font-medium;
+}
+
+.article-content h6 {
+	@apply mb-1 text-sm font-normal;
+}
+
+.article-content p {
+	/* @apply mb-4 text-base; */
+	@apply mb-12 text-lg font-semibold;
+}
+
+.article-content img {
+	/* @apply mb-4 text-base; */
+	@apply mx-auto;
+}

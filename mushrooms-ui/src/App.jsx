@@ -13,6 +13,8 @@ import ProtectedRoute from './components/ProtectedRoute';
 import MainLayout from './layouts/MainLayout';
 import Preferences from './pages/Cabinet/Preferences';
 import DeleteProfile from './pages/Cabinet/DeleteProfile';
+import BlogEditor from './pages/CreateBlog/BlogEditor';
+import NewDraftView from './pages/CreateBlog/NewDraftView';
 
 function App() {
 	return (
@@ -24,6 +26,10 @@ function App() {
 						<Route path="/profile" element={<Cabinet />} />
 						<Route path="/profile/preferences" element={<Preferences />} />
 						<Route path="/profile/delete-account" element={<DeleteProfile />} />
+						<Route path="/edit-post" element={<BlogEditor />} />
+						<Route path="/edit-post/:id" element={<BlogEditor />} />
+						<Route path="/draft" element={<NewDraftView />} />
+						<Route path="/draft/:id" element={<NewDraftView />} />
 					</Route>
 					<Route path="/profile/:id" element={<Cabinet />} />
 				</Route>

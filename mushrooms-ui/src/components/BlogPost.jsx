@@ -8,7 +8,9 @@ const fallbackImageSrc = '/88b86b40aaaa67af60b3ddd61d873685.png';
 const BlogPost = ({ post }) => {
 	const isPostNew = isDateBeforeTodayForOneWeek(post.created_at);
 	return (
-		<Link to={`/blog/${post.id}`} className="transition-opacity hover:opacity-60">
+		<Link
+			to={`/${!post.is_draft ? 'blog' : 'draft'}/${post.id}${post.is_draft ? '?view=true' : ''}`}
+			className="transition-opacity hover:opacity-60">
 			<div className="relative select-none">
 				{isPostNew && (
 					<div className="absolute px-1 font-medium text-black rounded-md top-5 left-5 bg-amber-400">

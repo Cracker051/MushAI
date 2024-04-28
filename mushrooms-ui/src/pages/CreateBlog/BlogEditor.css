@@ -1,0 +1,21 @@
+.CodeMirror {
+	@apply bg-transparent;
+	@apply text-msh-light;
+}
+
+.cm-s-easymde .CodeMirror-gutters {
+	@apply border-r bg-msh-light border-msh-light;
+}
+
+.cm-s-easymde .CodeMirror-linenumber {
+	padding: 0 3px 0 5px;
+	@apply text-msh-light;
+}
+
+.cm-s-easymde .CodeMirror-cursor {
+	@apply border-l border-msh-light;
+}
+
+.editor-preview {
+	@apply bg-msh-dark;
+}

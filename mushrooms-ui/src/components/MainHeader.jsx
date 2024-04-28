@@ -1,8 +1,10 @@
 import { Link } from 'react-router-dom';
 import UserIcon from '../assets/icon_user.svg';
 import SearchIcon from '../assets/icon_search.svg';
+import { useAuthStore } from '../state/client/authStore';
 
 const MainHeader = () => {
+	const userData = useAuthStore((state) => state.userData);
 	return (
 		<header className="sticky top-0 z-40 bg-msh-dark/30 backdrop-blur-md">
 			<div className="container px-6 mx-auto select-none ">
@@ -17,6 +19,13 @@ const MainHeader = () => {
 						<Link to={'/search'} className="p-1 transition-colors rounded-md hover:bg-stone-400/50">
 							Search AI
 						</Link>
+						{userData && (
+							<Link
+								to={'/edit-post/new'}
+								className="p-1 transition-colors rounded-md hover:bg-stone-400/50">
+								Write new
+							</Link>
+						)}
 						<Link
 							to={'/community'}
 							className="p-1 transition-colors rounded-md hover:bg-stone-400/50">

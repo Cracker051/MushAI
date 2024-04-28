@@ -11,11 +11,12 @@ export async function getBlog({ id }) {
 	return await response.json();
 }
 
-export function useGetBlog({ id }) {
+export function useGetBlog({ id, enabled = true }) {
 	const getBlogQuery = useQuery({
 		queryKey: [`blog-${id}`],
 		queryFn: async () => await getBlog({ id }),
 		retry: false,
+		enabled,
 	});
 
 	return getBlogQuery;
