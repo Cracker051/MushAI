@@ -2,7 +2,7 @@ from typing import Callable
 
 from auth.managers import UserManager
 from auth.models import User
-from fastapi import Depends, HTTPException, status
+from fastapi import Depends, HTTPException, status, Request
 from fastapi_users.authentication import JWTStrategy
 from fastapi_users_db_sqlalchemy import SQLAlchemyUserDatabase
 from generic.config import settings
@@ -41,3 +41,16 @@ def validate_user_id() -> Callable:
         return user_id
 
     return inner
+
+
+async def request_user(
+    request: Request,
+    jwt_decoder: JWTStrategy = Depends(get_jwt_strategy),
+    user_manager: UserManager = Depends(get_user_manager),
+) -> Request:
+    user = None
+    if (authorize_token := request.headers.get("Authorization")) and "bearer" in authorize_token.lower():
+        authorize_token = authorize_token.rsplit(maxsplit=1)[-1]
+        user = await jwt_decoder.read_token(authorize_token, user_manager)
+    request.scope["user"] = user
+    return request
