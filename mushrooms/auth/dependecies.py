@@ -49,9 +49,8 @@ async def request_user(
     user_manager: UserManager = Depends(get_user_manager),
 ) -> Request:
     user = None
-    if authorize_token := request.headers.get("Authorization"):
-        if "Bearer" in authorize_token:
-            authorize_token = authorize_token.rsplit(maxsplit=1)[-1]
-            user = await jwt_decoder.read_token(authorize_token, user_manager)
+    if (authorize_token := request.headers.get("Authorization")) and "bearer" in authorize_token.lower():
+        authorize_token = authorize_token.rsplit(maxsplit=1)[-1]
+        user = await jwt_decoder.read_token(authorize_token, user_manager)
     request.scope["user"] = user
     return request
