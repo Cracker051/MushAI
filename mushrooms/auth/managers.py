@@ -3,9 +3,10 @@ from urllib.parse import urljoin
 
 import jinja2
 from auth.models import User
+from auth.schemas import UserCreate
 from fastapi import Request
 from fastapi_users import BaseUserManager, IntegerIDMixin
-from fastapi_users.exceptions import InvalidPasswordException
+from fastapi_users.exceptions import InvalidPasswordException, UserNotExists
 from generic.config import EMAIL_DIR, settings
 from generic.tasks import send_email
 
@@ -22,6 +23,34 @@ class UserManager(IntegerIDMixin, BaseUserManager[User, int]):
     async def validate_password(self, password: str, user: User) -> None:
         if len(password) < 8:
             raise InvalidPasswordException("Password must have at least 8 characters")
+
+    async def _get_or_create_by_email(self, email: str, defaults: dict, safe: bool = True) -> User:
+        try:
+            user = await self.get_by_email(email)
+            created = False
+        except UserNotExists:
+            print("DELETED?")
+            user_dict = UserCreate(**defaults, email=email)
+            breakpoint()
+            user = await self.create(user_create=user_dict, safe=safe)
+            created = True
+        return user, created
+
+    async def get_or_create_deleted(self) -> User:
+        user, _ = await self._get_or_create_by_email(
+            "deleted@mushai.com",
+            defaults={
+                "password": self.password_helper.generate(),
+                "is_superuser": False,
+                "is_staff": True,
+                "is_verified": True,
+                "is_active": True,
+                "name": "Deleted",
+                "surname": "Account",
+            },
+            safe=False,
+        )
+        return user
 
     # TODO: Write logger
     async def on_after_register(
