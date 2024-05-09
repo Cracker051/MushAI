@@ -32,8 +32,4 @@ class User(SQLAlchemyBaseUserTable[int], BaseSQLModel, table=True):
     comments: List["Comment"] = Relationship(back_populates="user")
 
     def __str__(self) -> str:
-        return f"({self.id}) {self.email}: {self.name} {self.surname}"
-
-    def __repr__(self) -> str:
-        username = self.email.split("@")[0]
-        return f"{self.id}_{username}"
+        return f"({self.__class__.__name__}) {self.id}) - {self.email}"
