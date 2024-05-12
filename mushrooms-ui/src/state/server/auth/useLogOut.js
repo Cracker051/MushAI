@@ -1,5 +1,5 @@
 import toast from 'react-hot-toast';
-import { useMutation } from '@tanstack/react-query';
+import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { resetState } from '../../client/authStore';
 import { fetch } from '../../../utils/apiAuth';
 
@@ -14,14 +14,22 @@ export async function logOut() {
 	resetState();
 }
 
-export function useLogOut() {
+export function useLogOut(notify = true) {
+	const queryClient = useQueryClient();
+
 	const { mutate: logOutMutation } = useMutation({
 		mutationFn: () =>
-			toast.promise(logOut(), {
-				error: 'Oops.. Error on log out. Try again!',
-				success: 'Success!',
-				loading: 'Processing...',
-			}),
+			notify
+				? toast.promise(logOut(), {
+						error: 'Oops.. Error on log out. Try again!',
+						success: 'Success!',
+						loading: 'Processing...',
+				})
+				: logOut(),
+		retry: false,
+		onSuccess: () => {
+			queryClient.invalidateQueries(['user-data']);
+		},
 		// onSuccess: (data) => {},
 		// onError: (error) => {},
 	});

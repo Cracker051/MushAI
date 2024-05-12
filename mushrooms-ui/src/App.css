@@ -3,7 +3,7 @@
 }
 
 .article-content > * {
-	@apply scroll-mt-28;
+	@apply scroll-mt-32;
 }
 .article-content h1 {
 	@apply mb-4 text-3xl font-extrabold;
