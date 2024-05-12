@@ -1,9 +1,9 @@
-from typing import Optional
+from typing import Optional, Tuple
 from urllib.parse import urljoin
 
 import jinja2
 from auth.models import User
-from auth.schemas import UserCreate
+from auth.schemas import SuperUserCreate
 from fastapi import Request
 from fastapi_users import BaseUserManager, IntegerIDMixin
 from fastapi_users.exceptions import InvalidPasswordException, UserNotExists
@@ -24,20 +24,18 @@ class UserManager(IntegerIDMixin, BaseUserManager[User, int]):
         if len(password) < 8:
             raise InvalidPasswordException("Password must have at least 8 characters")
 
-    async def _get_or_create_by_email(self, email: str, defaults: dict, safe: bool = True) -> User:
+    async def _get_or_create_by_email(self, email: str, defaults: dict, safe: bool = True) -> Tuple[User, bool]:
         try:
             user = await self.get_by_email(email)
             created = False
         except UserNotExists:
-            print("DELETED?")
-            user_dict = UserCreate(**defaults, email=email)
-            breakpoint()
+            user_dict = SuperUserCreate(**defaults, email=email)
             user = await self.create(user_create=user_dict, safe=safe)
             created = True
         return user, created
 
-    async def get_or_create_deleted(self) -> User:
-        user, _ = await self._get_or_create_by_email(
+    async def get_or_create_deleted(self) -> Tuple[User, bool]:
+        user, created = await self._get_or_create_by_email(
             "deleted@mushai.com",
             defaults={
                 "password": self.password_helper.generate(),
@@ -50,7 +48,7 @@ class UserManager(IntegerIDMixin, BaseUserManager[User, int]):
             },
             safe=False,
         )
-        return user
+        return user, created
 
     # TODO: Write logger
     async def on_after_register(

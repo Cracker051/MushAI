@@ -5,7 +5,7 @@ from auth.auth import auth_backend, fastapi_users
 from auth.dependecies import get_user_manager, validate_user_id
 from auth.managers import UserManager
 from auth.models import User
-from fastapi import APIRouter, Depends, UploadFile, status
+from fastapi import APIRouter, Depends, HTTPException, UploadFile, status
 from generic.database import AsyncSession
 from generic.dependencies import get_db_session
 from generic.sqlmodel.utils import get_obj_by_id_or_404
@@ -85,22 +85,27 @@ async def get_user_by_id(user_id: int, session: AsyncSession = Depends(get_db_se
             "model": Dict[str, str],
         },
     },
+    status_code=status.HTTP_204_NO_CONTENT,
 )
 async def delete_user_by_id(
     user_id: int = Depends(validate_user_id()),
     manager: UserManager = Depends(get_user_manager),
     session: AsyncSession = Depends(get_db_session),
 ):
-    def update_user_id(related_obj: Any, user: User):
-        for obj in related_obj:
-            breakpoint()
-            obj.user = user
+
+    def update_user(related_objs: Any, user: User):
+        for related_obj in related_objs:
+            related_obj.user = user
 
     user = await get_obj_by_id_or_404(User, user_id, session)
-    deleted_user = await manager.get_or_create_deleted()
-    breakpoint()
-    update_user_id(await user.blogs, del_user)
-    update_user_id(await user.comments, del_user)
+
+    deleted_user, created = await manager.get_or_create_deleted()
+
+    if not created and deleted_user.id == user_id:
+        raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail="You can`t delete DELETED user!")
+
+    update_user(user.blogs, deleted_user)
+    update_user(user.comments, deleted_user)
     await session.delete(user)
     await session.commit()
     return {}
