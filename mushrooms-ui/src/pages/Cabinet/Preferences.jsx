@@ -84,10 +84,6 @@ const Preferences = () => {
 		});
 	};
 
-	const handleChangePassword = () => {
-		alert('Change password');
-	};
-
 	const handleDeleteAcount = () => {
 		navigate('/profile/delete-account');
 	};
@@ -169,13 +165,6 @@ const Preferences = () => {
 									</div>
 								</div>
 								<div className="flex flex-col items-start gap-4">
-									<button
-										type="button"
-										disabled
-										onClick={handleChangePassword}
-										className="text-xl font-bold underline transition-opacity underline-offset-4 hover:opacity-60 disabled:opacity-60">
-										CHANGE PASSWORD
-									</button>
 									<button
 										type="button"
 										onClick={handleDeleteAcount}
