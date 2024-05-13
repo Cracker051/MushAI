@@ -8,6 +8,7 @@ import { useGetUser } from '../../state/server/users/useGetUser';
 import { Selector } from '../../components/Selector';
 import UserPosts from '../../components/UserPosts';
 import UserDrafts from '../../components/UserDrafts';
+import PageTitle from '../../components/PageTitle';
 
 const BACKEND_URL = import.meta.env.VITE_APP_API_URL;
 const fallBackAvatarUrl = '/default_avatar.webp';
@@ -43,6 +44,13 @@ const Cabinet = () => {
 
 	return (
 		<>
+			<PageTitle
+				title={
+					own || !userQuery.isSuccess
+						? 'Profile'
+						: `${userQuery.data.name} ${userQuery.data.surname}`
+				}
+			/>
 			<section className="py-6 bg-msh-dark text-msh-light">
 				<div className="container px-6 mx-auto">
 					{userQuery.isSuccess && (

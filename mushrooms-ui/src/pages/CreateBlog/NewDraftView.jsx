@@ -10,6 +10,7 @@ import { useGetBlog } from '../../state/server/blog/useGetBlog';
 import { useUpdateBlogPost } from '../../state/server/blog/useUpdateBlog';
 import { useUpdateBlogPostIcon } from '../../state/server/blog/useUpdateBlogIcon';
 import toast from 'react-hot-toast';
+import PageTitle from '../../components/PageTitle';
 
 const BACKEND_URL = import.meta.env.VITE_APP_API_URL;
 
@@ -160,6 +161,7 @@ const NewDraftView = () => {
 
 	return (
 		<>
+			<PageTitle title={`${draft ? `${draft.title} - ` : ''}Draft`} />
 			<PostContentView
 				post={{
 					created_at: Date.now(),

@@ -1,6 +1,7 @@
 import { useForm } from 'react-hook-form';
 import AuthSubmitButton from '../../components/AuthSubmitButton';
 import { useSendPasswordRecovery } from '../../state/server/auth/useSendPasswordRecovery';
+import PageTitle from '../../components/PageTitle';
 
 const RecoverPassword = () => {
 	const sendPasswordRecoveryMutation = useSendPasswordRecovery();
@@ -18,6 +19,7 @@ const RecoverPassword = () => {
 
 	return (
 		<>
+			<PageTitle title="Recover Password" />
 			<div className="flex flex-col min-h-screen">
 				<main className="flex items-center justify-center flex-1 text-msh-light bg-msh-dark">
 					{sendPasswordRecoveryMutation.isSuccess ? (

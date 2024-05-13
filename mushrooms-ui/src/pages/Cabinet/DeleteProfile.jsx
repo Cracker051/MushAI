@@ -3,6 +3,7 @@ import { useAuthStore } from '../../state/client/authStore';
 import { useGetUser } from '../../state/server/users/useGetUser';
 import { useForm } from 'react-hook-form';
 import { useLogOut } from '../../state/server/auth/useLogOut';
+import PageTitle from '../../components/PageTitle';
 
 const DeleteProfile = () => {
 	const navigate = useNavigate();
@@ -27,6 +28,7 @@ const DeleteProfile = () => {
 
 	return (
 		<>
+			<PageTitle title="Delete Profile" />
 			<section className="py-6 bg-msh-dark text-msh-light">
 				<div className="container px-6 mx-auto">
 					{userQuery.isSuccess && (

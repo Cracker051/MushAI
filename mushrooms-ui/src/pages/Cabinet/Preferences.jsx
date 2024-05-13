@@ -9,6 +9,7 @@ import { useUpdateUser } from '../../state/server/users/useUpdateUser';
 import { useUpdateUserAvatar } from '../../state/server/users/useUpdateUserAvatar';
 import { file2Base64 } from '../../utils/fileUtils';
 import { useLogOut } from '../../state/server/auth/useLogOut';
+import PageTitle from '../../components/PageTitle';
 
 const BACKEND_URL = import.meta.env.VITE_APP_API_URL;
 const fallBackAvatarUrl = '/default_avatar.webp';
@@ -96,6 +97,7 @@ const Preferences = () => {
 
 	return (
 		<>
+			<PageTitle title="Preferences" />
 			<section className="py-6 bg-msh-dark text-msh-light">
 				<div className="container px-6 mx-auto">
 					{userQuery.isSuccess && (

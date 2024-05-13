@@ -2,6 +2,7 @@ import { useForm } from 'react-hook-form';
 import AuthSubmitButton from '../../components/AuthSubmitButton';
 import { useResetPassword } from '../../state/server/auth/useResetPassword';
 import { Navigate, useNavigate, useSearchParams } from 'react-router-dom';
+import PageTitle from '../../components/PageTitle';
 
 const ResetPassword = () => {
 	const navigate = useNavigate();
@@ -33,6 +34,7 @@ const ResetPassword = () => {
 
 	return (
 		<>
+			<PageTitle title="Reset Password" />
 			<div className="flex flex-col min-h-screen">
 				<main className="flex items-center justify-center flex-1 text-msh-light bg-msh-dark">
 					<form className="flex flex-col gap-5 p-4 w-[32rem]" onSubmit={handleSubmit(onSubmit)}>

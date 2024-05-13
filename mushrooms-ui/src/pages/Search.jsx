@@ -4,6 +4,7 @@ import { useRef } from 'react';
 import { useRecognizeMushroomMutation } from '../state/server/prediction/useRecognizeMushroom';
 
 import { fetchFile, file2Base64 } from '../utils/fileUtils';
+import PageTitle from '../components/PageTitle';
 
 const tryMushs = [
 	{ imageUrl: '74076da45f27e58aaf3d05f88ffb0290.png' },
@@ -53,6 +54,7 @@ const Search = () => {
 
 	return (
 		<>
+			<PageTitle title="AI Search" />
 			<div className="flex flex-col min-h-screen">
 				<section className="relative flex items-center flex-1 text-center bg-msh-dark text-msh-light">
 					<div className="bg-cover bg-center top-0 left-0 h-full w-full opacity-40 absolute bg-[url('/search_bg.png')]"></div>
