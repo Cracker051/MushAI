@@ -29,7 +29,8 @@ class UserManager(IntegerIDMixin, BaseUserManager[User, int]):
             user = await self.get_by_email(email)
             created = False
         except UserNotExists:
-            user_dict = SuperUserCreate(**defaults, email=email)
+            defaults["email"] = email
+            user_dict = SuperUserCreate(**defaults)
             user = await self.create(user_create=user_dict, safe=safe)
             created = True
         return user, created
@@ -56,7 +57,8 @@ class UserManager(IntegerIDMixin, BaseUserManager[User, int]):
         user: User,
         request: Optional[Request] = None,
     ) -> None:
-        await self.request_verify(user, request)
+        if not user.is_verified:  # To prevent UserAlreadyVerified exception when using get_or_create
+            await self.request_verify(user, request)
         print(f"User {user.id} has registered.")
 
     async def on_after_forgot_password(

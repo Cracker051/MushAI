@@ -1,13 +1,14 @@
-from typing import Any, Dict
+from typing import Dict, List
 
 from auth import schemas
 from auth.auth import auth_backend, fastapi_users
-from auth.dependecies import get_user_manager, validate_user_id
+from auth.dependecies import get_user_manager
 from auth.managers import UserManager
 from auth.models import User
 from fastapi import APIRouter, Depends, HTTPException, UploadFile, status
 from generic.database import AsyncSession
 from generic.dependencies import get_db_session
+from generic.sqlmodel.models import BaseSQLModel
 from generic.sqlmodel.utils import get_obj_by_id_or_404
 from generic.storage.depenencies import validate_image
 from generic.storage.utils import rename_uploadfile
@@ -88,14 +89,14 @@ async def get_user_by_id(user_id: int, session: AsyncSession = Depends(get_db_se
     status_code=status.HTTP_204_NO_CONTENT,
 )
 async def delete_user_by_id(
-    user_id: int = Depends(validate_user_id()),
+    user_id: int,
     manager: UserManager = Depends(get_user_manager),
     session: AsyncSession = Depends(get_db_session),
 ):
 
-    def update_user(related_objs: Any, user: User):
+    def update_user(related_objs: List[BaseSQLModel], user: User):
         for related_obj in related_objs:
-            related_obj.user = user
+            related_obj.user = user  # TODO: Refactor to bulk update
 
     user = await get_obj_by_id_or_404(User, user_id, session)
 

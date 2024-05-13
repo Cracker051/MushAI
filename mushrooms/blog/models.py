@@ -51,4 +51,4 @@ class Comment(BaseSQLModel, table=True):
     )
 
     def __str__(self) -> str:
-        return f"({self.__class__.__name__}) {self.id} - {self.user.email} {self.created_at.date()}"
+        return f"({self.__class__.__name__}) {self.id} - {self.user.email} {self.created_at.strftime('%Y-%m-%d')}"
