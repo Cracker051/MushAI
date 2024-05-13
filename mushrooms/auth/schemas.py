@@ -11,6 +11,13 @@ class UserCreate(schemas.CreateUpdateDictModel, BaseSQLModel, table=False):
     password: str
 
 
+class SuperUserCreate(UserCreate):
+    is_active: bool = True
+    is_staff: bool = False
+    is_superuser: bool = False
+    is_verified: bool = False
+
+
 class UserRead(BaseSQLModel, table=False):
     id: int
     name: str

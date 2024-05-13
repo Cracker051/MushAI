@@ -2,8 +2,7 @@
     <img src="https://i.ibb.co/Wsg1kMq/logo.png" style="width:128px; height:auto;">
     <h3>Greetings, {{ name }} {{ surname }} </h3>
     <h4>Tap this link to verify your profile: </h4>
-    <form method="POST" action="{{ verify_url }}">
-    <input type="hidden" name="token" value="{{ token_value }}" />
+    <a href="{{ verify_url }}">
     <button style="
         background: rgb(0, 0, 0);
         background: linear-gradient(90deg, rgb(33, 35, 35) 0%, rgb(74, 80, 91) 50%, rgb(25, 28, 32) 100%);
@@ -17,7 +16,7 @@
         padding:9px 23px;
         text-decoration:none;
     ">Verify</button>
-    </form>
+    </a>
     <p><small>Take care that you can`t normally use unverified profile</small></p>
     <small>Best regards, MushAI</small>
     </div>
