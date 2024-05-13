@@ -23,7 +23,7 @@ const ProtectedRoute = () => {
 		if (userToken) checkAuth();
 	}, [getMe.data, getMe.isError, getMe.isSuccess, logOut, userToken]);
 
-	if (getMe.isLoading || getMe.isFetching) {
+	if (getMe.isLoading) {
 		return <div className="container p-6 mx-auto text-msh-light animate-pulse">Loading...</div>;
 	}
 
