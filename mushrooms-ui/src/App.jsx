@@ -40,7 +40,7 @@ function App() {
 					<Route path="/sign-in" element={<Login />} />
 					<Route path="/sign-up" element={<SignUp />} />
 					<Route path="/recover-password" element={<RecoverPassword />} />
-					<Route path="/reset-password" element={<ResetPassword />} />
+					<Route path="/reset_password" element={<ResetPassword />} />
 					<Route path="/community" element={<Community />} />
 					<Route path="/blog" element={<Blog />} />
 					<Route path="/blog/:blogId" element={<FullPost />} />
