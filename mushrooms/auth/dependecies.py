@@ -2,7 +2,7 @@ from typing import Callable
 
 from auth.managers import UserManager
 from auth.models import User
-from fastapi import Depends, HTTPException, status, Request
+from fastapi import Depends, HTTPException, Request, status
 from fastapi_users.authentication import JWTStrategy
 from fastapi_users_db_sqlalchemy import SQLAlchemyUserDatabase
 from generic.config import settings
@@ -54,3 +54,36 @@ async def request_user(
         user = await jwt_decoder.read_token(authorize_token, user_manager)
     request.scope["user"] = user
     return request
+
+
+class UserPermission:
+    UNAUTHORIZED_ERROR_MSG = "Authentication credentials were not provided."
+    INSUFFICIENT_PRIVILEGES_MSG = "You don't have the required permissions to perform this action"
+
+    def __init__(self, require_all: bool = True, /, **permissions) -> None:
+        self.require_all = require_all
+        self.permissions = permissions or {}
+
+    def __call__(self, request: Request) -> User:
+        if (user := request.scope.get("user")) is None:
+            raise HTTPException(
+                status_code=status.HTTP_401_UNAUTHORIZED,
+                detail=self.UNAUTHORIZED_ERROR_MSG,
+            )
+        self.check_permissions(user)
+        return user
+
+    @classmethod
+    def from_permissions(cls, require_all: bool = True, /, *instances: "UserPermission") -> "UserPermission":
+        permissions = {}
+        for instance in instances:
+            permissions.update(instance.permissions)
+        return cls(require_all=require_all, **permissions)
+
+    def check_permissions(self, user: User) -> None:
+        if user.is_superuser:
+            return
+
+        predicate = all if self.require_all else any
+        if not predicate(getattr(user, perm, False) == value for perm, value in self.permissions.items()):
+            raise HTTPException(status_code=status.HTTP_403_FORBIDDEN, detail=self.INSUFFICIENT_PRIVILEGES_MSG)
