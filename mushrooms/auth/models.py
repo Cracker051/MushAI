@@ -28,12 +28,8 @@ class User(SQLAlchemyBaseUserTable[int], BaseSQLModel, table=True):
         ),
     )
 
-    blogs: List["Blog"] = Relationship(back_populates="user")
-    comments: List["Comment"] = Relationship(back_populates="user")
+    blogs: List["Blog"] = Relationship(back_populates="user", sa_relationship_kwargs={"lazy": "selectin"})
+    comments: List["Comment"] = Relationship(back_populates="user", sa_relationship_kwargs={"lazy": "selectin"})
 
     def __str__(self) -> str:
-        return f"({self.id}) {self.email}: {self.name} {self.surname}"
-
-    def __repr__(self) -> str:
-        username = self.email.split("@")[0]
-        return f"{self.id}_{username}"
+        return f"({self.__class__.__name__}) {self.id}) - {self.email}"

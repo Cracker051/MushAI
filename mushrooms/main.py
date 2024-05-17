@@ -2,21 +2,21 @@ from fastapi.staticfiles import StaticFiles
 
 from auth import routers as auth_routers
 from blog import routers as blog_routers
-from fastapi import FastAPI
+from fastapi import Depends, FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import RedirectResponse
 from fastapi_pagination import add_pagination
 from generic.config import ALLOWED_ORIGINS
 from generic.database import engine
+from auth.dependecies import request_user
 from prediction.routers import prediction_router
 from sqladmin import Admin
 
 from auth import admin as auth_admin  # isort: skip
 from blog import admin as blog_admin  # isort: skip
 
-app = FastAPI()
+app = FastAPI(dependencies=[Depends(request_user)])
 app.mount("/static", StaticFiles(directory="static"), name="static")
-
 
 admin = Admin(app, engine)
 
