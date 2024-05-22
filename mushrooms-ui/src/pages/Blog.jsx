@@ -8,6 +8,7 @@ import { Selector } from '../components/Selector';
 import { useQuery } from '../utils/useQuery';
 import { useAuthStore } from '../state/client/authStore';
 import { useGetPostedBlogs } from '../state/server/blog/useGetBlogs';
+import PageTitle from '../components/PageTitle';
 
 const options = ['all', 'popular', 'new', 'your', 'our'];
 const pageSize = 20;
@@ -41,6 +42,7 @@ const Blog = () => {
 
 	return (
 		<>
+			<PageTitle title="Blog" />
 			<section className="bg-msh-dark text-msh-light">
 				<div className="container px-6 py-6 mx-auto">
 					<div className="space-y-1">

@@ -6,7 +6,7 @@ import { useAuthStore } from '../state/client/authStore';
 const MainHeader = () => {
 	const userData = useAuthStore((state) => state.userData);
 	return (
-		<header className="sticky top-0 z-40 bg-msh-dark/30 backdrop-blur-md">
+		<header className="bg-msh-dark/30 backdrop-blur-md">
 			<div className="container px-6 mx-auto select-none ">
 				<div className="flex items-center justify-between gap-4 py-4 border-b-2 lg:gap-12 border-msh-light">
 					<Link to={'/'} className="space-x-1 text-3xl lg:text-5xl">

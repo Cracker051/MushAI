@@ -5,6 +5,7 @@ import AuthSubmitButton from '../../components/AuthSubmitButton';
 
 import { useAuthStore } from '../../state/client/authStore';
 import { useSignUp } from '../../state/server/auth/useSignUp';
+import PageTitle from '../../components/PageTitle';
 
 const SignUp = () => {
 	const userToken = useAuthStore((state) => state.token);
@@ -27,6 +28,7 @@ const SignUp = () => {
 
 	return (
 		<>
+			<PageTitle title="Sign Up" />
 			<div className="flex flex-col min-h-screen">
 				<main className="flex items-center justify-center flex-1 text-msh-light bg-msh-dark">
 					<form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-5 p-4 w-[32rem]">

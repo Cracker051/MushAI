@@ -1,29 +1,33 @@
 import { Navigate, Outlet } from 'react-router-dom';
-import { useEffect } from 'react';
-import { useAuthStore } from '../state/client/authStore';
-import { logOut } from '../state/server/auth/useLogOut';
+import { setAuthUser, useAuthStore } from '../state/client/authStore';
 import { useGetMe } from '../state/server/auth/useGetMe';
+import { useLogOut } from '../state/server/auth/useLogOut';
+import { useEffect } from 'react';
 
 const ProtectedRoute = () => {
 	const userToken = useAuthStore((state) => state.token);
-	const { mutate, data: userInfo, error, isSuccess } = useGetMe();
+	const getMe = useGetMe({ enabled: !!userToken });
+	const logOut = useLogOut(false);
+	const userData = useAuthStore((state) => state.userData);
 
 	useEffect(() => {
-		console.log('logoff', { error });
-		if (error) logOut();
-	}, [error]);
+		const checkAuth = async () => {
+			if (getMe.isSuccess) {
+				setAuthUser(getMe.data);
+			}
+			if (getMe.isError) {
+				logOut();
+			}
+		};
 
-	useEffect(() => {
-		if (userToken) mutate();
-	}, [mutate, userToken]);
+		if (userToken) checkAuth();
+	}, [getMe.data, getMe.isError, getMe.isSuccess, logOut, userToken]);
 
-	if (!userInfo && userToken) {
-		return <div>Loading...</div>;
+	if (getMe.isLoading) {
+		return <div className="container p-6 mx-auto text-msh-light animate-pulse">Loading...</div>;
 	}
 
-	if (isSuccess && userInfo) {
-		return <Outlet />;
-	}
-	return <Navigate to={'/sign-in'} replace />;
+	return userData ? <Outlet /> : <Navigate to="/sign-in" />;
 };
+
 export default ProtectedRoute;

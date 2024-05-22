@@ -1,23 +1,24 @@
-import { useNavigate } from 'react-router-dom';
-import { useAuthStore } from '../../state/client/authStore';
-import { useGetUser } from '../../state/server/users/useGetUser';
 import { useForm } from 'react-hook-form';
-import { useLogOut } from '../../state/server/auth/useLogOut';
+
+import { resetState, useAuthStore } from '../../state/client/authStore';
+import { useDeleteUser } from '../../state/server/users/useDeleteUser';
+
+import PageTitle from '../../components/PageTitle';
 
 const DeleteProfile = () => {
-	const navigate = useNavigate();
-	const logOutMutate = useLogOut();
 	const userData = useAuthStore((state) => state.userData);
-	const userQuery = useGetUser({ id: userData.id });
+	const deleteUserMutation = useDeleteUser({ id: userData.id });
 
 	const { register, handleSubmit } = useForm({});
 
 	const onSubmit = async (data) => {
 		if (window.confirm('Are you sure you want to delete your account?')) {
 			console.log(data);
-			console.log('Account deleted');
-			logOutMutate();
-			navigate('/');
+			const result = await deleteUserMutation.mutateAsync();
+			if (result)
+				setTimeout(() => {
+					resetState();
+				}, 4000);
 		}
 	};
 
@@ -27,9 +28,18 @@ const DeleteProfile = () => {
 
 	return (
 		<>
-			<section className="py-6 bg-msh-dark text-msh-light">
+			<PageTitle title="Delete Profile" />
+			<section className="py-6 sm:py-12 bg-msh-dark text-msh-light">
 				<div className="container px-6 mx-auto">
-					{userQuery.isSuccess && (
+					{deleteUserMutation.isSuccess ? (
+						<div className="py-20 space-y-1 text-center sm:py-40">
+							<h2 className="text-4xl font-extrabold">
+								THANKS FOR BEING WITH US
+								<br />
+								KEEP SAFE
+							</h2>
+						</div>
+					) : (
 						<form
 							onSubmit={handleSubmit(onSubmit, onInvalid)}
 							className="flex flex-col gap-10 mb-8">

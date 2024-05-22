@@ -75,7 +75,7 @@ const PostContentView = ({ post, userData, children }) => {
 						</div>
 						{headlines?.length > 0 && (
 							<aside className="xl:w-[200px] xl:absolute xl:-translate-x-full xl:h-full">
-								<div className="sticky py-5 -mt-5 space-y-5 top-24">
+								<div className="sticky py-5 -mt-5 space-y-5 top-28">
 									<span className="text-xl font-medium">IN THIS ARTICLE</span>
 									<ul className="flex flex-col gap-5 px-5 text-sm font-semibold uppercase border-l-2 border-msh-light">
 										{headlines?.map((headline, index) => (

@@ -9,6 +9,7 @@ import './BlogEditor.css';
 import { setBlogPost, useBlogPostStore } from '../../state/client/draftStore';
 import { file2Base64 } from '../../utils/fileUtils';
 import join from '../../utils/join';
+import PageTitle from '../../components/PageTitle';
 
 const BACKEND_URL = import.meta.env.VITE_APP_API_URL;
 
@@ -73,6 +74,7 @@ const BlogEditor = () => {
 	console.log(draftData);
 	return (
 		<>
+			<PageTitle title="Write new" />
 			<section className="py-6 bg-msh-dark text-msh-light">
 				<div className="container px-6 mx-auto">
 					<form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-5 mb-8">

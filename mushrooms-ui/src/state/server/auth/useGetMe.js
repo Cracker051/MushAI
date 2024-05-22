@@ -1,5 +1,4 @@
-import { useMutation } from '@tanstack/react-query';
-import { setAuthUser } from '../../client/authStore';
+import { keepPreviousData, useQuery } from '@tanstack/react-query';
 import { fetch } from '../../../utils/apiAuth';
 
 export async function getMe() {
@@ -11,14 +10,15 @@ export async function getMe() {
 	return await response.json();
 }
 
-export function useGetMe() {
-	const getMeMutation = useMutation({
-		mutationFn: () => getMe(),
-		onSuccess: (data) => {
-			setAuthUser(data);
-		},
-		// onError: (error) => {},
+export function useGetMe({ enabled = true }) {
+	const getMeQuery = useQuery({
+		queryFn: async () => await getMe(),
+		queryKey: ['user-data'],
+		enabled,
+		retry: 2,
+		staleTime: 0,
+		gcTime: 0,
+		placeholderData: keepPreviousData,
 	});
-
-	return getMeMutation;
+	return getMeQuery;
 }

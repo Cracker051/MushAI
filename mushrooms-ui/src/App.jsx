@@ -3,6 +3,8 @@ import './App.css';
 import Login from './pages/Authorization/Login';
 import SignUp from './pages/Authorization/SignUp';
 import RecoverPassword from './pages/Authorization/RecoverPassword';
+import ResetPassword from './pages/Authorization/ResetPassword';
+import EmailConfirmation from './pages/Authorization/EmailConfirmation';
 import Home from './pages/Home';
 import Community from './pages/Community';
 import Search from './pages/Search';
@@ -30,6 +32,7 @@ function App() {
 						<Route path="/edit-post/:id" element={<BlogEditor />} />
 						<Route path="/draft" element={<NewDraftView />} />
 						<Route path="/draft/:id" element={<NewDraftView />} />
+						<Route path="/verify" element={<EmailConfirmation />} />
 					</Route>
 					<Route path="/profile/:id" element={<Cabinet />} />
 				</Route>
@@ -37,6 +40,7 @@ function App() {
 					<Route path="/sign-in" element={<Login />} />
 					<Route path="/sign-up" element={<SignUp />} />
 					<Route path="/recover-password" element={<RecoverPassword />} />
+					<Route path="/reset_password" element={<ResetPassword />} />
 					<Route path="/community" element={<Community />} />
 					<Route path="/blog" element={<Blog />} />
 					<Route path="/blog/:blogId" element={<FullPost />} />
