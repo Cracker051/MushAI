@@ -60,9 +60,9 @@ class UserPermission:
     UNAUTHORIZED_ERROR_MSG = "Authentication credentials were not provided."
     INSUFFICIENT_PRIVILEGES_MSG = "You don't have the required permissions to perform this action"
 
-    def __init__(self, require_all: bool = True, /, **permissions) -> None:
+    def __init__(self, *, require_all: bool = True, **permissions) -> None:
         self.require_all = require_all
-        self.permissions = permissions or {}
+        self.permissions = permissions
 
     def __call__(self, request: Request) -> User:
         if (user := request.scope.get("user")) is None:
