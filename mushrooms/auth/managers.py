@@ -62,14 +62,6 @@ class UserManager(IntegerIDMixin, BaseUserManager[User, int]):
             await self.request_verify(user, request)
         print(f"User {user.id} has registered.")
 
-    async def on_after_forgot_password(
-        self,
-        user: User,
-        token: str,
-        request: Optional[Request] = None,
-    ) -> None:
-        print(f"User {user.id} has forgot their password. Reset token: {token}")
-
     async def on_after_request_verify(
         self,
         user: User,
