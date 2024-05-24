@@ -74,7 +74,7 @@ class UserPermission:
         return user
 
     @classmethod
-    def from_permissions(cls, require_all: bool = True, /, *instances: "UserPermission") -> "UserPermission":
+    def from_permissions(cls, require_all: bool = True, *instances: "UserPermission") -> "UserPermission":
         permissions = {}
         for instance in instances:
             permissions.update(instance.permissions)
