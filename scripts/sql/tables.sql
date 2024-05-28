@@ -8,6 +8,7 @@ CREATE TABLE auth_user (
     is_staff BOOLEAN NOT NULL DEFAULT FALSE,
     is_superuser BOOLEAN NOT NULL DEFAULT FALSE,
     is_verified BOOLEAN NOT NULL DEFAULT FALSE,
+    is_subscriber BOOLEAN NOT NULL DEFAULT FALSE,
     avatar TEXT DEFAULT 'default.webp' NOT NULL
 );
 
