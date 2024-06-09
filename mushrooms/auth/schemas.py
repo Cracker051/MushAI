@@ -27,12 +27,14 @@ class UserRead(BaseSQLModel, table=False):
     is_staff: bool
     is_superuser: bool
     is_verified: bool
+    is_subscriber: bool
     avatar: Optional[str]
 
 
 class UserUpdate(schemas.CreateUpdateDictModel, BaseSQLModel, table=False):
     name: Optional[str] = None
     surname: Optional[str] = None
+    is_subscriber: Optional[bool] = None
 
 
 class PreviewUser(BaseSQLModel, table=False):

@@ -14,12 +14,13 @@ class User(SQLAlchemyBaseUserTable[int], BaseSQLModel, table=True):
     id: Optional[int] = Field(default=None, primary_key=True)
     name: str
     surname: str
-    email: str
+    email: str = Field(unique=True)
     hashed_password: str
     is_active: bool = Field(default=True)
     is_staff: bool = Field(default=False)
     is_superuser: bool = Field(default=False)
     is_verified: bool = Field(default=False)
+    is_subscriber: bool = Field(default=False)
     avatar: Optional[str] = Field(
         default=DEFAULT_IMG_NAME,
         nullable=False,

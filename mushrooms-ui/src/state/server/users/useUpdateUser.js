@@ -1,4 +1,4 @@
-import { useMutation } from '@tanstack/react-query';
+import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { fetch } from '../../../utils/apiAuth';
 
 export async function updateUser({ values }) {
@@ -15,9 +15,13 @@ export async function updateUser({ values }) {
 }
 
 export function useUpdateUser() {
+	const queryClient = useQueryClient();
+
 	const updateUserMutation = useMutation({
 		mutationFn: ({ values }) => updateUser({ values }),
-		onSuccess: () => {},
+		onSuccess: () => {
+			queryClient.invalidateQueries(['user-data']);
+		},
 	});
 
 	return updateUserMutation;
